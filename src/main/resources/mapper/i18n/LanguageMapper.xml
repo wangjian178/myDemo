@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wj.demo.i18n.mapper.LanguageMapper">
+
+    <resultMap id="BaseResultMap" type="com.wj.demo.i18n.entity.Language">
+            <id property="id" column="ID" jdbcType="INTEGER"/>
+            <result property="language" column="LANGUAGE" jdbcType="VARCHAR"/>
+            <result property="code" column="CODE" jdbcType="VARCHAR"/>
+            <result property="label" column="LABEL" jdbcType="VARCHAR"/>
+            <result property="createdBy" column="CREATED_BY" jdbcType="VARCHAR"/>
+            <result property="createdDate" column="CREATED_DATE" jdbcType="TIMESTAMP"/>
+            <result property="updtedBy" column="UPDTED_BY" jdbcType="VARCHAR"/>
+            <result property="updatedDate" column="UPDATED_DATE" jdbcType="TIMESTAMP"/>
+            <result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+            <result property="delFlag" column="DEL_FLAG" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID,LANGUAGE,CODE,
+        LABEL,CREATED_BY,CREATED_DATE,
+        UPDTED_BY,UPDATED_DATE,REMARK,
+        DEL_FLAG
+    </sql>
+</mapper>
