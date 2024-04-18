@@ -12,3 +12,12 @@ basecontext:
   exclude:
     - /user/login
     - /user/logout
+
+logging:
+  #config: classpath:logback.xml
+  level:
+    root: info
+    com.com.wj: debug
+  file:
+    path: D:/logs
+

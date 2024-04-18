@@ -1,4 +1,4 @@
-package com.wj.demo.i18n.controller;
+package com.wj.demo.test.controller;
 
 import com.wj.demo.i18n.CommonMessageSource;
 import com.wj.demo.baseContext.BaseContextHolder;
