@@ -32,6 +32,40 @@ public class HandlerAdapter {
      * 相对成熟的方式为方式一+四层架构
      */
 
+    /**
+     * 类型获取处理器
+     * 按照上下文条件，依次获取处理器，返回得到的第一个，默认处理器优先同名，其次default
+     *
+     * @param clazz
+     */
+    public static <T> T finderHandlerByFieldList(Class<T> clazz, List<Field> fieldList) {
+
+        //  1.获取上下文值
+        BaseContext baseContext = BaseContextHolder.getBaseContext();
+
+        //  2.组成名字
+        String appendName = fieldList
+                .stream()
+                .filter(x -> FieldUtils.getFieldValue(x, baseContext) != null)
+                .map(x -> FieldUtils.getFieldValue(x, baseContext).toString())
+                .collect(Collectors.joining(BaseConstant.SLASH));
+        String beanName = clazz.getSimpleName() + (BaseConstant.SLASH + appendName);
+
+        //  3.寻找处理器
+        T bean = SpringContextUtils.getBean(beanName, clazz);
+        while (bean == null) {
+            //继续截取
+            boolean next = beanName.contains(BaseConstant.SLASH);
+            beanName = next ? beanName.substring(0, beanName.lastIndexOf(BaseConstant.SLASH)) : beanName + BaseConstant.SLASH + BaseConstant.DEFAULT;
+            bean = SpringContextUtils.getBean(beanName, clazz);
+            if (!next) {
+                break;
+            }
+        }
+
+        return bean;
+    }
+
 
     /**
      * 类型获取处理器
@@ -50,30 +84,7 @@ public class HandlerAdapter {
                 .sorted(Comparator.comparingInt(x -> x.getAnnotation(FieldOrder.class).value()))
                 .collect(Collectors.toList());
 
-        //  2.获取上下文值
-        BaseContext baseContext = BaseContextHolder.getBaseContext();
-
-        //  3.组成名字
-        String appendName = sortFields
-                .stream()
-                .filter(x -> FieldUtils.getFieldValue(x, baseContext) != null)
-                .map(x -> FieldUtils.getFieldValue(x, baseContext).toString())
-                .collect(Collectors.joining(BaseConstant.SLASH));
-        String beanName = clazz.getSimpleName() + (BaseConstant.SLASH + appendName);
-
-        //  4.寻找处理器
-        T bean = SpringContextUtils.getBean(beanName, clazz);
-        while (bean == null) {
-            //继续截取
-            boolean next = beanName.contains(BaseConstant.SLASH);
-            beanName = next ? beanName.substring(0, beanName.lastIndexOf(BaseConstant.SLASH)) : beanName + BaseConstant.SLASH + BaseConstant.DEFAULT;
-            bean = SpringContextUtils.getBean(beanName, clazz);
-            if (!next) {
-                break;
-            }
-        }
-
-        return bean;
+        return finderHandlerByFieldList(clazz, sortFields);
     }
 
     /**
@@ -93,29 +104,7 @@ public class HandlerAdapter {
                 .sorted(Comparator.comparingInt(x -> fieldNameList.indexOf(x.getName())))
                 .collect(Collectors.toList());
 
-        //  2.获取上下文值
-        BaseContext baseContext = BaseContextHolder.getBaseContext();
 
-        //  3.组成名字
-        String appendName = sortFields
-                .stream()
-                .filter(x -> FieldUtils.getFieldValue(x, baseContext) != null)
-                .map(x -> FieldUtils.getFieldValue(x, baseContext).toString())
-                .collect(Collectors.joining(BaseConstant.SLASH));
-        String beanName = clazz.getSimpleName() + (BaseConstant.SLASH + appendName);
-
-        //  4.寻找处理器
-        T bean = SpringContextUtils.getBean(beanName, clazz);
-        while (bean == null) {
-            //继续截取
-            boolean next = beanName.contains(BaseConstant.SLASH);
-            beanName = next ? beanName.substring(0, beanName.lastIndexOf(BaseConstant.SLASH)) : beanName + BaseConstant.SLASH + BaseConstant.DEFAULT;
-            bean = SpringContextUtils.getBean(beanName, clazz);
-            if (!next) {
-                break;
-            }
-        }
-
-        return bean;
+        return finderHandlerByFieldList(clazz, sortFields);
     }
 }
