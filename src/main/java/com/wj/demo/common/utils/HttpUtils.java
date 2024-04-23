@@ -6,7 +6,7 @@ import org.springframework.web.client.RestTemplate;
 /**
  * @author wj
  * @version 1.0
- * @Desc
+ * @Desc Http工具类
  * @date 2024/4/23 15:33
  */
 public class HttpUtils {
@@ -23,6 +23,14 @@ public class HttpUtils {
         return template;
     }
 
+    /**
+     * post请求 todo 加个切面 记录入参出参，url
+     * @param url
+     * @param param
+     * @param clazz
+     * @return
+     * @param <T>
+     */
     public <T> T post(String url, String param, Class<T> clazz) {
         return getRestTemplate().postForObject(url, param, clazz);
     }
