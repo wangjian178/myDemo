@@ -1,5 +1,7 @@
 package com.wj.demo.baseContext;
 
+import com.wj.demo.common.model.vo.UserVO;
+import com.wj.demo.common.utils.SecurityUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.util.StringUtils;
@@ -22,22 +24,27 @@ public class BaseContextInterceptor implements HandlerInterceptor {
         String langParam = request.getHeader("lang");
         String timeZoneParam = request.getHeader("timeZone");
 
-        Locale locale;
-        if (StringUtils.isEmpty(langParam)) {
-            locale = Locale.getDefault();
-        } else {
+        //时区
+        Locale locale = Locale.getDefault();
+        if (!StringUtils.isEmpty(langParam)) {
             locale = new Locale(langParam.split("_")[0], langParam.split("_")[1]);
         }
-        TimeZone timeZone;
-        if (StringUtils.isEmpty(timeZoneParam)) {
-            timeZone = TimeZone.getDefault();
-        } else {
+
+        //语言
+        TimeZone timeZone = TimeZone.getDefault();
+        if (!StringUtils.isEmpty(timeZoneParam)) {
             timeZone = TimeZone.getTimeZone(timeZoneParam);
         }
+
+        //用户信息
+        UserVO userVO = SecurityUtils.getUser();
+
+        //补充上下文信息
         BaseContext baseContext = BaseContext
                 .build()
                 .setLocale(locale)
-                .setTimeZone(timeZone);
+                .setTimeZone(timeZone)
+                .setUser(userVO);
         BaseContextHolder.setContext(baseContext);
 
         return true;

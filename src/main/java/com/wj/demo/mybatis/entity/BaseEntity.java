@@ -1,6 +1,11 @@
 package com.wj.demo.mybatis.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.wj.demo.mybatis.annotation.CreatedBy;
+import com.wj.demo.mybatis.annotation.CreatedDate;
+import com.wj.demo.mybatis.annotation.UpdatedBy;
+import com.wj.demo.mybatis.annotation.UpdatedDate;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -25,21 +30,25 @@ public class BaseEntity {
     /**
      * 创建人
      */
+    @CreatedBy
     private String createdBy;
 
     /**
      * 创建时间
      */
+    @CreatedDate
     private Date createdDate;
 
     /**
      * 修改人
      */
-    private String updtedBy;
+    @UpdatedBy
+    private String updatedBy;
 
     /**
      * 修改时间
      */
+    @UpdatedDate
     private Date updatedDate;
 
     /**
@@ -50,5 +59,6 @@ public class BaseEntity {
     /**
      * 删除标识0否1是
      */
+    @TableLogic
     private Integer delFlag;
 }

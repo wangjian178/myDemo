@@ -1,5 +1,6 @@
 package com.wj.demo.baseContext;
 
+import com.wj.demo.common.model.vo.UserVO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -25,6 +26,8 @@ public class BaseContext {
     private Locale locale;
 
     private TimeZone timeZone;
+
+    private UserVO user;
 
     public static BaseContext build() {
         BaseContext baseContext = new BaseContext();

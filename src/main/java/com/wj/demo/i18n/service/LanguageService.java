@@ -15,7 +15,7 @@ public interface LanguageService extends IService<Language> {
 
     /**
      * 单个查询
-     *
+     * 对外提供
      * @param code
      * @param language
      * @return
@@ -24,10 +24,56 @@ public interface LanguageService extends IService<Language> {
 
     /**
      * 批量查询
-     *
+     * 对外提供
      * @param codeList
      * @param language
      * @return
      */
     Map<String, String> queryMessageList(List<String> codeList, String language);
+
+    /**
+     * 条件查询
+     *
+     * @param
+     * @param condition
+     * @return
+     */
+    List<Language> queryByCondition(Language condition);
+
+    /**
+     * 通过language和code查询
+     *
+     * @param
+     * @param queryList
+     * @return
+     */
+    List<Language> queryByLanguageAndCode(List<Language> queryList);
+
+    /**
+     * 批量新增或保存 覆盖
+     * @param list
+     * @return
+     */
+    int saveOrUpdateBatch(List<Language> list);
+
+    /**
+     * 新增或保存
+     * @param language
+     * @return
+     */
+    int saveOrModify(Language language);
+
+    /**
+     * 删除
+     * @param id
+     * @return
+     */
+    int removeById(Long id);
+
+    /**
+     * 删除
+     * @param ids
+     * @return
+     */
+    int removeByIds(List<Long> ids);
 }
