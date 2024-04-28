@@ -15,8 +15,12 @@
     1.导入导出
     2.文件上传下载
     3.json转excel，excel转json，json转对象...
-
-
+## 8.字典模块
+    1.t_dict(code,label)
+    2.t_dict_language关联国际化(t_dict_id,t_language_id)
+## 9.配置管理 (通过页面配置实现功能的部分定制化)
+    1.t_config(company，configCode，description,configInfo)
+## 10.DDD的架构思路
 
 
 ## todo
