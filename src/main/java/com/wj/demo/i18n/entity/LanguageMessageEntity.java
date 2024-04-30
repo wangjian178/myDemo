@@ -12,9 +12,9 @@ import java.io.Serializable;
  * @author wj
  * @TableName t_language
  */
-@TableName(value ="t_language")
+@TableName(value ="t_language_message")
 @Data
-public class Language extends BaseEntity implements Serializable {
+public class LanguageMessageEntity extends BaseEntity implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

@@ -10,5 +10,7 @@ public class BaseConstant {
 
     public static final String SLASH = "-";
 
+    public static final String UNDERLINE = "_";
+
     public static final String DEFAULT = "default";
 }

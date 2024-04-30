@@ -6,9 +6,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wj.demo.common.constant.BaseConstant;
 import com.wj.demo.common.utils.CollectionUtils;
 import com.wj.demo.common.utils.StringUtils;
-import com.wj.demo.i18n.entity.Language;
-import com.wj.demo.i18n.mapper.LanguageMapper;
-import com.wj.demo.i18n.service.LanguageService;
+import com.wj.demo.i18n.entity.LanguageMessageEntity;
+import com.wj.demo.i18n.mapper.LanguageMessageMapper;
+import com.wj.demo.i18n.service.LanguageMessageService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,11 +21,11 @@ import java.util.stream.Stream;
 
 /**
  * @author wj
- * @description 针对表【t_language】的数据库操作Service实现
+ * @description 针对表【t_language_message】的数据库操作Service实现
  * @createDate 2024-04-17 15:29:04
  */
 @Service
-public class LanguageServiceImpl extends ServiceImpl<LanguageMapper, Language> implements LanguageService {
+public class LanguageMessageServiceImpl extends ServiceImpl<LanguageMessageMapper, LanguageMessageEntity> implements LanguageMessageService {
 
     /**
      * 查询
@@ -47,11 +47,11 @@ public class LanguageServiceImpl extends ServiceImpl<LanguageMapper, Language> i
 
 
         //2.查询数据库
-        LambdaQueryWrapper<Language> wrapper = new QueryWrapper<Language>()
+        LambdaQueryWrapper<LanguageMessageEntity> wrapper = new QueryWrapper<LanguageMessageEntity>()
                 .lambda()
-                .eq(Language::getCode, code)
-                .eq(Language::getLanguage, language);
-        Language lang = baseMapper.selectOne(wrapper);
+                .eq(LanguageMessageEntity::getCode, code)
+                .eq(LanguageMessageEntity::getLanguage, language);
+        LanguageMessageEntity lang = baseMapper.selectOne(wrapper);
         if (lang != null) {
             label = lang.getLabel();
         }
@@ -79,12 +79,12 @@ public class LanguageServiceImpl extends ServiceImpl<LanguageMapper, Language> i
 
 
         //2.查询数据库
-        LambdaQueryWrapper<Language> wrapper = new QueryWrapper<Language>()
+        LambdaQueryWrapper<LanguageMessageEntity> wrapper = new QueryWrapper<LanguageMessageEntity>()
                 .lambda()
-                .in(Language::getCode, codeList)
-                .eq(Language::getLanguage, language);
-        List<Language> languageList = baseMapper.selectList(wrapper);
-        Map<String, String> codeAndLanguageMap = languageList.stream().collect(Collectors.toMap(Language::getCode, Language::getLabel));
+                .in(LanguageMessageEntity::getCode, codeList)
+                .eq(LanguageMessageEntity::getLanguage, language);
+        List<LanguageMessageEntity> languageMessageEntityList = baseMapper.selectList(wrapper);
+        Map<String, String> codeAndLanguageMap = languageMessageEntityList.stream().collect(Collectors.toMap(LanguageMessageEntity::getCode, LanguageMessageEntity::getLabel));
         for (String code : codeList) {
             result.put(code, codeAndLanguageMap.get(code));
         }
@@ -93,24 +93,24 @@ public class LanguageServiceImpl extends ServiceImpl<LanguageMapper, Language> i
     }
 
     @Override
-    public List<Language> queryByCondition(Language condition) {
+    public List<LanguageMessageEntity> queryByCondition(LanguageMessageEntity condition) {
         return baseMapper.selectList(
-                new QueryWrapper<Language>()
+                new QueryWrapper<LanguageMessageEntity>()
                         .lambda()
-                        .eq(StringUtils.isNotEmpty(condition.getCode()), Language::getCode, condition.getCode())
-                        .eq(StringUtils.isNotEmpty(condition.getLanguage()), Language::getLanguage, condition.getLanguage())
-                        .like(StringUtils.isNotEmpty(condition.getLabel()), Language::getLabel, condition.getLabel())
+                        .eq(StringUtils.isNotEmpty(condition.getCode()), LanguageMessageEntity::getCode, condition.getCode())
+                        .eq(StringUtils.isNotEmpty(condition.getLanguage()), LanguageMessageEntity::getLanguage, condition.getLanguage())
+                        .like(StringUtils.isNotEmpty(condition.getLabel()), LanguageMessageEntity::getLabel, condition.getLabel())
         );
     }
 
     @Override
-    public List<Language> queryByLanguageAndCode(List<Language> queryList) {
-        List<Language> result = new ArrayList<>();
+    public List<LanguageMessageEntity> queryByLanguageAndCode(List<LanguageMessageEntity> queryList) {
+        List<LanguageMessageEntity> result = new ArrayList<>();
         if (CollectionUtils.isEmpty(queryList)) {
             return result;
         }
-        List<List<Language>> lists = CollectionUtils.split(queryList);
-        for (List<Language> list : lists) {
+        List<List<LanguageMessageEntity>> lists = CollectionUtils.split(queryList);
+        for (List<LanguageMessageEntity> list : lists) {
             result.addAll(baseMapper.queryByLanguageAndCode(list));
         }
         return result;
@@ -118,24 +118,24 @@ public class LanguageServiceImpl extends ServiceImpl<LanguageMapper, Language> i
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int saveOrUpdateBatch(List<Language> list) {
+    public int saveOrUpdateBatch(List<LanguageMessageEntity> list) {
 
         //1.查询
-        List<Language> existList = queryByLanguageAndCode(list);
-        Map<String, Language> existMap = existList.stream().collect(Collectors.toMap(x -> x.getLanguage() + BaseConstant.SLASH + x.getCode(), x -> x));
-        for (Language language : list) {
-            String key = language.getLanguage() + BaseConstant.SLASH + language.getCode();
+        List<LanguageMessageEntity> existList = queryByLanguageAndCode(list);
+        Map<String, LanguageMessageEntity> existMap = existList.stream().collect(Collectors.toMap(x -> x.getLanguage() + BaseConstant.SLASH + x.getCode(), x -> x));
+        for (LanguageMessageEntity languageMessageEntity : list) {
+            String key = languageMessageEntity.getLanguage() + BaseConstant.SLASH + languageMessageEntity.getCode();
             if (existMap.containsKey(key)) {
-                language.setId(existMap.get(key).getId());
+                languageMessageEntity.setId(existMap.get(key).getId());
             }
         }
 
         //2.新增
-        List<Language> saveList = list.stream().filter(x -> x.getId() == null).collect(Collectors.toList());
+        List<LanguageMessageEntity> saveList = list.stream().filter(x -> x.getId() == null).collect(Collectors.toList());
         saveBatch(saveList);
 
         //3.修改
-        List<Language> updateList = list.stream().filter(x -> x.getId() != null).collect(Collectors.toList());
+        List<LanguageMessageEntity> updateList = list.stream().filter(x -> x.getId() != null).collect(Collectors.toList());
         if (CollectionUtils.isNotEmpty(updateList)) {
             //3.1.删除缓存 todo
 
@@ -149,8 +149,8 @@ public class LanguageServiceImpl extends ServiceImpl<LanguageMapper, Language> i
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int saveOrModify(Language language) {
-        return saveOrUpdateBatch(Stream.of(language).collect(Collectors.toList()));
+    public int saveOrModify(LanguageMessageEntity languageMessageEntity) {
+        return saveOrUpdateBatch(Stream.of(languageMessageEntity).collect(Collectors.toList()));
     }
 
     @Override

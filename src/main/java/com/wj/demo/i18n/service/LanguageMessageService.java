@@ -1,7 +1,7 @@
 package com.wj.demo.i18n.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.wj.demo.i18n.entity.Language;
+import com.wj.demo.i18n.entity.LanguageMessageEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +11,7 @@ import java.util.Map;
  * @description 针对表【t_language】的数据库操作Service
  * @createDate 2024-04-17 15:29:04
  */
-public interface LanguageService extends IService<Language> {
+public interface LanguageMessageService extends IService<LanguageMessageEntity> {
 
     /**
      * 单个查询
@@ -38,7 +38,7 @@ public interface LanguageService extends IService<Language> {
      * @param condition
      * @return
      */
-    List<Language> queryByCondition(Language condition);
+    List<LanguageMessageEntity> queryByCondition(LanguageMessageEntity condition);
 
     /**
      * 通过language和code查询
@@ -47,21 +47,21 @@ public interface LanguageService extends IService<Language> {
      * @param queryList
      * @return
      */
-    List<Language> queryByLanguageAndCode(List<Language> queryList);
+    List<LanguageMessageEntity> queryByLanguageAndCode(List<LanguageMessageEntity> queryList);
 
     /**
      * 批量新增或保存 覆盖
      * @param list
      * @return
      */
-    int saveOrUpdateBatch(List<Language> list);
+    int saveOrUpdateBatch(List<LanguageMessageEntity> list);
 
     /**
      * 新增或保存
-     * @param language
+     * @param languageMessageEntity
      * @return
      */
-    int saveOrModify(Language language);
+    int saveOrModify(LanguageMessageEntity languageMessageEntity);
 
     /**
      * 删除

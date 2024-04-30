@@ -1,11 +1,11 @@
 package com.wj.demo.mybatis.intercepter;
 
+import com.wj.demo.common.utils.FieldUtils;
 import com.wj.demo.common.utils.SecurityUtils;
 import com.wj.demo.mybatis.annotation.CreatedBy;
-import com.wj.demo.mybatis.annotation.CreatedDate;
+import com.wj.demo.mybatis.annotation.CreatedTime;
 import com.wj.demo.mybatis.annotation.UpdatedBy;
-import com.wj.demo.mybatis.annotation.UpdatedDate;
-import com.wj.demo.mybatis.entity.BaseEntity;
+import com.wj.demo.mybatis.annotation.UpdatedTime;
 import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -17,7 +17,8 @@ import org.apache.ibatis.plugin.Signature;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
-import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -46,12 +47,16 @@ public class MybatisInterceptor implements Interceptor {
             //批量操作时
             if (parameter instanceof MapperMethod.ParamMap) {
                 MapperMethod.ParamMap map = (MapperMethod.ParamMap) parameter;
-                Object obj = map.get("list");//et
-                List<?> list = (List<?>) obj;
-                if (list != null) {
-                    for (Object o : list) {
-                        setParameter(o, sqlCommandType);
+                Object obj = map.get("et");
+                if (obj instanceof Collection<?>) {
+                    List<?> list = (List<?>) obj;
+                    if (list != null) {
+                        for (Object o : list) {
+                            setParameter(o, sqlCommandType);
+                        }
                     }
+                } else {
+                    setParameter(parameter, sqlCommandType);
                 }
             } else {
                 setParameter(parameter, sqlCommandType);
@@ -61,38 +66,36 @@ public class MybatisInterceptor implements Interceptor {
     }
 
     public void setParameter(Object parameter, SqlCommandType sqlCommandType) throws Throwable {
-        Class<?> aClass = parameter.getClass();
-        Field[] declaredFields;
-        //如果常用字段提取了公共类 BaseEntity
-        //判断BaseEntity是否是父类
-        if (BaseEntity.class.isAssignableFrom(aClass)) {
-            // 获取父类私有成员变量
-            declaredFields = aClass.getSuperclass().getDeclaredFields();
-        } else {
-            // 获取私有成员变量
-            declaredFields = aClass.getDeclaredFields();
-        }
-        for (Field field : declaredFields) {
-            if (SqlCommandType.INSERT.equals(sqlCommandType)) { // insert 语句插入 createBy
+        Class<?> clazz = parameter.getClass();
+
+        //获取所有的属性
+        List<Field> allFields = FieldUtils.getAllFields(clazz);
+
+        for (Field field : allFields) {
+            if (SqlCommandType.INSERT.equals(sqlCommandType)) {
+                // insert 语句插入 createBy
                 if (field.getAnnotation(CreatedBy.class) != null) {
                     field.setAccessible(true);
                     field.set(parameter, SecurityUtils.getUser().getUsername());
                 }
 
-                if (field.getAnnotation(CreatedDate.class) != null) { // insert 语句插入 createTime
+                if (field.getAnnotation(CreatedTime.class) != null) {
+                    // insert 语句插入 CreatedDate
                     field.setAccessible(true);
-                    field.set(parameter, new Timestamp(System.currentTimeMillis()));
+                    field.set(parameter, new Date());
                 }
             }
 
             if (SqlCommandType.UPDATE.equals(sqlCommandType)) {
-                if (field.getAnnotation(UpdatedDate.class) != null) { // update 语句插入 updateTime
-                    field.setAccessible(true);
-                    field.set(parameter, new Timestamp(System.currentTimeMillis()));
-                }
-                if (field.getAnnotation(UpdatedBy.class) != null) { // update 语句插入 updateBy
+                if (field.getAnnotation(UpdatedBy.class) != null) {
+                    // update 语句插入 updateBy
                     field.setAccessible(true);
                     field.set(parameter, SecurityUtils.getUser().getUsername());
+                }
+                if (field.getAnnotation(UpdatedTime.class) != null) {
+                    // update 语句插入 UpdatedDate
+                    field.setAccessible(true);
+                    field.set(parameter, new Date());
                 }
             }
         }

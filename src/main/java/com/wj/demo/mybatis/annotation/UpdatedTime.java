@@ -6,10 +6,10 @@ import java.lang.annotation.*;
  * @author wj
  * @version 1.0
  * @Desc
- * @date 2024/4/25 18:00
+ * @date 2024/4/25 18:01
  */
 @Documented
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CreatedBy {
+public @interface UpdatedTime {
 }
