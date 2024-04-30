@@ -1,7 +1,6 @@
 package com.wj.demo.i18n;
 
 import com.wj.demo.baseContext.BaseContextHolder;
-import com.wj.demo.common.constant.BaseConstant;
 import com.wj.demo.common.utils.StringUtils;
 import com.wj.demo.i18n.entity.LanguageMessageEntity;
 import com.wj.demo.i18n.service.LanguageMessageService;
@@ -71,7 +70,7 @@ public class CommonMessageSource extends AbstractMessageSource implements Initia
         List<Locale> localeList = messageMap.keySet().stream().map(lang -> new Locale(lang.split("_")[0], lang.split("_")[1])).collect(Collectors.toList());
         for (Locale locale : localeList) {
             // 按照国家地区来读取本地的国际化资源文件,我们的国际化资源文件放在i18n文件夹之下
-            ResourceBundle resourceBundle = ResourceBundle.getBundle(basename,locale);
+            ResourceBundle resourceBundle = ResourceBundle.getBundle(basename, locale);
             // 获取国际化资源文件中的key和value
             Set<String> keySet = resourceBundle.keySet();
 
@@ -126,6 +125,7 @@ public class CommonMessageSource extends AbstractMessageSource implements Initia
 
     /**
      * 将信息转化到对应国际化
+     *
      * @param msg
      * @param targetLocale
      * @return
@@ -140,7 +140,29 @@ public class CommonMessageSource extends AbstractMessageSource implements Initia
         return getMessage(code, null, BaseContextHolder.getBaseContext().getLocale());
     }
 
+    /**
+     * 更新本地缓存 批量
+     *
+     * @param entityList
+     */
+    public void saveOrUpdateLocalCacheBatch(List<LanguageMessageEntity> entityList) {
+        for (LanguageMessageEntity entity : entityList) {
+            Map<String, String> codeAndMsgMap = LOCAL_CACHE.getOrDefault(entity.getLanguage(), new HashMap<>());
+            codeAndMsgMap.put(entity.getCode(), entity.getLabel());
+        }
+    }
 
+    /**
+     * 更新本地缓存
+     *
+     * @param locale
+     * @param code
+     * @param message
+     */
+    public void saveOrUpdateLocalCache(String locale, String code, String message) {
+        Map<String, String> codeAndMsgMap = LOCAL_CACHE.getOrDefault(locale, new HashMap<>());
+        codeAndMsgMap.put(code, message);
+    }
 
     /**
      * 获取语言编码
@@ -148,13 +170,13 @@ public class CommonMessageSource extends AbstractMessageSource implements Initia
      * @param locale
      * @return
      */
-    public String getLanguageFromLocale(Locale locale) {
+    public String getLanguageByLocale(Locale locale) {
         return locale.getLanguage() + "_" + locale.getCountry();
     }
 
     @Override
     protected MessageFormat resolveCode(String code, Locale locale) {
-        String language = getLanguageFromLocale(locale);
+        String language = getLanguageByLocale(locale);
 
         String message = null;
 
@@ -202,7 +224,7 @@ public class CommonMessageSource extends AbstractMessageSource implements Initia
      * @return
      */
     public Map<String, String> getMessagesPlus(List<String> codeList, Locale locale) {
-        String language = getLanguageFromLocale(locale);
+        String language = getLanguageByLocale(locale);
         return languageMessageService.queryMessageList(codeList, language);
     }
 

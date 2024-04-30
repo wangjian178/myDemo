@@ -56,7 +56,7 @@ public class MybatisInterceptor implements Interceptor {
                         }
                     }
                 } else {
-                    setParameter(parameter, sqlCommandType);
+                    setParameter(obj, sqlCommandType);
                 }
             } else {
                 setParameter(parameter, sqlCommandType);

@@ -130,11 +130,7 @@ public class LanguageMessageServiceImpl extends ServiceImpl<LanguageMessageMappe
             }
         }
 
-        //2.新增
-        List<LanguageMessageEntity> saveList = list.stream().filter(x -> x.getId() == null).collect(Collectors.toList());
-        saveBatch(saveList);
-
-        //3.修改
+        //2.修改
         List<LanguageMessageEntity> updateList = list.stream().filter(x -> x.getId() != null).collect(Collectors.toList());
         if (CollectionUtils.isNotEmpty(updateList)) {
             //3.1.删除缓存 todo
@@ -143,6 +139,9 @@ public class LanguageMessageServiceImpl extends ServiceImpl<LanguageMessageMappe
             updateBatchById(updateList);
         }
 
+        //3.新增
+        List<LanguageMessageEntity> saveList = list.stream().filter(x -> x.getId() == null).collect(Collectors.toList());
+        saveBatch(saveList);
 
         return list.size();
     }

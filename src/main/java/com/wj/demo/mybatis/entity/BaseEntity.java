@@ -1,5 +1,6 @@
 package com.wj.demo.mybatis.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.wj.demo.mybatis.annotation.CreatedBy;
@@ -23,9 +24,12 @@ public class BaseEntity {
 
     /**
      * ID
+     * AUTO 自增
+     * ASSIGN_ID支持自动生成
+     * ASSIGN_UUID 字符串UUID
      */
-    @TableId
-    private Integer id;
+    @TableId(type = IdType.AUTO)
+    private Long id;
 
     /**
      * 创建人
