@@ -1,11 +1,13 @@
 package com.wj.demo.common.utils;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 /**
  * @author wj
@@ -23,7 +25,7 @@ public class ScheduledExecutorUtils {
     /**
      * 任务列表
      */
-    private static Map<Long, ScheduledFuture<?>> TASK_POOL = new HashMap<>();
+    private static final Map<Long, ScheduledFuture<?>> TASK_POOL = new HashMap<>();
 
 
     /**
@@ -31,10 +33,8 @@ public class ScheduledExecutorUtils {
      */
     static {
         scheduleWithFixedDelay(() -> {
-            List<Long> idList = TASK_POOL.keySet().stream().collect(Collectors.toList());
-            Iterator<Long> iterator = idList.iterator();
-            while (iterator.hasNext()) {
-                Long id = iterator.next();
+            List<Long> idList = TASK_POOL.keySet().stream().toList();
+            for (Long id : idList) {
                 ScheduledFuture<?> future = TASK_POOL.get(id);
                 if (future.isCancelled() || future.isDone()) {
                     TASK_POOL.remove(id);
@@ -46,7 +46,7 @@ public class ScheduledExecutorUtils {
     /**
      * 生成ID
      *
-     * @return
+     * @return 返回结果
      */
     public static Long generateId() {
         return TASK_POOL.keySet().stream().max(Comparator.comparingLong(x -> x)).orElse(0L) + 1;
@@ -58,7 +58,7 @@ public class ScheduledExecutorUtils {
      * @param command 命令
      * @param delay   延迟时间
      * @param unit    单位
-     * @return
+     * @return 返回结果
      */
     public static ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
         ScheduledFuture<?> future = EXECUTOR.schedule(command, delay, unit);
@@ -73,7 +73,7 @@ public class ScheduledExecutorUtils {
      * @param initialDelay 首次间隔时间
      * @param delay        间隔时间
      * @param unit         单位
-     * @return
+     * @return 返回结果
      */
     public static ScheduledFuture<?> scheduleWithFixedDelay(Runnable command, long initialDelay, long delay, TimeUnit unit) {
         ScheduledFuture<?> future = EXECUTOR.scheduleWithFixedDelay(command, initialDelay, delay, unit);
@@ -88,7 +88,6 @@ public class ScheduledExecutorUtils {
      * @param initialDelay 首次间隔时间
      * @param period       间隔时间
      * @param unit         单位
-     * @return
      */
     public static ScheduledFuture<?> scheduleAtFixedRate(Runnable command, long initialDelay, long period, TimeUnit unit) {
         ScheduledFuture<?> future = EXECUTOR.scheduleAtFixedRate(command, initialDelay, period, unit);
@@ -99,7 +98,7 @@ public class ScheduledExecutorUtils {
     /**
      * 取消任务
      *
-     * @param id
+     * @param id 主键
      */
     public static void cancel(Long id) {
         ScheduledFuture<?> future = TASK_POOL.get(id);
@@ -108,10 +107,5 @@ public class ScheduledExecutorUtils {
         }
         future.cancel(true);
         TASK_POOL.remove(id);
-    }
-
-
-    public static void main(String[] args) {
-
     }
 }
