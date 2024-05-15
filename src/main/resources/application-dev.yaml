@@ -24,6 +24,13 @@ spring:
         max-idle: 10 #连接池中的最大空闲连接
         min-idle: 5 # 连接池中的最小空闲连接
 
+thread:
+  corePoolSize: 10
+  maxPoolSize: 500
+  keepAliveSeconds: 60
+  queueCapacity: 500
+  threadNamePrefix: Executor-
+
 basecontext:
   exclude:
     - /user/login
