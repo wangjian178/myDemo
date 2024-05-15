@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author wj
  * @version 1.0
- * @Desc redis操作工具类
+ * @Desc redis操作工具类 存储数据的类建议序列化
  * @date 2024/4/30 16:53
  */
 @Component

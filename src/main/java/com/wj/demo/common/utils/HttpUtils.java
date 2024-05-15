@@ -1,8 +1,9 @@
 package com.wj.demo.common.utils;
 
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.Duration;
 import java.util.Map;
 
 /**
@@ -13,15 +14,10 @@ import java.util.Map;
  */
 public class HttpUtils {
 
-    private static RestTemplate TEMPLATE = null;
-
-    static {
-        //初始化默认RestTemplate
-        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
-        requestFactory.setConnectTimeout(0);
-        requestFactory.setReadTimeout(0);
-        TEMPLATE = new RestTemplate(requestFactory);
-    }
+    /**
+     *默认 可以修改成bean注入容器中
+     */
+    private static final RestTemplate TEMPLATE = new RestTemplateBuilder().setConnectTimeout(Duration.ZERO).setReadTimeout(Duration.ZERO).build();
 
     /**
      * post请求 todo 加个切面 记录入参出参，url
