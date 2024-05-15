@@ -11,7 +11,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 /**
  * @author wj
  * @version 1.0
- * @Desc
+ * @Desc 初始化线程池全局通用
  * @date 2024/5/15 8:57
  */
 @Configuration
