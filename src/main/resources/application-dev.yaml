@@ -23,7 +23,23 @@ spring:
         max-active: 20 #连接池最大连接数
         max-idle: 10 #连接池中的最大空闲连接
         min-idle: 5 # 连接池中的最小空闲连接
-
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+    ##确认消息从生产者到交换机
+    publisher-confirm-type: correlated
+    ##确认消息从交换机到队列
+    publisher-returns: true
+    ##消费者
+    listener:
+      simple:
+        ##消费者一次消费的消息数量
+        prefetch: 5
+        ##消费者手动确认模式
+        acknowledge-mode: manual
 thread:
   corePoolSize: 10
   maxPoolSize: 500
