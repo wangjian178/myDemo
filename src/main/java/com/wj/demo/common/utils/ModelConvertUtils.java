@@ -20,9 +20,9 @@ public class ModelConvertUtils {
      * 对象转JSON
      * 只保留最外层
      *
-     * @param t
-     * @param <T>
-     * @return
+     * @param t   对象
+     * @param <T> 泛型
+     * @return 返回值
      */
     public static <T> JSONObject convertModel(T t) {
         Class<?> clazz = t.getClass();
@@ -53,7 +53,7 @@ public class ModelConvertUtils {
                     continue;
                 }
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
 
             result.put(name, value);
@@ -66,8 +66,8 @@ public class ModelConvertUtils {
      * 对象转JSON
      * 只保留最外层
      *
-     * @param list
-     * @return
+     * @param list 参数
+     * @return 返回值
      */
     public static <T> List<JSONObject> convertList(List<T> list) {
         return list.stream().map(ModelConvertUtils::convertModel).collect(Collectors.toList());
