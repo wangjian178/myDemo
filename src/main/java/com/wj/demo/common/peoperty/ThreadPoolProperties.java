@@ -1,4 +1,4 @@
-package com.wj.demo.common.config.thread;
+package com.wj.demo.common.peoperty;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

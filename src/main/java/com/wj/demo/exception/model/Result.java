@@ -57,14 +57,14 @@ public class Result<T> {
     }
 
     public static <T> Result<T> ofSuccess() {
-        Result result = build();
+        Result<T> result = build();
         result.setCode(SUCCESS_CODE);
         result.setMsg(SUCCESS_MSG);
         return result;
     }
 
     public static <T> Result<T> ofSuccess(T data) {
-        Result result = build();
+        Result<T> result = build();
         result.setCode(SUCCESS_CODE);
         result.setMsg(SUCCESS_MSG);
         result.setData(data);
@@ -72,34 +72,34 @@ public class Result<T> {
     }
 
     public static <T> Result<T> ofSuccess(String msg) {
-        Result result = build();
+        Result<T> result = build();
         result.setCode(SUCCESS_CODE);
         result.setMsg(msg);
         return result;
     }
 
     public static <T> Result<T> ofFail() {
-        Result result = build();
+        Result<T> result = build();
         result.setCode(FAIL_CODE);
         result.setMsg(FAIL_MSG);
         return result;
     }
 
     public static <T> Result<T> ofFail(String msg) {
-        Result result = build();
+        Result<T> result = build();
         result.setCode(FAIL_CODE);
         result.setMsg(msg);
         return result;
     }
 
     public static <T> Result<T> ofFail(String code, String msg) {
-        Result result = build();
+        Result<T> result = build();
         result.setCode(code);
         result.setMsg(msg);
         return result;
     }
 
-    public static boolean isSuccess(Result result) {
+    public static <T> boolean isSuccess(Result<T> result) {
         return SUCCESS_CODE.equals(result.code);
     }
 

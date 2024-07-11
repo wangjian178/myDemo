@@ -1,4 +1,4 @@
-package com.wj.demo.common.config.restApi;
+package com.wj.demo.common.config;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;

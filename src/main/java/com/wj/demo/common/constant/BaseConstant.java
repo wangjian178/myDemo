@@ -9,6 +9,25 @@ package com.wj.demo.common.constant;
 public class BaseConstant {
 
     /**
+     * 首页
+     */
+    public static final String PAGE_INDEX = "/sys/index";
+
+    /**
+     * token
+     */
+    public static final String TOKEN = "token";
+
+    /**
+     * 语言
+     */
+    public static final String LANGUAGE = "lang";
+    /**
+     * 时区
+     */
+    public static final String TIME_ZONE = "timeZone";
+
+    /**
      * -
      */
     public static final String SLASH = "-";

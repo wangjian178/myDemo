@@ -47,10 +47,21 @@ thread:
   queueCapacity: 500
   threadNamePrefix: Executor-
 
+#国际化忽略接口
 basecontext:
   exclude:
-    - /user/login
-    - /user/logout
+
+#接口权限忽略接口
+auth:
+  exclude:
+    - /sys/login
+    - /sys/logout
+
+#登录页面
+login:
+  include:
+    - /
+    - /sys/index
 
 logging:
   #config: classpath:logback.xml

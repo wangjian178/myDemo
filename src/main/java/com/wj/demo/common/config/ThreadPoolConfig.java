@@ -1,5 +1,6 @@
-package com.wj.demo.common.config.thread;
+package com.wj.demo.common.config;
 
+import com.wj.demo.common.peoperty.ThreadPoolProperties;
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

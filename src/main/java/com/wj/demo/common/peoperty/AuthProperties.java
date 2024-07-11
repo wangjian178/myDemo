@@ -1,4 +1,4 @@
-package com.wj.demo.baseContext;
+package com.wj.demo.common.peoperty;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -7,13 +7,14 @@ import java.util.List;
 
 /**
  * @author wj
+ * @version 1.0
+ * @Desc
  */
 @Component
-@ConfigurationProperties(prefix = "basecontext")
-public class BaseContextProperties {
+@ConfigurationProperties(prefix = "auth")
+public class AuthProperties {
 
     private List<String> exclude;
-
 
     public List<String> getExclude() {
         return exclude;

@@ -1,7 +1,7 @@
-package com.wj.demo.baseContext;
+package com.wj.demo.interceptor;
 
-import com.wj.demo.common.model.vo.UserVO;
-import com.wj.demo.common.utils.SecurityUtils;
+import com.wj.demo.baseContext.BaseContext;
+import com.wj.demo.baseContext.BaseContextHolder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.util.StringUtils;
@@ -14,15 +14,24 @@ import java.util.TimeZone;
 /**
  * @author wj
  * @version 1.0
- * @Desc
+ * @Desc 国际化拦截器  多语言 时区
  * @date 2024/4/17 10:54
  */
 public class BaseContextInterceptor implements HandlerInterceptor {
 
+    /**
+     * 语言
+     */
+    private static final String LANGUAGE = "lang";
+    /**
+     * 时区
+     */
+    private static final String TIME_ZONE = "timeZone";
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String langParam = request.getHeader("lang");
-        String timeZoneParam = request.getHeader("timeZone");
+        String langParam = request.getHeader(LANGUAGE);
+        String timeZoneParam = request.getHeader(TIME_ZONE);
 
         //时区
         Locale locale = Locale.getDefault();
@@ -36,15 +45,13 @@ public class BaseContextInterceptor implements HandlerInterceptor {
             timeZone = TimeZone.getTimeZone(timeZoneParam);
         }
 
-        //用户信息
-        UserVO userVO = SecurityUtils.getUser();
-
         //补充上下文信息
-        BaseContext baseContext = BaseContext
-                .build()
-                .setLocale(locale)
-                .setTimeZone(timeZone)
-                .setUser(userVO);
+        BaseContext baseContext = BaseContextHolder.getBaseContext();
+        if (baseContext == null) {
+            baseContext = BaseContext.build();
+        }
+        baseContext.setLocale(locale)
+                .setTimeZone(timeZone);
         BaseContextHolder.setContext(baseContext);
 
         return true;

@@ -27,6 +27,8 @@ public class BaseContext {
 
     private TimeZone timeZone;
 
+    private String token;
+
     private UserVO user;
 
     public static BaseContext build() {

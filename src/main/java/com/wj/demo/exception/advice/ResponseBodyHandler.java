@@ -1,5 +1,6 @@
 package com.wj.demo.exception.advice;
 
+import com.alibaba.fastjson.JSON;
 import com.wj.demo.exception.annotation.IgnoreAutoResponse;
 import com.wj.demo.exception.model.Result;
 import org.springframework.core.MethodParameter;
@@ -32,10 +33,10 @@ public class ResponseBodyHandler implements ResponseBodyAdvice<Object> {
 
         if (body == null) {
             return Result.ofSuccess();
-        } else if (body instanceof Result) {
+        } else if (body instanceof Result<?>) {
             return body;
         } else if (body instanceof String) {
-            return Result.ofSuccess(body.toString());
+            return JSON.toJSONString(Result.ofSuccess(body.toString()));
         }
 
         return Result.ofSuccess(body);
