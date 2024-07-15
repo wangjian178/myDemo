@@ -1,7 +1,11 @@
 package com.wj.demo.test.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.wj.demo.baseContext.BaseContextHolder;
 import com.wj.demo.common.constant.BaseConstant;
 import com.wj.demo.common.model.vo.UserVO;
+import com.wj.demo.common.utils.JwtUtils;
+import com.wj.demo.common.utils.PasswordUtils;
 import com.wj.demo.exception.model.Result;
 import com.wj.demo.redis.service.RedisClient;
 import jakarta.annotation.Resource;
@@ -15,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -57,7 +63,7 @@ public class LoginController {
         }
 
         //  3.查询用户
-        UserVO existUser = null;//new UserVO().setUsername(user.getUsername()).setPassword(user.getPassword());
+        UserVO existUser = new UserVO().setUsername(user.getUsername()).setPassword(user.getPassword());
         if (Objects.isNull(existUser)) {
             //剩余次数
             Integer restTimes = (times.equals(0) ? BaseConstant.LOCK_USER_MAX_RETRY_TIMES : BaseConstant.LOCK_USER_MAX_RETRY_TIMES - times) - 1;
@@ -68,15 +74,24 @@ public class LoginController {
         }
 
         // 4.校验密码 密码加密
+        if (!PasswordUtils.match(user.getPassword(), existUser.getPassword())) {
+            return Result.ofFail("用户名或密码错误！");
+        }
 
         // 5.生成token 并且记录
+        Map<String, String> jwtMap = new HashMap<>() {{
+            put("id", existUser.getId().toString());
+            put("username", existUser.getUsername());
+        }};
+        String token = JwtUtils.createToken(jwtMap);
+        redisClient.set(BaseConstant.TOKEN_PREFIX + token, JSONObject.toJSONString(existUser));
 
         // 6.修改登陆状态
 
         // 7.登陆成功清除失败次数
         redisClient.delete(timesKey);
 
-        return Result.ofSuccess();
+        return Result.ofSuccess(token);
     }
 
 
@@ -92,9 +107,12 @@ public class LoginController {
 
         //  1.修改用户状态
 
-        //  2.清理cookie
+        //  2.删除token
+        redisClient.delete(BaseConstant.TOKEN_PREFIX + BaseContextHolder.getBaseContext().getToken());
 
-        //  3.清理session
+        //  3.清理cookie
+
+        //  4.清理session
         HttpSession session = request.getSession();
         session.invalidate();
 

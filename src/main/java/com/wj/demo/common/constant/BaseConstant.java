@@ -54,4 +54,9 @@ public class BaseConstant {
      * 锁定时间s
      */
     public static final Long LOCK_USER_LOCK_SECONDS = 600L;
+
+    /**
+     * 登录Token前缀
+     */
+    public static final String TOKEN_PREFIX = "TOKEN_";
 }

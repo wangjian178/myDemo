@@ -2,6 +2,7 @@ package com.wj.demo.interceptor;
 
 import com.wj.demo.baseContext.BaseContext;
 import com.wj.demo.baseContext.BaseContextHolder;
+import com.wj.demo.common.constant.BaseConstant;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.util.StringUtils;
@@ -19,19 +20,10 @@ import java.util.TimeZone;
  */
 public class BaseContextInterceptor implements HandlerInterceptor {
 
-    /**
-     * 语言
-     */
-    private static final String LANGUAGE = "lang";
-    /**
-     * 时区
-     */
-    private static final String TIME_ZONE = "timeZone";
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String langParam = request.getHeader(LANGUAGE);
-        String timeZoneParam = request.getHeader(TIME_ZONE);
+        String langParam = request.getHeader(BaseConstant.LANGUAGE);
+        String timeZoneParam = request.getHeader(BaseConstant.TIME_ZONE);
 
         //时区
         Locale locale = Locale.getDefault();
