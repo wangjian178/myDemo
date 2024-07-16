@@ -43,7 +43,7 @@ public class ModelConvertUtils {
             }
             //日期做转换
             if (Date.class.equals(value.getClass()) || Timestamp.class.equals(value.getClass())) {
-                value = DateUtils.parse((Date) value);
+                value = DateUtils.format((Date) value);
             }
             //对象不保留 可以判断四类八种
             try {

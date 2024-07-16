@@ -1,5 +1,8 @@
 package com.wj.demo.common.utils;
 
+import com.wj.demo.exception.exception.BaseException;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
@@ -12,6 +15,8 @@ import java.util.Objects;
  */
 public class DateUtils {
 
+    public static final String YYYYMMDD = "yyyyMMdd";
+
     public static final String YYYY_MM_DD = "yyyy-MM-dd";
 
     public static final String YYYY_MM_DD_HH_MM_DD = "yyyy-MM-dd HH:mm:ss";
@@ -23,21 +28,57 @@ public class DateUtils {
     /**
      * 当前日期
      */
-    public static Date newDate() {
+    public static Date today() {
+        String dateString = format(now(), YYYY_MM_DD);
+        return parse(dateString, YYYY_MM_DD);
+    }
+
+    /**
+     * 当前时间
+     */
+    public static Date now() {
         return new Date();
     }
 
     /**
-     * 转字符串
+     * 日期转字符串
      */
-    public static String parse(Date date) {
+    public static String format(Date date) {
         return getFormatter(YYYY_MM_DD_HH_MM_DD).format(date);
     }
 
     /**
      * 日期转字符串
      */
-    public static String parse(Date date, String pattern) {
+    public static String format(Date date, String pattern) {
         return getFormatter(pattern).format(date);
+    }
+
+    /**
+     * 字符串转时间
+     */
+    public static Date parse(String dateString) {
+        SimpleDateFormat formatter = getFormatter(YYYY_MM_DD_HH_MM_DD);
+        Date date = null;
+        try {
+            date = formatter.parse(dateString);
+        } catch (ParseException e) {
+            throw new BaseException(e.getMessage());
+        }
+        return date;
+    }
+
+    /**
+     * 字符串转日期
+     */
+    public static Date parse(String dateString, String pattern) {
+        SimpleDateFormat formatter = getFormatter(pattern);
+        Date date = null;
+        try {
+            date = formatter.parse(dateString);
+        } catch (ParseException e) {
+            throw new BaseException(e.getMessage());
+        }
+        return date;
     }
 }
