@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wj.demo.i18n.mapper.SysLanguageMapper">
+
+    <resultMap id="BaseResultMap" type="com.wj.demo.i18n.entity.SysLanguageEntity">
+        <id property="id" column="ID" jdbcType="INTEGER"/>
+        <result property="language" column="LANGUAGE" jdbcType="VARCHAR"/>
+        <result property="code" column="CODE" jdbcType="VARCHAR"/>
+        <result property="label" column="LABEL" jdbcType="VARCHAR"/>
+        <result property="createBy" column="CREATE_BY" jdbcType="VARCHAR"/>
+        <result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
+        <result property="updatedBy" column="UPDATE_BY" jdbcType="VARCHAR"/>
+        <result property="updatedTime" column="UPDATE_TIME" jdbcType="TIMESTAMP"/>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+        <result property="deleted" column="DELETED" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID,
+        LANGUAGE,
+        CODE,
+        LABEL,
+        CREATE_BY,
+        CREATE_DATE,
+        UPDATE_BY,
+        UPDATE_DATE,
+        REMARK,
+        DELETED
+    </sql>
+
+    <sql id="selectAll">
+        SELECT ID,
+               LANGUAGE,
+               CODE,
+               LABEL,
+               CREATE_BY,
+               CREATE_TIME,
+               UPDATE_BY,
+               UPDATE_TIME,
+               REMARK,
+               DELETED
+        FROM SYS_LANGUAGE
+    </sql>
+
+    <select id="queryByLanguageAndCode" resultType="com.wj.demo.i18n.entity.SysLanguageEntity">
+        <include refid="selectAll"></include>
+        <where>
+            <if test="queryList!=null and queryList.size>0">
+                (LANGUAGE, CODE) IN
+                <foreach collection="queryList" item="item" index="index" open="(" close=")" separator=",">
+                    (#{item.language},#{item.code})
+                </foreach>
+            </if>
+        </where>
+    </select>
+</mapper>

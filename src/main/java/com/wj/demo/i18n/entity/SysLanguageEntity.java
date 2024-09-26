@@ -5,18 +5,20 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.wj.demo.mybatis.entity.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
 /**
  * 
  * @author wj
- * @TableName t_language
+ * @TableName SYS_LANGUAGE
  */
-@TableName(value ="T_LANGUAGE_MESSAGE")
 @Data
-@Schema(title = "LanguageMessageEntity", description = "多语言")
-public class LanguageMessageEntity extends BaseEntity implements Serializable {
+@Accessors(chain = true)
+@TableName(value ="SYS_LANGUAGE")
+@Schema(title = "SysLanguageEntity", description = "多语言")
+public class SysLanguageEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

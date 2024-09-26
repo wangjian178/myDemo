@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wj.demo.system.mapper.SysIdentityMapper">
+
+    <resultMap id="BaseResultMap" type="com.wj.demo.system.entity.SysIdentity">
+            <id property="id" column="ID" jdbcType="BIGINT"/>
+            <result property="createBy" column="CREATE_BY" jdbcType="VARCHAR"/>
+            <result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
+            <result property="updateBy" column="UPDATE_BY" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="UPDATE_TIME" jdbcType="TIMESTAMP"/>
+            <result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+            <result property="deleted" column="DELETED" jdbcType="INTEGER"/>
+            <result property="name" column="NAME" jdbcType="VARCHAR"/>
+            <result property="code" column="CODE" jdbcType="VARCHAR"/>
+            <result property="ruler" column="RULER" jdbcType="VARCHAR"/>
+            <result property="type" column="TYPE" jdbcType="INTEGER"/>
+            <result property="noLength" column="NO_LENGTH" jdbcType="INTEGER"/>
+            <result property="initValue" column="INIT_VALUE" jdbcType="VARCHAR"/>
+            <result property="currentValue" column="CURRENT_VALUE" jdbcType="VARCHAR"/>
+            <result property="step" column="STEP" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID,
+        CREATE_BY,
+        CREATE_TIME,
+        UPDATE_BY,
+        UPDATE_TIME,
+        REMARK,
+        DELETED,
+        NAME,
+        CODE,
+        RULER,
+        TYPE,
+        NO_LENGTH,
+        INIT_VALUE,
+        CURRENT_VALUE,
+        STEP
+    </sql>
+</mapper>

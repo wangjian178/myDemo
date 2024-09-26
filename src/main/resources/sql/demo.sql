@@ -20,8 +20,8 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 -- Table structure for t_language
 -- ----------------------------
-DROP TABLE IF EXISTS `t_language_message`;
-CREATE TABLE `t_language`  (
+DROP TABLE IF EXISTS `SYS_LANGUAGE_MESSAGE`;
+CREATE TABLE `SYS_LANGUAGE_MESSAGE`  (
                                `ID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
                                `LANGUAGE` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '语言',
                                `CODE` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '键',

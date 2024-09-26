@@ -38,17 +38,17 @@ public class BaseEntity {
      * 创建人
      */
     @CreatedBy
-    @TableField(value = "CREATED_BY")
+    @TableField(value = "CREATE_BY")
     @Schema(description = "创建人")
-    private String createdBy;
+    private String createBy;
 
     /**
      * 创建时间
      */
     @CreatedTime
-    @TableField(value = "CREATED_TIME")
+    @TableField(value = "CREATE_TIME")
     @Schema(description = "创建时间")
-    private Date createdTime;
+    private Date createTime;
 
     /**
      * 修改人
@@ -56,7 +56,7 @@ public class BaseEntity {
     @UpdatedBy
     @TableField(value = "UPDATE_BY")
     @Schema(description = "修改人")
-    private String updatedBy;
+    private String updateBy;
 
     /**
      * 修改时间
@@ -64,7 +64,7 @@ public class BaseEntity {
     @UpdatedTime
     @TableField(value = "UPDATE_TIME")
     @Schema(description = "修改时间")
-    private Date updatedTime;
+    private Date updateTime;
 
     /**
      * 备注

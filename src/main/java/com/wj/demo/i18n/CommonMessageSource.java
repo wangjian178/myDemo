@@ -2,8 +2,8 @@ package com.wj.demo.i18n;
 
 import com.wj.demo.baseContext.BaseContextHolder;
 import com.wj.demo.common.utils.StringUtils;
-import com.wj.demo.i18n.entity.LanguageMessageEntity;
-import com.wj.demo.i18n.service.LanguageMessageService;
+import com.wj.demo.i18n.entity.SysLanguageEntity;
+import com.wj.demo.i18n.service.SysLanguageService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -31,7 +31,7 @@ public class CommonMessageSource extends AbstractMessageSource implements Initia
     private String basename;
 
     @Resource
-    private LanguageMessageService languageMessageService;
+    private SysLanguageService sysLanguageService;
 
     /**
      * key1 = locale key2 = code ,value = message
@@ -53,16 +53,16 @@ public class CommonMessageSource extends AbstractMessageSource implements Initia
         LOCAL_CACHE.clear();
 
         //  2.查询数据库
-        List<LanguageMessageEntity> languageMessageEntityList = languageMessageService.list();
-        Map<String, Map<String, String>> messageMap = languageMessageEntityList
+        List<SysLanguageEntity> sysLanguageEntityList = sysLanguageService.list();
+        Map<String, Map<String, String>> messageMap = sysLanguageEntityList
                 .stream()
                 .collect(Collectors.groupingBy(
                         // 根据国家地区分组
-                        LanguageMessageEntity::getLanguage,
+                        SysLanguageEntity::getLanguage,
                         // 收集为Map,key为code,value为信息
                         Collectors.toMap(
-                                LanguageMessageEntity::getCode
-                                , LanguageMessageEntity::getLabel
+                                SysLanguageEntity::getCode
+                                , SysLanguageEntity::getLabel
                         )
                 ));
 
@@ -101,9 +101,9 @@ public class CommonMessageSource extends AbstractMessageSource implements Initia
      * @param msg
      * @return
      */
-    public LanguageMessageEntity getLanguageByMsg(String msg) {
-        LanguageMessageEntity languageMessageEntity = new LanguageMessageEntity();
-        languageMessageEntity.setLabel(msg);
+    public SysLanguageEntity getLanguageByMsg(String msg) {
+        SysLanguageEntity sysLanguageEntity = new SysLanguageEntity();
+        sysLanguageEntity.setLabel(msg);
         a:
         for (Map.Entry<String, Map<String, String>> entry : LOCAL_CACHE.entrySet()) {
             String currentLocale = entry.getKey();
@@ -113,14 +113,14 @@ public class CommonMessageSource extends AbstractMessageSource implements Initia
                 String currentCode = itemEntry.getKey();
                 String currentMessage = itemEntry.getValue();
                 if (msg.equals(currentMessage)) {
-                    languageMessageEntity.setCode(currentCode);
-                    languageMessageEntity.setLanguage(currentLocale);
+                    sysLanguageEntity.setCode(currentCode);
+                    sysLanguageEntity.setLanguage(currentLocale);
                     break a;
                 }
             }
         }
 
-        return languageMessageEntity;
+        return sysLanguageEntity;
     }
 
     /**
@@ -131,9 +131,9 @@ public class CommonMessageSource extends AbstractMessageSource implements Initia
      * @return
      */
     public String transferMsg(String msg, Locale targetLocale) {
-        LanguageMessageEntity languageMessageEntity = getLanguageByMsg(msg);
-        String language = languageMessageEntity.getLanguage();
-        String code = languageMessageEntity.getCode();
+        SysLanguageEntity sysLanguageEntity = getLanguageByMsg(msg);
+        String language = sysLanguageEntity.getLanguage();
+        String code = sysLanguageEntity.getCode();
         if (StringUtils.isEmpty(language) || StringUtils.isEmpty(code)) {
             return msg;
         }
@@ -145,8 +145,8 @@ public class CommonMessageSource extends AbstractMessageSource implements Initia
      *
      * @param entityList
      */
-    public void saveOrUpdateLocalCacheBatch(List<LanguageMessageEntity> entityList) {
-        for (LanguageMessageEntity entity : entityList) {
+    public void saveOrUpdateLocalCacheBatch(List<SysLanguageEntity> entityList) {
+        for (SysLanguageEntity entity : entityList) {
             Map<String, String> codeAndMsgMap = LOCAL_CACHE.getOrDefault(entity.getLanguage(), new HashMap<>());
             codeAndMsgMap.put(entity.getCode(), entity.getLabel());
         }
@@ -188,7 +188,7 @@ public class CommonMessageSource extends AbstractMessageSource implements Initia
 
         //  2.再取redis缓存和数据库
         if (StringUtils.isEmpty(message)) {
-            message = languageMessageService.queryMessage(code, language);
+            message = sysLanguageService.queryMessage(code, language);
         }
 
         return new MessageFormat(message, locale);
@@ -225,7 +225,7 @@ public class CommonMessageSource extends AbstractMessageSource implements Initia
      */
     public Map<String, String> getMessagesPlus(List<String> codeList, Locale locale) {
         String language = getLanguageByLocale(locale);
-        return languageMessageService.queryMessageList(codeList, language);
+        return sysLanguageService.queryMessageList(codeList, language);
     }
 
 }
