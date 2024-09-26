@@ -1,12 +1,13 @@
 package com.wj.demo.mybatis.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.wj.demo.mybatis.annotation.CreatedBy;
 import com.wj.demo.mybatis.annotation.CreatedTime;
 import com.wj.demo.mybatis.annotation.UpdatedBy;
 import com.wj.demo.mybatis.annotation.UpdatedTime;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -15,11 +16,12 @@ import java.util.Date;
 /**
  * @author wj
  * @version 1.0
- * @Desc
+ * @Desc 基础实体类
  * @date 2024/4/17 15:20
  */
 @Data
 @Accessors(chain = true)
+@Schema(title = "BaseEntity", description = "基础实体类")
 public class BaseEntity {
 
     /**
@@ -28,41 +30,54 @@ public class BaseEntity {
      * ASSIGN_ID支持自动生成
      * ASSIGN_UUID 字符串UUID
      */
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.AUTO, value = "ID")
+    @Schema(description = "ID")
     private Long id;
 
     /**
      * 创建人
      */
     @CreatedBy
+    @TableField(value = "CREATED_BY")
+    @Schema(description = "创建人")
     private String createdBy;
 
     /**
      * 创建时间
      */
     @CreatedTime
+    @TableField(value = "CREATED_TIME")
+    @Schema(description = "创建时间")
     private Date createdTime;
 
     /**
      * 修改人
      */
     @UpdatedBy
+    @TableField(value = "UPDATE_BY")
+    @Schema(description = "修改人")
     private String updatedBy;
 
     /**
      * 修改时间
      */
     @UpdatedTime
+    @TableField(value = "UPDATE_TIME")
+    @Schema(description = "修改时间")
     private Date updatedTime;
 
     /**
      * 备注
      */
+    @TableField(value = "REMARK")
+    @Schema(description = "备注")
     private String remark;
 
     /**
      * 删除标识0否1是
      */
     //@TableLogic
-    private Integer delFlag;
+    @TableField(value = "DELETED")
+    @Schema(description = "删除标识0否1是")
+    private Integer deleted;
 }

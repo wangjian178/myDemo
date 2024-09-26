@@ -31,7 +31,7 @@ CREATE TABLE `t_language`  (
                                `UPDATED_BY` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '修改人',
                                `UPDATED_TIME` datetime NULL DEFAULT NULL COMMENT '修改时间',
                                `REMARK` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
-                               `DEL_FLAG` int(1) NULL DEFAULT NULL COMMENT '删除标识0否1是',
+                               `DELETED` int(1) NULL DEFAULT NULL COMMENT '删除标识0否1是',
                                PRIMARY KEY (`ID`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
 
