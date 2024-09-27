@@ -84,7 +84,7 @@ public class LoginController {
             put("username", existUser.getUsername());
         }};
         String token = JwtUtils.createToken(jwtMap);
-        redisClient.set(BaseConstant.TOKEN_PREFIX + token, JSONObject.toJSONString(existUser));
+        redisClient.set(BaseConstant.TOKEN_PREFIX + token, existUser);
 
         // 6.修改登陆状态
 

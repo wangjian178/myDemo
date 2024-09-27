@@ -35,9 +35,9 @@ public class SQLGenerator {
 
         put(Boolean.class, JdbcType.INTEGER);
 
-        put(Date.class, JdbcType.TIMESTAMP);
+        put(Date.class, JdbcType.DATE);
         put(LocalDate.class, JdbcType.DATE);
-        put(LocalDateTime.class, JdbcType.TIMESTAMP);
+        put(LocalDateTime.class, JdbcType.DATE);
     }};
 
 

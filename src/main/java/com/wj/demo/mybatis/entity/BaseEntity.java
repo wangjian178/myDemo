@@ -3,6 +3,7 @@ package com.wj.demo.mybatis.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.wj.demo.mybatis.annotation.CreatedBy;
 import com.wj.demo.mybatis.annotation.CreatedTime;
 import com.wj.demo.mybatis.annotation.UpdatedBy;
@@ -74,10 +75,10 @@ public class BaseEntity {
     private String remark;
 
     /**
-     * 删除标识0否1是
+     * 逻辑删除 0否1是
      */
-    //@TableLogic
+    @TableLogic
     @TableField(value = "DELETED")
     @Schema(description = "删除标识0否1是")
-    private Integer deleted;
+    private Boolean deleted;
 }

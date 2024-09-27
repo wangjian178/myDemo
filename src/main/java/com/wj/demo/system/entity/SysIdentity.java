@@ -56,13 +56,13 @@ public class SysIdentity extends BaseEntity implements Serializable {
      * 初始值
      */
     @Schema(description = "初始值")
-    private String initValue;
+    private Integer initValue;
 
     /**
      * 当前值
      */
     @Schema(description = "当前值")
-    private String currentValue;
+    private Integer currentValue;
 
     /**
      * 步长

@@ -1,5 +1,6 @@
 package com.wj.demo.mybatis.intercepter;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.wj.demo.common.utils.FieldUtils;
 import com.wj.demo.common.utils.SecurityUtils;
 import com.wj.demo.mybatis.annotation.CreatedBy;
@@ -83,6 +84,11 @@ public class MybatisInterceptor implements Interceptor {
                     // insert 语句插入 CreatedDate
                     field.setAccessible(true);
                     field.set(parameter, new Date());
+                }
+                if (field.getAnnotation(TableLogic.class) != null) {
+                    // insert 语句插入 DELETED
+                    field.setAccessible(true);
+                    field.set(parameter, Boolean.FALSE);
                 }
             }
 

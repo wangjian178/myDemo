@@ -1,5 +1,6 @@
 package com.wj.demo.redis.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wj.demo.exception.exception.BaseException;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -93,7 +94,7 @@ public class RedisClient {
      *
      * @param key   键
      * @param value 值
-     * @param time 过期时间s
+     * @param time  过期时间s
      * @return
      */
     public <T> void set(String key, T value, Long time) {
