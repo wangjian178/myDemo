@@ -2,17 +2,17 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wj.demo.i18n.mapper.SysLanguageMapper">
+<mapper namespace="com.wj.demo.framework.i18n.mapper.SysLanguageMapper">
 
-    <resultMap id="BaseResultMap" type="com.wj.demo.i18n.entity.SysLanguageEntity">
+    <resultMap id="BaseResultMap" type="com.wj.demo.framework.i18n.entity.SysLanguageEntity">
         <id property="id" column="ID" jdbcType="INTEGER"/>
         <result property="language" column="LANGUAGE" jdbcType="VARCHAR"/>
         <result property="code" column="CODE" jdbcType="VARCHAR"/>
         <result property="label" column="LABEL" jdbcType="VARCHAR"/>
         <result property="createBy" column="CREATE_BY" jdbcType="VARCHAR"/>
         <result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
-        <result property="updatedBy" column="UPDATE_BY" jdbcType="VARCHAR"/>
-        <result property="updatedTime" column="UPDATE_TIME" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="UPDATE_BY" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="UPDATE_TIME" jdbcType="TIMESTAMP"/>
         <result property="remark" column="REMARK" jdbcType="VARCHAR"/>
         <result property="deleted" column="DELETED" jdbcType="INTEGER"/>
     </resultMap>
@@ -44,7 +44,7 @@
         FROM SYS_LANGUAGE
     </sql>
 
-    <select id="queryByLanguageAndCode" resultType="com.wj.demo.i18n.entity.SysLanguageEntity">
+    <select id="queryByLanguageAndCode" resultType="com.wj.demo.framework.i18n.entity.SysLanguageEntity">
         <include refid="selectAll"></include>
         <where>
             <if test="queryList!=null and queryList.size>0">

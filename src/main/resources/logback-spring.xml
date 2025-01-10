@@ -12,10 +12,12 @@
                     converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
     <conversionRule conversionWord="wEx"
                     converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
+
     <!-- Console log output -->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
         </encoder>
     </appender>
 
@@ -74,14 +76,10 @@
         </filter>
     </appender>
 
-    <!--nacos 心跳 INFO 屏蔽-->
-    <!--    <logger name="com.alibaba.nacos" level="OFF">
-            <appender-ref ref="error"/>
-        </logger>
-        <logger name="com.intelligent.bj.base.mapper" level="DEBUG"/>-->
+    <logger name="com.wj.demo" level="DEBUG"/>
 
     <!-- Level: FATAL 0  ERROR 3  WARN 4  INFO 6  DEBUG 7 -->
-    <root level="INFO">
+    <root level="DEBUG">
         <appender-ref ref="console"/>
         <appender-ref ref="debug"/>
         <appender-ref ref="error"/>

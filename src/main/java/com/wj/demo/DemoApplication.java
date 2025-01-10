@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * @author wj
  */
-@MapperScan("com.wj.demo.i18n.mapper")
+@MapperScan(basePackages = {"com.wj.demo.framework.i18n.mapper", "com.wj.demo.core.*"})
 @SpringBootApplication
 public class DemoApplication {
 

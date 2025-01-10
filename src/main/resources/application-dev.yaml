@@ -2,11 +2,66 @@ server:
   port: 8080
 
 spring:
+  # JavaMailSender Config
+  mail:
+    host: smtp.163.com
+    port:
+    username: wangjian178321@163.com
+    password: OZXPXUHCTZATGAWG
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/demo
-    username: root
-    password: root
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    dynamic:
+      primary: master
+      datasource:
+        # 主库数据源
+        master:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://127.0.0.1:3306/demo
+          username: root
+          password: root
+          druid:
+            validation-query: SELECT 1 FROM DUAL
+        # 从库数据源
+        slave:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://127.0.0.1:3306/demo
+          username: root
+          password: root
+          druid:
+            validation-query: SELECT 1 FROM DUAL
+      # druid连接池设置
+      druid:
+        # 配置初始化线程数
+        initialSize: 5
+        # 最小线程数
+        minIdle: 5
+        # CPU核数+1，也可以大些但不要超过20，数据库加锁时连接过多性能下降
+        maxActive: 11
+        # 最大等待时间，内网：800，外网：1200（三次握手1s）
+        maxWait: 60000
+        # 连接可空闲存活时间（ms）
+        timeBetweenEvictionRunsMillis: 60000
+        # 连接保持空闲而不被驱逐的最长存活时间（ms）
+        minEvictableIdleTimeMillis: 300000
+        # 用来检测连接是否有效的sql，如果validationQuery为空，那么testOnBorrow、testOnReturn、testWhileIdle这三个参数都不会起作用
+        validationQuery: SELECT 1
+        # 建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效；
+        testWhileIdle: true
+        # 建议配置为false，申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+        testOnBorrow: false
+        # 建议配置为false，归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能；
+        testOnReturn: false
+        # PSCache对支持游标的数据库性能提升巨大
+        poolPreparedStatements: true
+        # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+        filters: stat
+        # 保持minIdle数量的长连接
+        keepAlive: true
+        # 要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。
+        # 在Druid中，不会存在Oracle下PSCache占用内存过多的问题，可以把这个数值配置大一些，比如说100。缺省值为-1
+        maxPoolPreparedStatementPerConnectionSize: 20
+        # 是否合并多个DruidDataSource的监控数据
+        useGlobalDataSourceStat: true
   messages:
     encoding: UTF-8
     basename: messages/message
@@ -14,10 +69,11 @@ spring:
     redis:
       host: 127.0.0.1
       port: 6379
-#      cluster:
-#        nodes:
-#          - 192.168.57.135:7001
-#          - 192.168.57.135:7002
+      password:
+    #      cluster:
+    #        nodes:
+    #          - 192.168.57.135:7001
+    #          - 192.168.57.135:7002
     jedis:
       pool:
         max-active: 20 #连接池最大连接数
@@ -56,12 +112,7 @@ auth:
   exclude:
     - /sys/login
     - /sys/logout
-
-#登录页面
-login:
-  include:
-    - /
-    - /sys/index
+    - /sys/loginPage
 
 logging:
   #config: classpath:logback.xml
@@ -76,3 +127,5 @@ mybatis-plus:
     db-config:
       logic-delete-value: 1
       logic-not-delete-value: 0
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

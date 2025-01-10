@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wj.demo.system.mapper.SysIdentityMapper">
+<mapper namespace="com.wj.demo.core.system.mapper.SysIdentityMapper">
 
-    <resultMap id="BaseResultMap" type="com.wj.demo.system.entity.SysIdentity">
+    <resultMap id="BaseResultMap" type="com.wj.demo.core.system.entity.SysIdentity">
             <id property="id" column="ID" jdbcType="BIGINT"/>
             <result property="createBy" column="CREATE_BY" jdbcType="VARCHAR"/>
             <result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
