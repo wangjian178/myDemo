@@ -17,4 +17,13 @@ public class SecurityUtils {
     public static User getUser(){
         return new User().setId(1L);
     }
+
+    /**
+     * 获取用户信息
+     * @param token 鉴权信息
+     * @return 当前用户
+     */
+    public static User getUser(String token){
+        return new User().setId(1L);
+    }
 }

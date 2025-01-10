@@ -21,6 +21,16 @@ public class WebSocketSender {
     private String type;
 
     /**
+     * 是否异步
+     */
+    private Boolean async;
+
+    /**
+     * 是否异步
+     */
+    private Boolean sendAll;
+
+    /**
      * 消息频道
      */
     private String chanel;

@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -22,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @Desc WebSocketServer
  * @date 2025/1/10 15:35
  */
-@ServerEndpoint("/ws/{chanel}")
+@ServerEndpoint("/ws/{chanel}/{token}")
 @Component
 public class WebSocketServer {
 
@@ -35,11 +36,13 @@ public class WebSocketServer {
     private static final Set<Session> SESSION_POOL = new CopyOnWriteArraySet<>();
 
     @OnOpen
-    public void onOpen(Session session, @PathParam(value = "chanel") String chanel) {
+    public void onOpen(Session session,
+                       @PathParam(value = "chanel") String chanel,
+                       @PathParam(value = "token") String token) {
         int onLineNum = ON_LINE_NUM.incrementAndGet();
         SESSION_POOL.add(session);
         session.getUserProperties().put("chanel", chanel);
-        session.getUserProperties().put("userId", SecurityUtils.getUser().getId().toString());
+        session.getUserProperties().put("userId", SecurityUtils.getUser(token).getId().toString());
         log.info("连接加入，当前连接数为：{}，chanel为：{}", onLineNum, chanel);
     }
 
@@ -98,29 +101,21 @@ public class WebSocketServer {
      * @param sender 消息
      */
     public void sendMessage(WebSocketSender sender) {
-        List<String> receiver = sender.getReceiver();
-        if (CollectionUtils.isEmpty(receiver)) {
-            return;
-        }
-        List<Session> sessionList = SESSION_POOL.stream()
-                .filter(session ->
-                        session.getUserProperties().get("chanel").equals(sender.getChanel())
-                                && receiver.contains(session.getUserProperties().get("userId"))
-                ).toList();
-        for (Session session : sessionList) {
-            sendMessage(session, sender.getMessage());
-        }
-    }
-
-
-    /**
-     * 给所有在线用户发送消息
-     *
-     * @param message 消息内容
-     */
-    public void sendMessage(String message) {
         for (Session session : SESSION_POOL) {
-            sendMessage(session, message);
+            //发送频道不同
+            if (!session.getUserProperties().get("chanel").equals(sender.getChanel())) {
+                continue;
+            }
+            //不发送全部 并且 接收人不包含当前用户
+            List<String> receiver = CollectionUtils.isEmpty(sender.getReceiver()) ? new ArrayList<>() : sender.getReceiver();
+            if (sender.getSendAll() == null || !sender.getSendAll() && !receiver.contains(session.getUserProperties().get("userId"))) {
+                continue;
+            }
+            if (sender.getAsync() != null && sender.getAsync()) {
+                sendAsyncMessage(session, sender.getMessage());
+            } else {
+                sendMessage(session, sender.getMessage());
+            }
         }
     }
 }
