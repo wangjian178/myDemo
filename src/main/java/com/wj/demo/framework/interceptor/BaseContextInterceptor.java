@@ -28,7 +28,7 @@ public class BaseContextInterceptor implements HandlerInterceptor {
         //时区
         Locale locale = Locale.getDefault();
         if (!StringUtils.isEmpty(langParam)) {
-            locale = new Locale(langParam.split("_")[0], langParam.split("_")[1]);
+            locale = Locale.of(langParam.split("_")[0], langParam.split("_")[1]);
         }
 
         //语言
@@ -48,7 +48,6 @@ public class BaseContextInterceptor implements HandlerInterceptor {
 
         return true;
     }
-
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 

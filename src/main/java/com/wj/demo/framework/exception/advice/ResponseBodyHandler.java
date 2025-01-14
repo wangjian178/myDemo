@@ -22,12 +22,28 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 @RestControllerAdvice
 public class ResponseBodyHandler implements ResponseBodyAdvice<Object> {
 
+    /**
+     * 判断是否支持处理
+     * @param returnType    返回类型
+     * @param converterType 类型转换
+     * @return 是否支持处理
+     */
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
         //带有注解IgnoreAutoResponse不做封装
         return !returnType.hasMethodAnnotation(IgnoreAutoResponse.class);
     }
 
+    /**
+     * 处理返回值
+     * @param body                  返回值
+     * @param returnType            返回类型
+     * @param selectedContentType   返回类型
+     * @param selectedConverterType 返回类型
+     * @param request               请求
+     * @param response              响应
+     * @return 处理后的返回值
+     */
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
 
