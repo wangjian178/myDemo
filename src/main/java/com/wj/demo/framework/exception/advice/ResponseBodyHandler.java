@@ -31,15 +31,13 @@ public class ResponseBodyHandler implements ResponseBodyAdvice<Object> {
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
 
-        if (body == null) {
-            return Result.ofSuccess();
-        } else if (body instanceof Result<?>) {
-            return body;
-        } else if (body instanceof String) {
-            return JSON.toJSONString(Result.ofSuccess(body.toString()));
-        }
+        return switch (body) {
+            case null -> Result.ofSuccess();
+            case Result<?> result -> body;
+            case String s -> JSON.toJSONString(Result.ofSuccess(body.toString()));
+            default -> Result.ofSuccess(body);
+        };
 
-        return Result.ofSuccess(body);
     }
 
 }

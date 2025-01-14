@@ -1,4 +1,4 @@
-package com.wj.demo.framework.ws.config;
+package com.wj.demo.framework.websocket.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

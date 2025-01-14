@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(BaseException.class)
-    public Result handleBaseException(BaseException e) {
-        log.error("BaseException {}", e);
+    public Result<String> handleBaseException(BaseException e) {
+        log.error("BaseException {}", String.valueOf(e));
         return Result.ofFail(e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
-    public Result handleException(Exception e) {
-        log.error("Exception {}", e);
+    public Result<String> handleException(Exception e) {
+        log.error("Exception {}", String.valueOf(e));
         return Result.ofFail(e.getMessage());
     }
 }

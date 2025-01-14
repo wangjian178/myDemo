@@ -1,8 +1,10 @@
-package com.wj.demo.framework.ws.model;
+package com.wj.demo.framework.websocket.model;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -13,7 +15,10 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
-public class WebSocketSender {
+public class WebSocketSender implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * 消息类型

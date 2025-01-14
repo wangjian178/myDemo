@@ -1,7 +1,7 @@
-package com.wj.demo.framework.ws.server;
+package com.wj.demo.framework.websocket.server;
 
 import com.wj.demo.framework.common.utils.SecurityUtils;
-import com.wj.demo.framework.ws.model.WebSocketSender;
+import com.wj.demo.framework.websocket.model.WebSocketSender;
 import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;

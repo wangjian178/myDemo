@@ -1,7 +1,7 @@
 package com.wj.demo.core.test.controller;
 
-import com.wj.demo.framework.ws.model.WebSocketSender;
-import com.wj.demo.framework.ws.server.WebSocketServer;
+import com.wj.demo.framework.websocket.model.WebSocketSender;
+import com.wj.demo.framework.websocket.server.WebSocketServer;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -113,6 +113,8 @@ auth:
     - /sys/login
     - /sys/logout
     - /sys/loginPage
+    - /ws/**
+    - /sse/**
 
 logging:
   #config: classpath:logback.xml
