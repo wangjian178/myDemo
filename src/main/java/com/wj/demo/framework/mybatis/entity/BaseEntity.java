@@ -12,7 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @author wj
@@ -49,7 +49,7 @@ public class BaseEntity {
     @CreatedTime
     @TableField(value = "CREATE_TIME")
     @Schema(description = "创建时间")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      * 修改人
@@ -65,7 +65,7 @@ public class BaseEntity {
     @UpdatedTime
     @TableField(value = "UPDATE_TIME")
     @Schema(description = "修改时间")
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     /**
      * 备注

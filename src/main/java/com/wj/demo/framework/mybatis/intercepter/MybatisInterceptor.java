@@ -18,8 +18,8 @@ import org.apache.ibatis.plugin.Signature;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -83,7 +83,7 @@ public class MybatisInterceptor implements Interceptor {
                 if (field.getAnnotation(CreatedTime.class) != null) {
                     // insert 语句插入 CreatedDate
                     field.setAccessible(true);
-                    field.set(parameter, new Date());
+                    field.set(parameter, LocalDateTime.now());
                 }
                 if (field.getAnnotation(TableLogic.class) != null) {
                     // insert 语句插入 DELETED
@@ -101,7 +101,7 @@ public class MybatisInterceptor implements Interceptor {
                 if (field.getAnnotation(UpdatedTime.class) != null) {
                     // update 语句插入 UpdatedDate
                     field.setAccessible(true);
-                    field.set(parameter, new Date());
+                    field.set(parameter, LocalDateTime.now());
                 }
             }
         }
