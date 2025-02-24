@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.wj.demo.framework.mybatis.annotation.CreatedBy;
 import com.wj.demo.framework.mybatis.annotation.CreatedTime;
 import com.wj.demo.framework.mybatis.annotation.UpdatedBy;
@@ -11,6 +12,7 @@ import com.wj.demo.framework.mybatis.annotation.UpdatedTime;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -47,6 +49,8 @@ public class BaseEntity {
      * 创建时间
      */
     @CreatedTime
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @TableField(value = "CREATE_TIME")
     @Schema(description = "创建时间")
     private LocalDateTime createTime;
@@ -63,6 +67,8 @@ public class BaseEntity {
      * 修改时间
      */
     @UpdatedTime
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @TableField(value = "UPDATE_TIME")
     @Schema(description = "修改时间")
     private LocalDateTime updateTime;
