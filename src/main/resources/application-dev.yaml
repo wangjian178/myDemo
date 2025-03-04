@@ -131,3 +131,22 @@ mybatis-plus:
       logic-not-delete-value: 0
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# 企业微信
+wechat:
+  # 企业id
+  corpid: ww41dd9ec8de52f188
+  # 应用密钥
+  corpsecret: FFJlhGY85Vuqsijn4nKjYDSjxFvK4Mxuf3EB9JCTabg
+  # 应用ID todo后面支持多个应用ID
+  appid: 1000002
+  # 获取token的url
+  token_url: https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=$s&corpsecret=%s
+  # 发送消息的url
+  message_url: https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=%s
+  # 上传临时素材url
+  upload_url: https://qyapi.weixin.qq.com/cgi-bin/media/upload?access_token=%s&type=%s
+  # 上传图片url
+  uploadimg_url: https://qyapi.weixin.qq.com/cgi-bin/media/uploadimg?access_token=%s
+  # 企业微信机器人 todo 后面支持配置多个机器人
+  robot: https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=4ef79eb2-8b00-4ef9-a014-832a5ef93d8e
