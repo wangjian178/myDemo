@@ -16,6 +16,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @ClassName WeChatServer
@@ -45,15 +46,15 @@ public class WeChatServer {
      * @return token
      */
     private String getAccessToken() {
-        String key = ACCESS_TOKEN_KEY + weChatProperties.getAppid();
+        String key = ACCESS_TOKEN_KEY + weChatProperties.getCorpId();
         if (redisClient.exists(key)) {
             return redisClient.get(key);
         }
         //请求获取token
-        String url = String.format(weChatProperties.getToken_url(), weChatProperties.getAppid(), weChatProperties.getCorpsecret());
+        String url = String.format(weChatProperties.getTokenUrl(), weChatProperties.getCorpId(), weChatProperties.getCorpSecret());
         WeChatResult weChatResult = restTemplate.getForObject(url, WeChatResult.class);
         //设置token到redis中
-        redisClient.set(key, weChatResult.getAccess_token(), weChatResult.getExpires_in());
+        redisClient.set(key, weChatResult.getAccess_token(), weChatResult.getExpires_in(), TimeUnit.SECONDS);
         return weChatResult.getAccess_token();
     }
 
@@ -61,7 +62,7 @@ public class WeChatServer {
      * 上传临时素材
      */
     public WeChatResult uploadMedia(File file, String type) {
-        String url = String.format(weChatProperties.getUpload_url(), getAccessToken(), type);
+        String url = String.format(weChatProperties.getUploadUrl(), getAccessToken(), type);
         // 创建 MultiValueMap 来存放表单数据
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("filename", new FileSystemResource(file));
@@ -78,7 +79,7 @@ public class WeChatServer {
      * 上传图片
      */
     public WeChatResult uploadPic(File file) {
-        String url = String.format(weChatProperties.getUploadimg_url(), getAccessToken());
+        String url = String.format(weChatProperties.getUploadImageUrl(), getAccessToken());
         // 创建 MultiValueMap 来存放表单数据
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
         body.add("filename", new FileSystemResource(file));
@@ -98,6 +99,18 @@ public class WeChatServer {
      */
     public WeChatResult sendRobotMsg(WeChatMsgParam param) {
         log.debug("微信机器人发送消息:{}", JSON.toJSONString(param));
-        return restTemplate.postForObject(weChatProperties.getRobot(), param, WeChatResult.class);
+        return restTemplate.postForObject(weChatProperties.getRobotUrl(), param, WeChatResult.class);
+    }
+
+    /**
+     * 发送应用消息
+     *
+     * @param param 消息
+     * @return 结果
+     */
+    public WeChatResult sendAppMsg(WeChatMsgParam param) {
+        log.debug("微信发送应用消息:{}", JSON.toJSONString(param));
+        String url = String.format(weChatProperties.getMessageUrl(), getAccessToken());
+        return restTemplate.postForObject(url, param, WeChatResult.class);
     }
 }

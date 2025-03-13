@@ -53,7 +53,7 @@ public class RedisClient {
      * @param <T>
      * @return
      */
-    public <T> boolean setnx(String key, T value) {
+    public <T> Boolean setnx(String key, T value) {
         return redisTemplate.opsForValue().setIfAbsent(key, value);
     }
 
@@ -93,11 +93,11 @@ public class RedisClient {
      *
      * @param key   键
      * @param value 值
-     * @param time  过期时间s
-     * @return
+     * @param time  过期时间
+     * @param unit  时间单位
      */
-    public <T> void set(String key, T value, Long time) {
-        redisTemplate.opsForValue().set(key, value, time);
+    public <T> void set(String key, T value, Long time, TimeUnit unit) {
+        redisTemplate.opsForValue().set(key, value, time, unit);
     }
 
     /**
@@ -116,7 +116,7 @@ public class RedisClient {
      * @param delta 要增加几(大于0)
      * @return
      */
-    public long increment(String key, long delta) {
+    public Long increment(String key, long delta) {
         if (delta < 0) {
             throw new BaseException("递增因子必须大于0");
         }
@@ -130,7 +130,7 @@ public class RedisClient {
      * @param delta 要减少几(小于0)
      * @return
      */
-    public long decrement(String key, long delta) {
+    public Long decrement(String key, long delta) {
         if (delta < 0) {
             throw new BaseException("递减因子必须大于0");
         }

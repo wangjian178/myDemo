@@ -20,40 +20,40 @@ public class WeChatProperties {
     /**
      * 企业id
      */
-    private String corpid;
+    private String corpId;
 
     /**
      * 应用密钥
      */
-    private String corpsecret;
+    private String corpSecret;
 
     /**
      * 应用id
      */
-    private String appid;
+    private String agentId;
 
     /**
      * 获取token的url
      */
-    private String token_url;
+    private String tokenUrl;
 
     /**
      * 发送消息的url
      */
-    private String message_url;
+    private String messageUrl;
 
     /**
      * 上传临时素材文件的url 3天内有效
      */
-    private String upload_url;
+    private String uploadUrl;
 
     /**
      * 上传图片的url
      */
-    private String uploadimg_url;
+    private String uploadImageUrl;
 
     /**
      * 群机器人的url
      */
-    private String robot;
+    private String robotUrl;
 }

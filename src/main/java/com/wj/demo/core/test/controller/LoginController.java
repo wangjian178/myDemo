@@ -21,6 +21,7 @@ import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author wj
@@ -67,7 +68,7 @@ public class LoginController {
             //剩余次数
             Integer restTimes = (times.equals(0) ? BaseConstant.LOCK_USER_MAX_RETRY_TIMES : BaseConstant.LOCK_USER_MAX_RETRY_TIMES - times) - 1;
             //锁定次数加1,并且重置过期时间
-            redisClient.set(timesKey, times + 1, BaseConstant.LOCK_USER_LOCK_SECONDS);
+            redisClient.set(timesKey, times + 1, BaseConstant.LOCK_USER_LOCK_SECONDS, TimeUnit.SECONDS);
             //返回错误信息
             return Result.ofFail((restTimes.equals(0) ? "已超过最大尝试次数，账户已锁定！" : "用户名或密码不正确！") + "剩余可重试次数" + restTimes + "次");
         }
