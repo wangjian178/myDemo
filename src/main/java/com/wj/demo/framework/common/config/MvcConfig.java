@@ -1,9 +1,9 @@
 package com.wj.demo.framework.common.config;
 
 
-import com.wj.demo.framework.common.peoperty.LoginProperties;
-import com.wj.demo.framework.common.peoperty.BaseContextProperties;
-import com.wj.demo.framework.common.peoperty.AuthProperties;
+import com.wj.demo.framework.common.property.LoginProperties;
+import com.wj.demo.framework.common.property.BaseContextProperties;
+import com.wj.demo.framework.common.property.AuthProperties;
 import com.wj.demo.framework.interceptor.BaseContextInterceptor;
 import com.wj.demo.framework.interceptor.AuthInterceptor;
 import jakarta.annotation.Resource;
