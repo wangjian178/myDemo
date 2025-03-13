@@ -62,6 +62,8 @@ spring:
         maxPoolPreparedStatementPerConnectionSize: 20
         # 是否合并多个DruidDataSource的监控数据
         useGlobalDataSourceStat: true
+        socket-timeout: 10000
+        connect-timeout: 10000
   messages:
     encoding: UTF-8
     basename: messages/message
