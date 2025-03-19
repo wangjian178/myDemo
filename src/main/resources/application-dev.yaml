@@ -117,6 +117,7 @@ auth:
     - /sys/loginPage
     - /ws/**
     - /sse/**
+    - /wechat/checkCallback
 
 logging:
   #config: classpath:logback.xml
@@ -138,8 +139,10 @@ mybatis-plus:
 wechat:
   # 企业id
   corpId: ww41dd9ec8de52f188
-  # 应用密钥
+  # 企业密钥
   corpSecret: FFJlhGY85Vuqsijn4nKjYDSjxFvK4Mxuf3EB9JCTabg
+  # 应用密钥
+  encodingAESKey: ABC1234567890123456789012345678901234567890
   # 应用ID todo后面支持多个应用ID
   agentId: 1000002
   # 获取token的url

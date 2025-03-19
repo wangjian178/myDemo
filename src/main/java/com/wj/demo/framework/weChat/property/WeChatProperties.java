@@ -23,9 +23,14 @@ public class WeChatProperties {
     private String corpId;
 
     /**
-     * 应用密钥
+     * 企业密钥
      */
     private String corpSecret;
+
+    /**
+     * aes密钥
+     */
+    private String encodingAesKey;
 
     /**
      * 应用id

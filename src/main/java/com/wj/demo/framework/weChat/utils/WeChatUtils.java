@@ -1,4 +1,4 @@
-package com.wj.demo.framework.weChat.server;
+package com.wj.demo.framework.weChat.utils;
 
 import com.alibaba.fastjson.JSON;
 import com.wj.demo.framework.redis.service.RedisClient;
@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @Component
-public class WeChatServer {
+public class WeChatUtils {
 
     private static final String ACCESS_TOKEN_KEY = "wechat:access_token:";
 
@@ -45,7 +45,7 @@ public class WeChatServer {
      *
      * @return token
      */
-    private String getAccessToken() {
+    public String getAccessToken() {
         String key = ACCESS_TOKEN_KEY + weChatProperties.getCorpId();
         if (redisClient.exists(key)) {
             return redisClient.get(key);
@@ -104,6 +104,7 @@ public class WeChatServer {
 
     /**
      * 发送应用消息
+     * todo待验证 需要配置可信ip
      *
      * @param param 消息
      * @return 结果
