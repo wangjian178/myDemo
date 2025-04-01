@@ -33,7 +33,7 @@ public class BaseContext {
 
     public static BaseContext build() {
         BaseContext baseContext = new BaseContext();
-        baseContext.setThreadId(Thread.currentThread().getId());
+        baseContext.setThreadId(Thread.currentThread().threadId());
         return baseContext;
     }
 

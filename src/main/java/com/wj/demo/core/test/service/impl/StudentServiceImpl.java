@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
  * @Desc
  * @date 2024/4/18 16:46
  */
-@Service(value = "PersonService-student")
+@Service(value = "PersonService_student")
 public class StudentServiceImpl implements PersonService {
     @Override
     public String getName() {

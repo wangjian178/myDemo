@@ -122,9 +122,9 @@ public class SysLanguageServiceImpl extends ServiceImpl<SysLanguageMapper, SysLa
 
         //1.查询
         List<SysLanguageEntity> existList = queryByLanguageAndCode(list);
-        Map<String, SysLanguageEntity> existMap = existList.stream().collect(Collectors.toMap(x -> x.getLanguage() + BaseConstant.SLASH + x.getCode(), x -> x));
+        Map<String, SysLanguageEntity> existMap = existList.stream().collect(Collectors.toMap(x -> x.getLanguage() + BaseConstant.UNDERLINE + x.getCode(), x -> x));
         for (SysLanguageEntity sysLanguageEntity : list) {
-            String key = sysLanguageEntity.getLanguage() + BaseConstant.SLASH + sysLanguageEntity.getCode();
+            String key = sysLanguageEntity.getLanguage() + BaseConstant.UNDERLINE + sysLanguageEntity.getCode();
             if (existMap.containsKey(key)) {
                 sysLanguageEntity.setId(existMap.get(key).getId());
             }

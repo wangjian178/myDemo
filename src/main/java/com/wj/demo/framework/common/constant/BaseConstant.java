@@ -43,9 +43,13 @@ public class BaseConstant {
     public static final String DEFAULT = "default";
 
     /**
-     * 登录重试次数前缀
+     * 登录重试次数
      */
-    public static final String LOCK_USER_RETRY_TIMES_PREFIX = "LOCK_USER_TIMES_";
+    public static final String LOGIN_LOCK_USER_RETRY_TIMES_KEY = "LOGIN:USER:COUNT:";
+    /**
+     * 登录验证码
+     */
+    public static final String LOGIN_CAPTCHA_KEY = "LOGIN:CAPTCHA:";
     /**
      * 重试次数
      */
@@ -58,5 +62,5 @@ public class BaseConstant {
     /**
      * 登录Token前缀
      */
-    public static final String TOKEN_PREFIX = "TOKEN_";
+    public static final String TOKEN_PREFIX = "LOGIN:USER:TOKEN:";
 }

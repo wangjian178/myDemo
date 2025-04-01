@@ -27,9 +27,8 @@ public class SysIdentityController {
      */
     @Operation(summary = "新增或者修改")
     @PostMapping("/saveOrUpdate")
-    public Result saveOrUpdate(@RequestBody SysIdentity identity) {
-        sysIdentityService.saveOrUpdateEntity(identity);
-        return Result.ofSuccess();
+    public Result<?> saveOrUpdate(@RequestBody SysIdentity identity) {
+        return Result.ofSuccess(sysIdentityService.saveOrUpdateEntity(identity));
     }
 
     /**

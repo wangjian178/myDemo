@@ -4,11 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.wj.demo.framework.exception.exception.BaseException;
-import com.wj.demo.framework.redis.service.RedisClient;
 import com.wj.demo.core.system.entity.SysIdentity;
 import com.wj.demo.core.system.mapper.SysIdentityMapper;
 import com.wj.demo.core.system.service.SysIdentityService;
+import com.wj.demo.framework.exception.exception.BaseException;
+import com.wj.demo.framework.redis.service.RedisClient;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +42,13 @@ public class SysIdentityServiceImpl extends ServiceImpl<SysIdentityMapper, SysId
         return getOne(queryWrapper);
     }
 
+
+    /**
+     * 获取下一个流水号
+     *
+     * @param code 编号
+     * @return 编号
+     */
     @Transactional(rollbackFor = Exception.class)
     @Override
     public String getNextNo(String code) {
@@ -104,6 +111,11 @@ public class SysIdentityServiceImpl extends ServiceImpl<SysIdentityMapper, SysId
                 .replace("{no}", identity.getCurrentValue().toString());
     }
 
+    /**
+     * 保存或修改
+     *
+     * @param identity 实体
+     */
     @Override
     public Boolean saveOrUpdateEntity(SysIdentity identity) {
 

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
  * @Desc
  * @date 2024/4/18 16:46
  */
-@Service(value = "PersonService-default")
+@Service(value = "PersonService_default")
 public class DefaultServiceImpl implements PersonService {
 
     @Override

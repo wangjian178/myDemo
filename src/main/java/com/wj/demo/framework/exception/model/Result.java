@@ -1,5 +1,7 @@
 package com.wj.demo.framework.exception.model;
 
+import com.wj.demo.framework.exception.enums.ResultCodeEnum;
+
 /**
  * @author wj
  * @version 1.0
@@ -89,6 +91,13 @@ public class Result<T> {
         Result<T> result = build();
         result.setCode(FAIL_CODE);
         result.setMsg(msg);
+        return result;
+    }
+
+    public static <T> Result<T> ofFail(ResultCodeEnum resultCodeEnum) {
+        Result<T> result = build();
+        result.setCode(resultCodeEnum.getCode());
+        result.setMsg(result.getMsg());
         return result;
     }
 

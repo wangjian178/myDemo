@@ -1,5 +1,7 @@
 package com.wj.demo.framework.common.property;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -10,18 +12,11 @@ import java.util.List;
  * @version 1.0
  * @Desc 国际化接口
  */
+@Getter
+@Setter
 @Component
-@ConfigurationProperties(prefix = "basecontext")
+@ConfigurationProperties(prefix = "base-context")
 public class BaseContextProperties {
 
     private List<String> exclude;
-
-
-    public List<String> getExclude() {
-        return exclude;
-    }
-
-    public void setExclude(List<String> exclude) {
-        this.exclude = exclude;
-    }
 }

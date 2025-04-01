@@ -146,6 +146,17 @@
             <artifactId>commons-codec</artifactId>
             <version>1.18.0</version>
         </dependency>
+        <!--devtools 热加载 缓存禁用-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!--actuator 监控应用状态-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

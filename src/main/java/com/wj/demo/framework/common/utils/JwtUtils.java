@@ -4,8 +4,9 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.wj.demo.framework.baseContext.BaseContextHolder;
 
-import java.util.Calendar;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
@@ -27,9 +28,9 @@ public class JwtUtils {
     private final static Algorithm ALGORITHM = Algorithm.HMAC256(SIGN);
 
     /**
-     * 过期时间 ms 默认一天
+     * 过期时间 s 默认一天
      */
-    private final static Integer EXPIRE = 24 * 60 * 60 * 1000;
+    public final static Long DEFAULT_EXPIRE = 24 * 60 * 60L;
 
 
     /**
@@ -44,9 +45,10 @@ public class JwtUtils {
         map.forEach(builder::withClaim);
 
         //过期时间
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MILLISECOND, EXPIRE);
-        builder.withExpiresAt(calendar.getTime());
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime expireTime = now.plusSeconds(DEFAULT_EXPIRE);
+        //expireTime转成date
+        builder.withExpiresAt(expireTime.atZone(BaseContextHolder.getBaseContext().getTimeZone().toZoneId()).toInstant());
 
         //签名 自定义密钥
         return builder.sign(ALGORITHM);

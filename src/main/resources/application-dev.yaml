@@ -105,8 +105,32 @@ thread:
   queueCapacity: 500
   threadNamePrefix: Executor-
 
+#mybatisplus配置
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+#日志配置
+logging:
+  #config: classpath:logback.xml
+  level:
+    root: info
+    com.wj.demo: debug
+  file:
+    path: D:/logs
+
+#系统配置
+system:
+    loginHandler: default
+    logoutHandler: default
+    loginUrl: /sys/login
+
 #国际化忽略接口
-basecontext:
+base-context:
   exclude:
 
 #接口权限忽略接口
@@ -118,22 +142,6 @@ auth:
     - /ws/**
     - /sse/**
     - /wechat/checkCallback
-
-logging:
-  #config: classpath:logback.xml
-  level:
-    root: info
-    com.wj.demo: debug
-  file:
-    path: D:/logs
-
-mybatis-plus:
-  global-config:
-    db-config:
-      logic-delete-value: 1
-      logic-not-delete-value: 0
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 # 企业微信
 wechat:

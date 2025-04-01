@@ -48,16 +48,16 @@ public class HandlerAdapter {
                 .stream()
                 .filter(x -> FieldUtils.getFieldValue(x, baseContext) != null)
                 .map(x -> FieldUtils.getFieldValue(x, baseContext).toString())
-                .collect(Collectors.joining(BaseConstant.SLASH));
-        String beanName = clazz.getSimpleName() + (BaseConstant.SLASH + appendName);
+                .collect(Collectors.joining(BaseConstant.UNDERLINE));
+        String beanName = clazz.getSimpleName() + (BaseConstant.UNDERLINE + appendName);
 
         //  3.寻找处理器
-        T bean = SpringContextUtils.getBean(beanName, clazz);
+        T bean = SpringContextUtils.getBean(clazz, beanName);
         while (bean == null) {
             //继续截取
-            boolean next = beanName.contains(BaseConstant.SLASH);
-            beanName = next ? beanName.substring(0, beanName.lastIndexOf(BaseConstant.SLASH)) : beanName + BaseConstant.SLASH + BaseConstant.DEFAULT;
-            bean = SpringContextUtils.getBean(beanName, clazz);
+            boolean next = beanName.contains(BaseConstant.UNDERLINE);
+            beanName = next ? beanName.substring(0, beanName.lastIndexOf(BaseConstant.UNDERLINE)) : beanName + BaseConstant.UNDERLINE + BaseConstant.DEFAULT;
+            bean = SpringContextUtils.getBean(clazz, beanName);
             if (!next) {
                 break;
             }
@@ -91,7 +91,7 @@ public class HandlerAdapter {
      * 类型 名称条件 获取处理器
      * 按照上下文条件，依次获取处理器，返回得到的第一个，默认处理器优先同名，其次default
      *
-     * @param clazz
+     * @param clazz 类型
      */
     public static <T> T finderHandler(Class<T> clazz, List<String> fieldNameList) {
 
@@ -106,5 +106,23 @@ public class HandlerAdapter {
 
 
         return finderHandlerByFieldList(clazz, sortFields);
+    }
+
+    /**
+     * 根据追加名称获取处理器
+     *
+     * @param clazz      类型
+     * @param appendName 追加名称
+     * @param <T>        泛型
+     * @return 处理器
+     */
+    public static <T> T finderHandler(Class<T> clazz, String appendName) {
+
+        //  1.获取所有参与寻找处理的属性并且排序
+        T bean = SpringContextUtils.getBean(clazz, clazz.getSimpleName() + BaseConstant.UNDERLINE + appendName);
+        if (bean != null) {
+            return bean;
+        }
+        return SpringContextUtils.getBean(clazz, clazz.getSimpleName() + BaseConstant.UNDERLINE + BaseConstant.DEFAULT);
     }
 }

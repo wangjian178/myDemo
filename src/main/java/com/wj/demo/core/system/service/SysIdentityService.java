@@ -18,7 +18,16 @@ public interface SysIdentityService extends IService<SysIdentity> {
      */
     SysIdentity getSysIdentityByCode(String code);
 
+    /**
+     * 获取下一个流水号
+     * @param code 编号
+     * @return 编号
+     */
     String getNextNo(String code);
 
+    /**
+     * 保存或修改
+     * @param identity 实体
+     */
     Boolean saveOrUpdateEntity(SysIdentity identity);
 }
