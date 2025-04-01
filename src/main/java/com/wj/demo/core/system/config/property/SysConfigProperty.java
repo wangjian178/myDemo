@@ -32,4 +32,9 @@ public class SysConfigProperty {
      * 登陆页面地址
      */
     private String loginUrl;
+
+    /**
+     * 过期时间 s
+     */
+    private Long expireTime;
 }

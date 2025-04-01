@@ -128,6 +128,7 @@ system:
     loginHandler: default
     logoutHandler: default
     loginUrl: /sys/login
+    expireTime: 86400
 
 #国际化忽略接口
 base-context:

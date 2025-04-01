@@ -5,8 +5,10 @@ import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.wj.demo.framework.baseContext.BaseContextHolder;
+import com.wj.demo.framework.common.model.User;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -28,25 +30,25 @@ public class JwtUtils {
     private final static Algorithm ALGORITHM = Algorithm.HMAC256(SIGN);
 
     /**
-     * 过期时间 s 默认一天
-     */
-    public final static Long DEFAULT_EXPIRE = 24 * 60 * 60L;
-
-
-    /**
      * 创建token
      *
-     * @param map 用户信息
+     * @param user          用户信息
+     * @param expireSeconds 过期时间s
      */
-    public static String createToken(Map<String, String> map) {
+    public static String createToken(User user, Long expireSeconds) {
         JWTCreator.Builder builder = JWT.create();
 
         //设置payload
-        map.forEach(builder::withClaim);
+        Map<String, String> jwtMap = new HashMap<>() {{
+            put("id", user.getId().toString());
+            put("username", user.getUsername());
+        }};
+        jwtMap.forEach(builder::withClaim);
 
         //过期时间
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime expireTime = now.plusSeconds(DEFAULT_EXPIRE);
+        LocalDateTime expireTime = now.plusSeconds(expireSeconds);
+
         //expireTime转成date
         builder.withExpiresAt(expireTime.atZone(BaseContextHolder.getBaseContext().getTimeZone().toZoneId()).toInstant());
 

@@ -1,5 +1,6 @@
 package com.wj.demo.core.system.service.impl.login;
 
+import com.wj.demo.core.system.config.property.SysConfigProperty;
 import com.wj.demo.core.system.enums.UserStatusEnum;
 import com.wj.demo.core.system.model.vo.LoginParamVO;
 import com.wj.demo.core.system.model.vo.LoginResultVO;
@@ -15,8 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -28,6 +27,9 @@ import java.util.concurrent.TimeUnit;
  */
 @Service("ILoginService" + BaseConstant.UNDERLINE + BaseConstant.DEFAULT)
 public class DefaultLoginServiceImpl implements ILoginService {
+
+    @Resource
+    private SysConfigProperty sysConfigProperty;
 
     @Resource
     private RedisClient redisClient;
@@ -56,7 +58,7 @@ public class DefaultLoginServiceImpl implements ILoginService {
         LoginResultVO loginResultVO = createToken(existUser);
 
         //记录token
-        redisClient.set(BaseConstant.TOKEN_PREFIX + loginResultVO.getToken(), existUser, JwtUtils.DEFAULT_EXPIRE, TimeUnit.SECONDS);
+        redisClient.set(BaseConstant.TOKEN_PREFIX + loginResultVO.getToken(), existUser, sysConfigProperty.getExpireTime(), TimeUnit.SECONDS);
 
         //todo 修改登录状态
         existUser.setStatus(UserStatusEnum.ONLINE);
@@ -71,18 +73,15 @@ public class DefaultLoginServiceImpl implements ILoginService {
      * 生成token
      *
      * @param user 用户
-     * @return
+     * @return token
      */
     private LoginResultVO createToken(User user) {
-        Map<String, String> jwtMap = new HashMap<>() {{
-            put("id", user.getId().toString());
-            put("username", user.getUsername());
-        }};
-        String token = JwtUtils.createToken(jwtMap);
+
+        String token = JwtUtils.createToken(user, sysConfigProperty.getExpireTime());
 
         LoginResultVO loginResultVO = new LoginResultVO();
         loginResultVO.setToken(token);
-        loginResultVO.setExpireTime(JwtUtils.DEFAULT_EXPIRE);
+        loginResultVO.setExpireTime(sysConfigProperty.getExpireTime());
 
         return loginResultVO;
     }
