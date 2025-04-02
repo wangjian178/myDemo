@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wj.demo.core.system.mapper.SysUserMapper">
+
+    <resultMap id="BaseResultMap" type="com.wj.demo.core.system.entity.SysUser">
+        <id property="id" column="ID"/>
+        <result property="createBy" column="CREATE_BY"/>
+        <result property="createTime" column="CREATE_TIME"/>
+        <result property="updateBy" column="UPDATE_BY"/>
+        <result property="updateTime" column="UPDATE_TIME"/>
+        <result property="remark" column="REMARK"/>
+        <result property="deleted" column="DELETED"/>
+        <result property="username" column="USERNAME"/>
+        <result property="password" column="PASSWORD"/>
+        <result property="nickname" column="NICKNAME"/>
+        <result property="avatar" column="AVATAR"/>
+        <result property="phone" column="PHONE"/>
+        <result property="email" column="EMAIL"/>
+        <result property="sex" column="SEX"/>
+        <result property="idCard" column="ID_CARD"/>
+        <result property="birthday" column="BIRTHDAY"/>
+        <result property="nativePlace" column="NATIVE_PLACE"/>
+        <result property="address" column="ADDRESS"/>
+        <result property="education" column="EDUCATION"/>
+        <result property="school" column="SCHOOL"/>
+        <result property="status" column="STATUS"/>
+        <result property="onlineStatus" column="ONLINE_STATUS"/>
+    </resultMap>
+
+    <sql id="userColumns">
+        ID,CREATE_BY,CREATE_TIME,UPDATE_BY,UPDATE_TIME,REMARK,
+        DELETED,USERNAME,PASSWORD,NICKNAME,AVATAR,
+        PHONE,EMAIL,SEX,ID_CARD,BIRTHDAY,
+        NATIVE_PLACE,ADDRESS,EDUCATION,SCHOOL,STATUS,
+        ONLINE_STATUS
+    </sql>
+</mapper>

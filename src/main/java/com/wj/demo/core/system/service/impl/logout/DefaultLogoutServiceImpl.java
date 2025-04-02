@@ -1,7 +1,7 @@
 package com.wj.demo.core.system.service.impl.logout;
 
 import com.wj.demo.core.system.config.property.SysConfigProperty;
-import com.wj.demo.core.system.enums.UserStatusEnum;
+import com.wj.demo.core.system.enums.UserOnLineStatusEnum;
 import com.wj.demo.core.system.model.vo.LogoutResultVO;
 import com.wj.demo.core.system.service.ILogoutService;
 import com.wj.demo.framework.baseContext.BaseContextHolder;
@@ -40,7 +40,7 @@ public class DefaultLogoutServiceImpl implements ILogoutService {
 
         //  1.修改用户状态
         User user = BaseContextHolder.getBaseContext().getUser();
-        user.setStatus(UserStatusEnum.OFFLINE);
+        user.setStatus(UserOnLineStatusEnum.OFFLINE);
 
         //  2.删除token
         redisClient.delete(BaseConstant.TOKEN_PREFIX + BaseContextHolder.getBaseContext().getToken());

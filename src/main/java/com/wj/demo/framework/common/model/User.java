@@ -1,6 +1,6 @@
 package com.wj.demo.framework.common.model;
 
-import com.wj.demo.core.system.enums.UserStatusEnum;
+import com.wj.demo.core.system.enums.UserOnLineStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -26,5 +26,5 @@ public class User {
     private String password;
 
     @Schema(description = "状态 0下线 1在线")
-    private UserStatusEnum status;
+    private UserOnLineStatusEnum status;
 }

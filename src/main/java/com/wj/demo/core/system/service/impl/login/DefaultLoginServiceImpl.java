@@ -1,7 +1,7 @@
 package com.wj.demo.core.system.service.impl.login;
 
 import com.wj.demo.core.system.config.property.SysConfigProperty;
-import com.wj.demo.core.system.enums.UserStatusEnum;
+import com.wj.demo.core.system.enums.UserOnLineStatusEnum;
 import com.wj.demo.core.system.model.vo.LoginParamVO;
 import com.wj.demo.core.system.model.vo.LoginResultVO;
 import com.wj.demo.core.system.service.ILoginService;
@@ -61,7 +61,7 @@ public class DefaultLoginServiceImpl implements ILoginService {
         redisClient.set(BaseConstant.TOKEN_PREFIX + loginResultVO.getToken(), existUser, sysConfigProperty.getExpireTime(), TimeUnit.SECONDS);
 
         //todo 修改登录状态
-        existUser.setStatus(UserStatusEnum.ONLINE);
+        existUser.setStatus(UserOnLineStatusEnum.ONLINE);
 
         //删除登录记录
         redisClient.delete(BaseConstant.LOGIN_LOCK_USER_RETRY_TIMES_KEY + loginParamVO.getUsername());
