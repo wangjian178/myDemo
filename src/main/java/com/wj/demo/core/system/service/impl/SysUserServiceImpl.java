@@ -31,6 +31,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (lambdaQuery().eq(BaseEntity::getDeleted, Boolean.FALSE).eq(SysUser::getUsername, sysUser.getUsername()).exists()) {
             throw new RuntimeException("用户名已存在");
         }
+        //todo 默认角色
+
+        //todo 组织/部门
+
+        //todo 岗位
+
         return baseMapper.insert(sysUser);
     }
 
