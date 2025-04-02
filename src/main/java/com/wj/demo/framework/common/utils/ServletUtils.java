@@ -5,6 +5,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.util.Objects;
+
 /**
  * @author wj
  * @version 1.0
@@ -15,8 +17,6 @@ public class ServletUtils {
 
     /**
      * 获取Cookies
-     *
-     * @return
      */
     public static Cookie[] getCookies() {
         return getRequest().getCookies();
@@ -24,17 +24,28 @@ public class ServletUtils {
 
     /**
      * 获取请求头
-     *
-     * @return
      */
     public static String getHeader(String header) {
         return getRequest().getHeader(header);
     }
 
     /**
+     * 获取请求参数
+     */
+    public static String getParameter(String name) {
+        return getRequest().getParameter(name);
+    }
+
+    /**
+     * 获取请求参数
+     */
+    public static Integer getParameterInt(String name) {
+        String parameter = getRequest().getParameter(name);
+        return Objects.nonNull(parameter) ? Integer.parseInt(parameter) : null;
+    }
+
+    /**
      * 获取请求
-     *
-     * @return
      */
     public static HttpServletRequest getRequest() {
         return getRequestAttributes().getRequest();
@@ -42,8 +53,6 @@ public class ServletUtils {
 
     /**
      * 获取请求属性
-     *
-     * @return
      */
     public static ServletRequestAttributes getRequestAttributes() {
         return (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();

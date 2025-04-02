@@ -66,7 +66,7 @@ public class DefaultLoginServiceImpl implements ILoginService {
         //删除登录记录
         redisClient.delete(BaseConstant.LOGIN_LOCK_USER_RETRY_TIMES_KEY + loginParamVO.getUsername());
 
-        return new LoginResultVO();
+        return loginResultVO;
     }
 
     /**
@@ -82,6 +82,7 @@ public class DefaultLoginServiceImpl implements ILoginService {
         LoginResultVO loginResultVO = new LoginResultVO();
         loginResultVO.setToken(token);
         loginResultVO.setExpireTime(sysConfigProperty.getExpireTime());
+        loginResultVO.setTimestamp(System.currentTimeMillis());
 
         return loginResultVO;
     }

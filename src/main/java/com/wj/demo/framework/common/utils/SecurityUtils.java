@@ -1,6 +1,9 @@
 package com.wj.demo.framework.common.utils;
 
+import com.wj.demo.framework.baseContext.BaseContextHolder;
+import com.wj.demo.framework.common.constant.BaseConstant;
 import com.wj.demo.framework.common.model.User;
+import com.wj.demo.framework.redis.service.RedisClient;
 
 /**
  * @author wj
@@ -12,18 +15,24 @@ public class SecurityUtils {
 
     /**
      * 获取用户信息 todo
-     * @return
+     *
+     * @return 用户
      */
-    public static User getUser(){
-        return new User().setId(1L);
+    public static User getUser() {
+        return SpringContextUtils
+                .getBean(RedisClient.class)
+                .get((BaseConstant.TOKEN_PREFIX + BaseContextHolder.getBaseContext().getToken()).replace(BaseConstant.AUTHORIZATION_PREFIX, BaseConstant.EMPTY_STRING));
     }
 
     /**
      * 获取用户信息
+     *
      * @param token 鉴权信息
      * @return 当前用户
      */
-    public static User getUser(String token){
-        return new User().setId(1L);
+    public static User getUser(String token) {
+        return SpringContextUtils
+                .getBean(RedisClient.class)
+                .get((BaseConstant.TOKEN_PREFIX + token).replace(BaseConstant.AUTHORIZATION_PREFIX, BaseConstant.EMPTY_STRING));
     }
 }

@@ -38,6 +38,11 @@ public class BaseConstant {
     public static final String UNDERLINE = "_";
 
     /**
+     * 空字符串
+     */
+    public static final String EMPTY_STRING = "";
+
+    /**
      * 默认值
      */
     public static final String DEFAULT = "default";
@@ -63,4 +68,9 @@ public class BaseConstant {
      * 登录Token前缀
      */
     public static final String TOKEN_PREFIX = "LOGIN:USER:TOKEN:";
+
+    /**
+     * 鉴权Authorization前缀
+     */
+    public static final String AUTHORIZATION_PREFIX = "Bearer ";
 }

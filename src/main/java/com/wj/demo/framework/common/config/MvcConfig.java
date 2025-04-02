@@ -6,6 +6,7 @@ import com.wj.demo.framework.common.property.BaseContextProperties;
 import com.wj.demo.framework.common.property.AuthProperties;
 import com.wj.demo.framework.interceptor.BaseContextInterceptor;
 import com.wj.demo.framework.interceptor.AuthInterceptor;
+import com.wj.demo.framework.mybatis.intercepter.PaginationInterceptor;
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -26,9 +27,6 @@ public class MvcConfig implements WebMvcConfigurer {
     @Resource
     private AuthProperties authProperties;
 
-    @Resource
-    private LoginProperties loginProperties;
-
     /**
      * 按照顺序拦截
      * @param registry
@@ -42,5 +40,8 @@ public class MvcConfig implements WebMvcConfigurer {
         //多语言 国际化
         registry.addInterceptor(new BaseContextInterceptor())
                 .excludePathPatterns(baseContextProperties.getExclude());
+
+        //分页
+        registry.addInterceptor(new PaginationInterceptor());
     }
 }

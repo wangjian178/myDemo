@@ -24,6 +24,7 @@
         <dynamic.version>4.3.0</dynamic.version>
         <fastjson.version>1.2.83</fastjson.version>
         <jwt.version>4.4.0</jwt.version>
+        <pagehelper.version>1.3.0</pagehelper.version>
     </properties>
     <dependencies>
         <!--web-->
@@ -156,6 +157,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <!--分页插件-->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>${pagehelper.version}</version>
         </dependency>
     </dependencies>
 

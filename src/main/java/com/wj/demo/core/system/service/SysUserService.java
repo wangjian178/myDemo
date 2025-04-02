@@ -2,6 +2,8 @@ package com.wj.demo.core.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wj.demo.core.system.entity.SysUser;
+import com.wj.demo.core.system.model.vo.SysUserPasswordVO;
+import com.wj.demo.core.system.model.vo.SysUserVO;
 
 import java.util.List;
 
@@ -24,7 +26,7 @@ public interface SysUserService extends IService<SysUser> {
      * 同步用户
      *
      * @param userList 用户列表
-     * @return 数量
+     * @return 是否成功
      */
     boolean sync(List<SysUser> userList);
 
@@ -32,9 +34,9 @@ public interface SysUserService extends IService<SysUser> {
      * 编辑
      *
      * @param sysUser 用户
-     * @return 数量
+     * @return 是否成功
      */
-    int edit(SysUser sysUser);
+    boolean edit(SysUser sysUser);
 
     /**
      * 删除
@@ -43,4 +45,19 @@ public interface SysUserService extends IService<SysUser> {
      * @return 数量
      */
     int delete(List<Long> idList);
+
+    /**
+     * 查询
+     *
+     * @param sysUserVO 用户参数
+     * @return 用户列表
+     */
+    List<SysUserVO> list(SysUserVO sysUserVO);
+
+    /**
+     * 修改密码
+     * @param sysUserPasswordVO 用户
+     * @return 是否成功
+     */
+    boolean updatePassword(SysUserPasswordVO sysUserPasswordVO);
 }

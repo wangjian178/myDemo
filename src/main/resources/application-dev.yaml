@@ -137,9 +137,10 @@ base-context:
 #接口权限忽略接口
 auth:
   exclude:
-    - /sys/login
-    - /sys/logout
-    - /sys/loginPage
+    - /sys/user/register
+    - /login
+    - /logout
+    - /loginPage
     - /ws/**
     - /sse/**
     - /wechat/checkCallback

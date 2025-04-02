@@ -1,4 +1,4 @@
-package com.wj.demo.framework.mybatis.vo;
+package com.wj.demo.framework.mybatis.entity;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
-public class PageVO<T> {
+public class Page<T> {
 
     private Integer pageNum;
 
