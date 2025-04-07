@@ -49,11 +49,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         //补充上下文信息
         BaseContext baseContext = BaseContextHolder.getBaseContext();
-        if (baseContext == null) {
-            baseContext = BaseContext.build();
-        }
         baseContext.setToken(token);
-        BaseContextHolder.setContext(baseContext);
         //用户信息
         baseContext.setUser(SecurityUtils.getUser());
 

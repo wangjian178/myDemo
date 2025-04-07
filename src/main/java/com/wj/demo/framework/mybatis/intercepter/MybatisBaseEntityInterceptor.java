@@ -26,12 +26,18 @@ import java.util.Properties;
 /**
  * @author wj
  * @version 1.0
- * @Desc
+ * @Desc 基础字段赋值拦截器
  * @date 2024/4/25 17:48
  */
 @Component
-@Intercepts({@Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class})})
-public class MybatisInterceptor implements Interceptor {
+@Intercepts(
+        @Signature(
+                type = Executor.class,
+                method = "update",
+                args = {MappedStatement.class, Object.class}
+        )
+)
+public class MybatisBaseEntityInterceptor implements Interceptor {
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {

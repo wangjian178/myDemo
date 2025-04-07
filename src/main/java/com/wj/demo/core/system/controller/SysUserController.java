@@ -5,7 +5,7 @@ import com.wj.demo.core.system.model.vo.SysUserPasswordVO;
 import com.wj.demo.core.system.model.vo.SysUserVO;
 import com.wj.demo.core.system.service.SysUserService;
 import com.wj.demo.framework.exception.model.Result;
-import com.wj.demo.framework.mybatis.annotation.Pagination;
+import com.wj.demo.framework.mybatis.page.annotation.Pagination;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
@@ -60,7 +60,7 @@ public class SysUserController {
     @Pagination
     @Tag(name = "用户列表-分页")
     @PostMapping("/list")
-    public List<SysUserVO> list(@RequestBody SysUserVO sysUserVO) {
-        return sysUserService.list(sysUserVO);
+    public Result<List<SysUserVO>> list(@RequestBody SysUserVO sysUserVO) {
+        return Result.ofSuccess(sysUserService.list(sysUserVO));
     }
 }

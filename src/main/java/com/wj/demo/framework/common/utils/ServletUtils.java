@@ -39,9 +39,9 @@ public class ServletUtils {
     /**
      * 获取请求参数
      */
-    public static Integer getParameterInt(String name) {
+    public static Long getParameterLong(String name) {
         String parameter = getRequest().getParameter(name);
-        return Objects.nonNull(parameter) ? Integer.parseInt(parameter) : null;
+        return Objects.nonNull(parameter) ? Long.parseLong(parameter) : null;
     }
 
     /**
@@ -49,6 +49,19 @@ public class ServletUtils {
      */
     public static HttpServletRequest getRequest() {
         return getRequestAttributes().getRequest();
+    }
+
+    /**
+     * 是否是请求
+     */
+    public static boolean isRequest() {
+        boolean isRequest = true;
+        try {
+            getRequestAttributes();
+        } catch (Exception e) {
+            isRequest = false;
+        }
+        return isRequest;
     }
 
     /**

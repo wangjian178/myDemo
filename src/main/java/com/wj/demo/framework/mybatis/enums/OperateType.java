@@ -14,7 +14,7 @@ public enum OperateType {
     SELECT("select");
 
 
-    private String code;
+    private final String code;
 
     OperateType(String code) {
         this.code = code;

@@ -18,7 +18,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  * @Desc Rest接口自动封装包装类 最后处理
  * @date 2024/4/29 16:32
  */
-@Order(value = 99)
+@Order(value = 999)
 @RestControllerAdvice
 public class ResponseBodyHandler implements ResponseBodyAdvice<Object> {
 

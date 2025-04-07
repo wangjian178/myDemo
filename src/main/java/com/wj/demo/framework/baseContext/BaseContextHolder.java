@@ -8,28 +8,25 @@ package com.wj.demo.framework.baseContext;
  */
 public class BaseContextHolder {
 
-    private static ThreadLocal<BaseContext> threadLocal = new ThreadLocal<>();
-
-    /**
-     * 设置上下文
-     */
-    public static void setContext(BaseContext baseContext) {
-        threadLocal.set(baseContext);
-    }
+    private static final ThreadLocal<BaseContext> CONTEXT_HOLDER = new ThreadLocal<>();
 
     /**
      * 获取上下文
-     *
-     * @return
+     * 不存在则默认创建一个空的
      */
     public static BaseContext getBaseContext() {
-        return threadLocal.get();
+        BaseContext baseContext = CONTEXT_HOLDER.get();
+        if (baseContext == null) {
+            baseContext = BaseContext.build();
+            CONTEXT_HOLDER.set(baseContext);
+        }
+        return baseContext;
     }
 
     /**
      * 销毁删除
      */
     public static void remove() {
-        threadLocal.remove();
+        CONTEXT_HOLDER.remove();
     }
 }

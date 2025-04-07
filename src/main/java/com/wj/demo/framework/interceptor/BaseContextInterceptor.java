@@ -3,9 +3,9 @@ package com.wj.demo.framework.interceptor;
 import com.wj.demo.framework.baseContext.BaseContext;
 import com.wj.demo.framework.baseContext.BaseContextHolder;
 import com.wj.demo.framework.common.constant.BaseConstant;
+import com.wj.demo.framework.common.utils.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,27 +27,24 @@ public class BaseContextInterceptor implements HandlerInterceptor {
 
         //时区
         Locale locale = Locale.getDefault();
-        if (!StringUtils.isEmpty(langParam)) {
+        if (StringUtils.isNotEmpty(langParam)) {
             locale = Locale.of(langParam.split("_")[0], langParam.split("_")[1]);
         }
 
         //语言
         TimeZone timeZone = TimeZone.getDefault();
-        if (!StringUtils.isEmpty(timeZoneParam)) {
+        if (StringUtils.isNotEmpty(timeZoneParam)) {
             timeZone = TimeZone.getTimeZone(timeZoneParam);
         }
 
         //补充上下文信息
         BaseContext baseContext = BaseContextHolder.getBaseContext();
-        if (baseContext == null) {
-            baseContext = BaseContext.build();
-        }
         baseContext.setLocale(locale)
                 .setTimeZone(timeZone);
-        BaseContextHolder.setContext(baseContext);
 
         return true;
     }
+
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 
