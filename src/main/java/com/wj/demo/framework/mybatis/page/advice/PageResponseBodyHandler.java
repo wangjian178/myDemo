@@ -1,6 +1,5 @@
 package com.wj.demo.framework.mybatis.page.advice;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wj.demo.framework.exception.model.Result;
 import com.wj.demo.framework.mybatis.page.PageContext;
 import com.wj.demo.framework.mybatis.page.annotation.Pagination;
@@ -13,6 +12,8 @@ import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+
+import java.util.List;
 
 /**
  * @ClassName PageResponseBodyHandler
@@ -33,12 +34,28 @@ public class PageResponseBodyHandler implements ResponseBodyAdvice<Object> {
 
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-        IPage page = PageContext.getPage();
-        return Result.ofSuccess(new Page<>()
-                .setPageNum(page.getCurrent())
-                .setPageSize(page.getSize())
-                .setTotal(page.getTotal())
-                .setPages(page.getPages())
-                .setRecords(page.getRecords()));
+
+        //处理返回结果
+        if (body instanceof Result result && Result.isSuccess(result) && result.getData() instanceof List data) {
+            return Result.ofSuccess(
+                    new Page<>()
+                            .setPageNum(PageContext.getPage().getCurrent())
+                            .setPageSize(PageContext.getPage().getSize())
+                            .setTotal(PageContext.getPage().getTotal())
+                            .setPages(PageContext.getPage().getPages())
+                            .setRecords(data)
+            );
+        } else if (body instanceof List data) {
+            return Result.ofSuccess(
+                    new Page<>()
+                            .setPageNum(PageContext.getPage().getCurrent())
+                            .setPageSize(PageContext.getPage().getSize())
+                            .setTotal(PageContext.getPage().getTotal())
+                            .setPages(PageContext.getPage().getPages())
+                            .setRecords(data)
+            );
+        }
+
+        return body;
     }
 }

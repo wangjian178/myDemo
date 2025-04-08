@@ -21,7 +21,15 @@ public class PageConstants {
      */
     public static final String ORDER_BY = "orderBy";
     /**
-     * 分页参数-排序方式
+     * 空格
      */
-    public static final String ORDER_TYPE = "orderType";
+    public static final String SPACE = " ";
+    /**
+     * 逗号
+     */
+    public static final String COMMA = ",";
+    /**
+     * 升序
+     */
+    public static final String ASC = "ASC";
 }
