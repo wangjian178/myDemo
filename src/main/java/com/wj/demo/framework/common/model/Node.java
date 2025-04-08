@@ -1,5 +1,8 @@
 package com.wj.demo.framework.common.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
 /**
@@ -8,6 +11,8 @@ import java.util.List;
  * @Desc
  * @date 2024/4/23 11:19
  */
+@Setter
+@Getter
 public class Node<T> {
 
     /**
@@ -25,22 +30,6 @@ public class Node<T> {
 
     public Node(T data, List<Node<T>> children) {
         this.data = data;
-        this.children = children;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
-
-    public List<Node<T>> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<Node<T>> children) {
         this.children = children;
     }
 
