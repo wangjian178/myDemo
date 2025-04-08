@@ -1,5 +1,6 @@
 package com.wj.demo.framework.i18n.aspact;
 
+import com.wj.demo.framework.exception.exception.BaseException;
 import com.wj.demo.framework.i18n.CommonMessageSource;
 import com.wj.demo.framework.i18n.entity.SysLanguageEntity;
 import jakarta.annotation.Resource;
@@ -33,8 +34,7 @@ public class LocalCacheAspect {
 
     /**
      * 更新本地缓存 todo 当前方案为临时方案 后面考虑查询的时候先写入本地缓存，再写入redis，最后数据库 同时删除的时候先删除本地缓存，再删除redis，最后删除数据库
-     * @param joinPoint
-     * @return
+     * @param joinPoint 切点
      */
     @Around("updateLocalCachePointcut()")
     public int updateLocalCache(ProceedingJoinPoint joinPoint) {
@@ -44,7 +44,7 @@ public class LocalCacheAspect {
         try {
             result = (int) joinPoint.proceed();
         } catch (Throwable e) {
-            throw new RuntimeException(e);
+            throw new BaseException(e.getMessage());
         }
 
         //更新本地缓存
