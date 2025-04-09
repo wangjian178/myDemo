@@ -15,13 +15,28 @@ import java.util.List;
 @Accessors(chain = true)
 public class Page<T>{
 
+    /**
+     * 当前页码
+     */
     private Long pageNum;
 
+    /**
+     * 每页数量
+     */
     private Long pageSize;
 
+    /**
+     * 总页数
+     */
     private Long pages;
 
+    /**
+     * 总记录数
+     */
     private Long total;
 
+    /**
+     * 结果集
+     */
     private List<T> records;
 }
