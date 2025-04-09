@@ -55,4 +55,10 @@ public class PageContextInterceptor implements HandlerInterceptor {
 
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        //请求结束 清除分页上下文
+        PageContext.clear();
+    }
 }

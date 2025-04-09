@@ -37,7 +37,7 @@ public class PageResponseBodyHandler implements ResponseBodyAdvice<Object> {
 
         //处理返回结果
         if (body instanceof Result result && Result.isSuccess(result) && result.getData() instanceof List data) {
-            Result<Page> pageResult = Result.ofSuccess(
+            return Result.ofSuccess(
                     new Page<>()
                             .setPageNum(PageContext.getPage().getCurrent())
                             .setPageSize(PageContext.getPage().getSize())
@@ -45,11 +45,8 @@ public class PageResponseBodyHandler implements ResponseBodyAdvice<Object> {
                             .setPages(PageContext.getPage().getPages())
                             .setRecords(data)
             );
-            //清除分页信息
-            PageContext.clear();
-            return pageResult;
         } else if (body instanceof List data) {
-            Result<Page> pageResult = Result.ofSuccess(
+            return Result.ofSuccess(
                     new Page<>()
                             .setPageNum(PageContext.getPage().getCurrent())
                             .setPageSize(PageContext.getPage().getSize())
@@ -57,9 +54,6 @@ public class PageResponseBodyHandler implements ResponseBodyAdvice<Object> {
                             .setPages(PageContext.getPage().getPages())
                             .setRecords(data)
             );
-            //清除分页信息
-            PageContext.clear();
-            return pageResult;
         }
 
         return body;
