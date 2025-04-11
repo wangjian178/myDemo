@@ -20,6 +20,7 @@
         <swagger.version>3.0.0</swagger.version>
         <druid.version>1.2.22</druid.version>
         <mybatis.version>3.0.3</mybatis.version>
+        <nybatis-flex.version>1.10.9</nybatis-flex.version>
         <mybatis-plus.version>3.5.6</mybatis-plus.version>
         <dynamic.version>4.3.0</dynamic.version>
         <fastjson.version>1.2.83</fastjson.version>
@@ -62,8 +63,14 @@
             <artifactId>mybatis-spring</artifactId>
             <version>${mybatis.version}</version>
         </dependency>
-        <!--mybatis plus-->
+        <!--mybatis flex-->
         <dependency>
+            <groupId>com.mybatis-flex</groupId>
+            <artifactId>mybatis-flex-spring-boot3-starter</artifactId>
+            <version>${nybatis-flex.version}</version>
+        </dependency>
+        <!--mybatis plus-->
+<!--        <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>${mybatis-plus.version}</version>
@@ -73,13 +80,13 @@
                     <artifactId>mybatis-spring</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
+        </dependency>-->
         <!--多数据源 注意spring版本-->
-        <dependency>
+<!--        <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
             <version>${dynamic.version}</version>
-        </dependency>
+        </dependency>-->
         <!--redis-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

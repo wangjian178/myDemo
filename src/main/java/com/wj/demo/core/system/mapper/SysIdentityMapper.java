@@ -1,7 +1,7 @@
 package com.wj.demo.core.system.mapper;
 
+import com.mybatisflex.core.BaseMapper;
 import com.wj.demo.core.system.entity.SysIdentity;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
 * @author W.Jian

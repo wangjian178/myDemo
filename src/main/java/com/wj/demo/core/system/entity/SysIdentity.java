@@ -1,12 +1,14 @@
 package com.wj.demo.core.system.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.wj.demo.framework.mybatis.entity.BaseEntity;
+
+import com.mybatisflex.annotation.Table;
+import com.wj.demo.framework.mybatisFlex.entity.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -18,10 +20,11 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true)
-@TableName(value = "SYS_IDENTITY")
+@Table(value = "SYS_IDENTITY")
 @Schema(title = "SysIdentity", description = "流水号生成")
 public class SysIdentity extends BaseEntity implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

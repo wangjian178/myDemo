@@ -1,5 +1,6 @@
 package com.wj.demo.core.system.enums;
 
+import com.mybatisflex.annotation.EnumValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -18,6 +19,7 @@ public enum UserStatusEnum {
     DISABLE(3, "禁用"),
     ;
 
+    @EnumValue
     private final Integer code;
     private final String desc;
 }

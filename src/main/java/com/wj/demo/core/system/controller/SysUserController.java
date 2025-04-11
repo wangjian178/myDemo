@@ -3,9 +3,9 @@ package com.wj.demo.core.system.controller;
 import com.wj.demo.core.system.entity.SysUser;
 import com.wj.demo.core.system.model.vo.SysUserPasswordVO;
 import com.wj.demo.core.system.model.vo.SysUserVO;
-import com.wj.demo.core.system.service.SysUserService;
+import com.wj.demo.core.system.service.ISysUserService;
 import com.wj.demo.framework.exception.model.Result;
-import com.wj.demo.framework.mybatis.page.annotation.Pagination;
+import com.wj.demo.framework.mybatisFlex.pageHelper.annotation.Pagination;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +25,7 @@ import java.util.List;
 public class SysUserController {
 
     @Resource
-    private SysUserService sysUserService;
+    private ISysUserService sysUserService;
 
     @Tag(name = "注册")
     @PostMapping("/register")

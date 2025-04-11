@@ -1,6 +1,6 @@
 package com.wj.demo.framework.i18n.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.mybatisflex.core.BaseMapper;
 import com.wj.demo.framework.i18n.entity.SysLanguageEntity;
 import org.apache.ibatis.annotations.Param;
 

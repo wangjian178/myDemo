@@ -1,6 +1,7 @@
 package com.wj.demo.framework.i18n.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+
+import com.mybatisflex.core.service.IService;
 import com.wj.demo.framework.i18n.entity.SysLanguageEntity;
 
 import java.util.List;

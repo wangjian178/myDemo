@@ -1,8 +1,9 @@
 package com.wj.demo.framework.sqlGenerator;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+
+import com.mybatisflex.annotation.Column;
+import com.mybatisflex.annotation.Id;
+import com.mybatisflex.annotation.Table;
 import com.wj.demo.framework.common.utils.FieldUtils;
 import com.wj.demo.framework.i18n.entity.SysLanguageEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -71,7 +72,7 @@ public class SQLGenerator {
      */
     public static String generateSqlForCreate(Class<?> clazz) {
         //获取表名
-        TableName tableNameAnnotation = clazz.getAnnotation(TableName.class);
+        Table tableNameAnnotation = clazz.getAnnotation(Table.class);
         String tableName = tableNameAnnotation.value().isEmpty() ? clazz.getSimpleName() : tableNameAnnotation.value();
         //表注释
         Schema tableSchema = clazz.getAnnotation(Schema.class);
@@ -90,13 +91,13 @@ public class SQLGenerator {
             Integer length = Integer.valueOf(255);
 
             //获取字段名/字段类型
-            TableId idAnnotation = field.getAnnotation(TableId.class);
+            Id idAnnotation = field.getAnnotation(Id.class);
             if (idAnnotation != null) {
                 columnName = idAnnotation.value();
                 jdbcType = JdbcType.BIGINT;
             }
-            TableField fieldAnnotation = field.getAnnotation(TableField.class);
-            if (fieldAnnotation != null && fieldAnnotation.exist()) {
+            Column fieldAnnotation = field.getAnnotation(Column.class);
+            if (fieldAnnotation != null && !fieldAnnotation.ignore()) {
                 columnName = fieldAnnotation.value();
                 jdbcType = fieldAnnotation.jdbcType();
             }
@@ -139,7 +140,7 @@ public class SQLGenerator {
      * @param clazz
      */
     public static String generateSqlForDrop(Class<?> clazz) {
-        TableName tableNameAnnotation = clazz.getAnnotation(TableName.class);
+        Table tableNameAnnotation = clazz.getAnnotation(Table.class);
         String tableName = tableNameAnnotation.value().isEmpty() ? clazz.getSimpleName() : tableNameAnnotation.value();
         return "DROP TABLE IF EXISTS `" + tableName + "`;";
     }

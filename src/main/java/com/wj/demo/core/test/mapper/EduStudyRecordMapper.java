@@ -1,7 +1,7 @@
 package com.wj.demo.core.test.mapper;
 
 import com.wj.demo.core.test.entity.EduStudyRecord;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.mybatisflex.core.BaseMapper;
 
 /**
 * @author W.Jian

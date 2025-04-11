@@ -2,7 +2,7 @@ package com.wj.demo.core.system.controller;
 
 import com.wj.demo.framework.exception.model.Result;
 import com.wj.demo.core.system.entity.SysIdentity;
-import com.wj.demo.core.system.service.SysIdentityService;
+import com.wj.demo.core.system.service.ISysIdentityService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class SysIdentityController {
 
     @Resource
-    private SysIdentityService sysIdentityService;
+    private ISysIdentityService sysIdentityService;
 
     /**
      * 新增或者修改

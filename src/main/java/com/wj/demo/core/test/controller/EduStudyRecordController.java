@@ -1,7 +1,7 @@
 package com.wj.demo.core.test.controller;
 
 import com.wj.demo.core.test.entity.EduStudyRecord;
-import com.wj.demo.core.test.service.EduStudyRecordService;
+import com.wj.demo.core.test.service.IEduStudyRecordService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +18,7 @@ import java.util.List;
 public class EduStudyRecordController {
 
     @Resource
-    private EduStudyRecordService eduStudyRecordService;
+    private IEduStudyRecordService IEduStudyRecordService;
 
     /**
      * 条件查询
@@ -27,12 +27,12 @@ public class EduStudyRecordController {
      */
     @GetMapping(value = "/queryByCondition")
     public List<EduStudyRecord> queryByCondition(EduStudyRecord record) {
-        return eduStudyRecordService.queryByCondition(record);
+        return IEduStudyRecordService.queryByCondition(record);
     }
 
     @PostMapping(value = "/saveOrUpdateUnique")
     public EduStudyRecord saveOrUpdateUnique(@RequestBody EduStudyRecord record) {
-        return eduStudyRecordService.saveOrUpdateUnique(record);
+        return IEduStudyRecordService.saveOrUpdateUnique(record);
     }
 
 }

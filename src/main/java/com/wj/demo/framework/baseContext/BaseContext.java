@@ -1,6 +1,6 @@
 package com.wj.demo.framework.baseContext;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+
 import com.wj.demo.framework.common.model.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,8 +31,6 @@ public class BaseContext {
     private String token;
 
     private User user;
-
-    private IPage<?> page;
 
     /**
      * 私有化构造方法

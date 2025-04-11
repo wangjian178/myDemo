@@ -108,6 +108,9 @@
     </appender>
 
     <logger name="com.wj.demo" level="DEBUG"/>
+    <!--mybatis输出-->
+    <logger name="com.ibatis.sqlmap.engine.execution.SqlExecutor" level="DEBUG"/>
+    <logger name="java.sql" level="DEBUG"/>
 
     <!-- Level: FATAL 0  ERROR 3  WARN 4  INFO 6  DEBUG 7 -->
     <root level="DEBUG">

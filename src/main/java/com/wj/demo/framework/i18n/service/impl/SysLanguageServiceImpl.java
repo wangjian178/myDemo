@@ -1,8 +1,6 @@
 package com.wj.demo.framework.i18n.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.mybatisflex.spring.service.impl.ServiceImpl;
 import com.wj.demo.framework.common.constant.BaseConstant;
 import com.wj.demo.framework.common.utils.CollectionUtils;
 import com.wj.demo.framework.common.utils.StringUtils;
@@ -47,11 +45,10 @@ public class SysLanguageServiceImpl extends ServiceImpl<SysLanguageMapper, SysLa
 
 
         //2.查询数据库
-        LambdaQueryWrapper<SysLanguageEntity> wrapper = new QueryWrapper<SysLanguageEntity>()
-                .lambda()
+        SysLanguageEntity lang = queryChain()
                 .eq(SysLanguageEntity::getCode, code)
-                .eq(SysLanguageEntity::getLanguage, language);
-        SysLanguageEntity lang = baseMapper.selectOne(wrapper);
+                .eq(SysLanguageEntity::getLanguage, language)
+                .one();
         if (lang != null) {
             label = lang.getLabel();
         }
@@ -79,11 +76,10 @@ public class SysLanguageServiceImpl extends ServiceImpl<SysLanguageMapper, SysLa
 
 
         //2.查询数据库
-        LambdaQueryWrapper<SysLanguageEntity> wrapper = new QueryWrapper<SysLanguageEntity>()
-                .lambda()
+        List<SysLanguageEntity> sysLanguageEntityList = queryChain()
                 .in(SysLanguageEntity::getCode, codeList)
-                .eq(SysLanguageEntity::getLanguage, language);
-        List<SysLanguageEntity> sysLanguageEntityList = baseMapper.selectList(wrapper);
+                .eq(SysLanguageEntity::getLanguage, language)
+                .list();
         Map<String, String> codeAndLanguageMap = sysLanguageEntityList.stream().collect(Collectors.toMap(SysLanguageEntity::getCode, SysLanguageEntity::getLabel));
         for (String code : codeList) {
             result.put(code, codeAndLanguageMap.get(code));
@@ -94,13 +90,12 @@ public class SysLanguageServiceImpl extends ServiceImpl<SysLanguageMapper, SysLa
 
     @Override
     public List<SysLanguageEntity> queryByCondition(SysLanguageEntity condition) {
-        return baseMapper.selectList(
-                new QueryWrapper<SysLanguageEntity>()
-                        .lambda()
-                        .eq(StringUtils.isNotEmpty(condition.getCode()), SysLanguageEntity::getCode, condition.getCode())
-                        .eq(StringUtils.isNotEmpty(condition.getLanguage()), SysLanguageEntity::getLanguage, condition.getLanguage())
-                        .like(StringUtils.isNotEmpty(condition.getLabel()), SysLanguageEntity::getLabel, condition.getLabel())
-        );
+        return queryChain()
+                .eq(SysLanguageEntity::getCode, condition.getCode(), StringUtils.isNotEmpty(condition.getCode()))
+                .eq(SysLanguageEntity::getLanguage, condition.getLanguage(), StringUtils.isNotEmpty(condition.getLanguage()))
+                .like(SysLanguageEntity::getLabel, condition.getLabel(), StringUtils.isNotEmpty(condition.getLabel()))
+                .orderBy(SysLanguageEntity::getCreateTime).asc()
+                .list();
     }
 
     @Override
@@ -111,7 +106,7 @@ public class SysLanguageServiceImpl extends ServiceImpl<SysLanguageMapper, SysLa
         }
         List<List<SysLanguageEntity>> lists = CollectionUtils.split(queryList);
         for (List<SysLanguageEntity> list : lists) {
-            result.addAll(baseMapper.queryByLanguageAndCode(list));
+            result.addAll(mapper.queryByLanguageAndCode(list));
         }
         return result;
     }
@@ -136,7 +131,7 @@ public class SysLanguageServiceImpl extends ServiceImpl<SysLanguageMapper, SysLa
             //3.1.删除缓存 todo
 
             //3.2修改数据库
-            updateBatchById(updateList);
+            updateBatch(updateList);
         }
 
         //3.新增
@@ -159,9 +154,8 @@ public class SysLanguageServiceImpl extends ServiceImpl<SysLanguageMapper, SysLa
         //1.删除缓存 todo
 
         //2.删除数据库
-        int count = baseMapper.deleteById(id);
 
-        return count;
+        return mapper.deleteById(id);
     }
 
     @Override
@@ -173,7 +167,7 @@ public class SysLanguageServiceImpl extends ServiceImpl<SysLanguageMapper, SysLa
         //2.删除数据库
         List<List<Long>> idsList = CollectionUtils.split(ids);
         for (List<Long> idList : idsList) {
-            baseMapper.deleteBatchIds(idList);
+            mapper.deleteBatchByIds(idList);
         }
 
         return ids.size();

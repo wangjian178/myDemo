@@ -1,6 +1,6 @@
 package com.wj.demo.core.system.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.mybatisflex.core.BaseMapper;
 import com.wj.demo.core.system.entity.SysUser;
 import com.wj.demo.core.system.model.vo.SysUserVO;
 
@@ -16,6 +16,7 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 
     /**
      * 条件查询
+     *
      * @param sysUserVO 查询条件
      * @return 用户列表
      */
