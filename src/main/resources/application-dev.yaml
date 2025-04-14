@@ -49,6 +49,18 @@ thread:
   queueCapacity: 500
   threadNamePrefix: Executor-
 
+#spring boot actuator配置
+management:
+  endpoint:
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        # 暴露的端点 默认是/actuator/health
+        include: health
+      base-path: /actuator
+
 #mybatis-flex配置
 mybatis-flex:
   mapper-locations: classpath*:/mapper/**/*.xml
@@ -95,6 +107,7 @@ base-context:
 #接口权限忽略接口
 auth:
   exclude:
+    - /actuator/health
     - /sys/user/register
     - /login
     - /logout
