@@ -1,9 +1,9 @@
-package com.wj.demo.framework.mybatisFlex.pageHelper.advice;
+package com.wj.demo.framework.pageHelper.advice;
 
 import com.wj.demo.framework.exception.model.Result;
-import com.wj.demo.framework.mybatisFlex.pageHelper.PageContext;
-import com.wj.demo.framework.mybatisFlex.pageHelper.annotation.Pagination;
-import com.wj.demo.framework.mybatisFlex.pageHelper.entity.Page;
+import com.wj.demo.framework.pageHelper.PageContext;
+import com.wj.demo.framework.pageHelper.annotation.Pagination;
+import com.wj.demo.framework.pageHelper.entity.Page;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
@@ -35,23 +35,21 @@ public class PageResponseBodyHandler implements ResponseBodyAdvice<Object> {
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
 
+        Page<?> page = PageContext.getPage();
+        if(page == null){
+            return body;
+        }
+        PageContext.clear();
         //处理返回结果
-        if (body instanceof Result result && Result.isSuccess(result) && result.getData() instanceof List data) {
-            return Result.ofSuccess(
-                    new Page<>()
-                            .setPageNum(PageContext.getPage().getPageNumber())
-                            .setPageSize(PageContext.getPage().getPageSize())
-                            .setTotal(PageContext.getPage().getTotalRow())
-                            .setPages(PageContext.getPage().getTotalPage())
-                            .setRecords(data)
-            );
+        if (body instanceof Result result && Result.isSuccess(result) && result.getData() instanceof List) {
+            return Result.ofSuccess(page);
         } else if (body instanceof List data) {
             return Result.ofSuccess(
                     new Page<>()
-                            .setPageNum(PageContext.getPage().getPageNumber())
-                            .setPageSize(PageContext.getPage().getPageSize())
-                            .setTotal(PageContext.getPage().getTotalRow())
-                            .setPages(PageContext.getPage().getTotalPage())
+                            .setPageNum(page.getPageNum())
+                            .setPageSize(page.getPageSize())
+                            .setTotal(page.getTotal())
+                            .setPages(page.getPages())
                             .setRecords(data)
             );
         }

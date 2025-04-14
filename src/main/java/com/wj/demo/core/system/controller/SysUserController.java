@@ -5,7 +5,7 @@ import com.wj.demo.core.system.model.vo.SysUserPasswordVO;
 import com.wj.demo.core.system.model.vo.SysUserVO;
 import com.wj.demo.core.system.service.ISysUserService;
 import com.wj.demo.framework.exception.model.Result;
-import com.wj.demo.framework.mybatisFlex.pageHelper.annotation.Pagination;
+import com.wj.demo.framework.pageHelper.annotation.Pagination;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;

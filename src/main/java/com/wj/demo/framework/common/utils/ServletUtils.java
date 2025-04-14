@@ -45,6 +45,14 @@ public class ServletUtils {
     }
 
     /**
+     * 获取请求参数
+     */
+    public static Integer getParameterInt(String name) {
+        String parameter = getRequest().getParameter(name);
+        return Objects.nonNull(parameter) ? Integer.parseInt(parameter) : null;
+    }
+
+    /**
      * 获取请求
      */
     public static HttpServletRequest getRequest() {

@@ -1,4 +1,4 @@
-package com.wj.demo.framework.mybatisFlex.pageHelper.entity;
+package com.wj.demo.framework.pageHelper.entity;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -18,17 +18,17 @@ public class Page<T>{
     /**
      * 当前页码
      */
-    private Long pageNum;
+    private Integer pageNum;
 
     /**
      * 每页数量
      */
-    private Long pageSize;
+    private Integer pageSize;
 
     /**
      * 总页数
      */
-    private Long pages;
+    private Integer pages;
 
     /**
      * 总记录数

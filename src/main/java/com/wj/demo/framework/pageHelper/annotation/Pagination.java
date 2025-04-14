@@ -1,4 +1,4 @@
-package com.wj.demo.framework.mybatisFlex.pageHelper.annotation;
+package com.wj.demo.framework.pageHelper.annotation;
 
 import java.lang.annotation.*;
 

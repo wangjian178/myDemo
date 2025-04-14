@@ -19,13 +19,13 @@
         <java.version>21</java.version>
         <swagger.version>3.0.0</swagger.version>
         <druid.version>1.2.22</druid.version>
-        <mybatis.version>3.0.3</mybatis.version>
-        <nybatis-flex.version>1.10.9</nybatis-flex.version>
+        <mybatis.version>3.0.4</mybatis.version>
+        <nybatis-flex.version>1.10.8</nybatis-flex.version>
         <mybatis-plus.version>3.5.6</mybatis-plus.version>
         <dynamic.version>4.3.0</dynamic.version>
         <fastjson.version>1.2.83</fastjson.version>
         <jwt.version>4.4.0</jwt.version>
-        <pagehelper.version>1.5.0</pagehelper.version>
+        <pagehelper.version>2.1.0</pagehelper.version>
     </properties>
     <dependencies>
         <!--web-->
@@ -57,36 +57,50 @@
             <version>8.2.0</version>
             <scope>runtime</scope>
         </dependency>
-        <!--mybatis-->
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis-spring</artifactId>
-            <version>${mybatis.version}</version>
-        </dependency>
         <!--mybatis flex-->
         <dependency>
             <groupId>com.mybatis-flex</groupId>
             <artifactId>mybatis-flex-spring-boot3-starter</artifactId>
             <version>${nybatis-flex.version}</version>
         </dependency>
-        <!--mybatis plus-->
-<!--        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>${mybatis-plus.version}</version>
+        <!--pageHelper-->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>${pagehelper.version}</version>
             <exclusions>
                 <exclusion>
-                    <groupId>com.mybatis</groupId>
+                    <groupId>org.mybatis</groupId>
+                    <artifactId>mybatis</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.mybatis</groupId>
                     <artifactId>mybatis-spring</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>-->
+        </dependency>
+        <!--mybatis plus-->
+        <!--
+                <dependency>
+                    <groupId>com.baomidou</groupId>
+                    <artifactId>mybatis-plus-boot-starter</artifactId>
+                    <version>${mybatis-plus.version}</version>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>com.mybatis</groupId>
+                            <artifactId>mybatis-spring</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+        -->
         <!--多数据源 注意spring版本-->
-<!--        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
-            <version>${dynamic.version}</version>
-        </dependency>-->
+        <!--
+                <dependency>
+                    <groupId>com.baomidou</groupId>
+                    <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
+                    <version>${dynamic.version}</version>
+                </dependency>
+        -->
         <!--redis-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

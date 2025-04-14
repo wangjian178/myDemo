@@ -126,7 +126,6 @@ public class ISysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> imp
      */
     @Override
     public List<SysUserVO> list(SysUserVO sysUserVO) {
-        Page<SysUser> paginate = mapper.paginate(1, 3, new QueryWrapper());
         return mapper.list(sysUserVO);
     }
 }

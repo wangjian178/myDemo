@@ -1,6 +1,6 @@
-package com.wj.demo.framework.mybatisFlex.pageHelper;
+package com.wj.demo.framework.pageHelper;
 
-import com.mybatisflex.core.paginate.Page;
+import com.wj.demo.framework.pageHelper.entity.Page;
 
 /**
  * @ClassName PageContext

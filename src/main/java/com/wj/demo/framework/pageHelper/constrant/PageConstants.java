@@ -1,4 +1,4 @@
-package com.wj.demo.framework.mybatisFlex.pageHelper.constrant;
+package com.wj.demo.framework.pageHelper.constrant;
 
 /**
  * @ClassName PageConstrants
