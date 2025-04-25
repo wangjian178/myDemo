@@ -1,13 +1,13 @@
 package com.wj.demo.core.system.service.impl;
 
-import com.wj.demo.core.system.config.property.SysConfigProperty;
+import com.wj.demo.core.system.enums.UserOnLineStatusEnum;
+import com.wj.demo.core.system.service.ISysUserService;
 import com.wj.demo.core.system.service.TokenService;
-import com.wj.demo.framework.common.constant.BaseConstant;
+import com.wj.demo.framework.common.constant.LoginConstant;
+import com.wj.demo.framework.common.constant.SecurityConstant;
 import com.wj.demo.framework.common.model.LoginUser;
-import com.wj.demo.framework.common.utils.JwtUtils;
 import com.wj.demo.framework.common.utils.StringUtils;
 import com.wj.demo.framework.redis.service.RedisClient;
-import io.jsonwebtoken.Claims;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
@@ -23,10 +23,10 @@ import org.springframework.stereotype.Service;
 public class DefaultTokenServiceImpl implements TokenService {
 
     @Resource
-    private SysConfigProperty sysConfigProperty;
+    private RedisClient redisClient;
 
     @Resource
-    private RedisClient redisClient;
+    private ISysUserService sysUserService;
 
     /**
      * 根据request获取token
@@ -36,9 +36,9 @@ public class DefaultTokenServiceImpl implements TokenService {
      */
     @Override
     public String getToken(HttpServletRequest request) {
-        String token = request.getHeader(BaseConstant.AUTHORIZATION);
-        if (StringUtils.isNotEmpty(token) && token.startsWith(BaseConstant.AUTHORIZATION_PREFIX)) {
-            token = token.replace(BaseConstant.AUTHORIZATION_PREFIX, BaseConstant.EMPTY_STRING);
+        String token = request.getHeader(SecurityConstant.AUTHORIZATION);
+        if (StringUtils.isNotEmpty(token) && token.startsWith(SecurityConstant.AUTHORIZATION_PREFIX)) {
+            token = token.replace(SecurityConstant.AUTHORIZATION_PREFIX, SecurityConstant.EMPTY_STRING);
         }
         return token;
     }
@@ -66,13 +66,26 @@ public class DefaultTokenServiceImpl implements TokenService {
         if (StringUtils.isEmpty(token)) {
             return null;
         }
-        Claims claims = JwtUtils.parseToken(token, sysConfigProperty.getSecretKey());
-        String userId = claims.get(BaseConstant.USER_ID, String.class);
-        String userKey = BaseConstant.TOKEN_PREFIX + userId;
+        String userKey = LoginConstant.TOKEN_PREFIX + token;
         LoginUser user = redisClient.get(userKey);
         if (user != null) {
             //todo 刷新token过期时间
         }
         return user;
+    }
+
+    /**
+     * 删除用户信息
+     *
+     * @param loginUser 用户信息
+     */
+    @Override
+    public void removeLoginUser(LoginUser loginUser) {
+        //清除缓存
+        String userKey = LoginConstant.TOKEN_PREFIX + loginUser.getToken();
+        redisClient.delete(userKey);
+
+        //修改在线状态
+        sysUserService.updateOnlineStatus(loginUser.getId(), UserOnLineStatusEnum.OFFLINE);
     }
 }

@@ -46,6 +46,9 @@ public class LoginUser implements UserDetails, Serializable {
     @Schema(description = "状态 0下线 1在线")
     private UserOnLineStatusEnum onLineStatus;
 
+    @Schema(description = "token")
+    private String token;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();

@@ -1,10 +1,9 @@
 package com.wj.demo.framework.security;
 
 import com.alibaba.fastjson.JSON;
-import com.wj.demo.framework.common.constant.BaseConstant;
-import com.wj.demo.framework.common.utils.StringUtils;
+import com.wj.demo.core.system.service.TokenService;
+import com.wj.demo.framework.common.utils.SpringContextUtils;
 import com.wj.demo.framework.exception.model.Result;
-import com.wj.demo.framework.websocket.config.WebSocketSessionPool;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,11 +29,8 @@ public class MyAuthEntryPoint implements AuthenticationEntryPoint, Serializable 
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        String authorization = request.getHeader(BaseConstant.AUTHORIZATION);
-        if (StringUtils.isNotEmpty(authorization) && authorization.startsWith(BaseConstant.AUTHORIZATION_PREFIX)) {
-            authorization = authorization.replace(BaseConstant.AUTHORIZATION_PREFIX, BaseConstant.EMPTY_STRING);
-        }
-
+        TokenService tokenService = SpringContextUtils.getBean(TokenService.class);
+        String token = tokenService.getToken(request);
 
         //返回信息
         String msg = String.format("请求访问：%s，认证失败，无法访问系统资源", request.getRequestURI());

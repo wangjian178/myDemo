@@ -97,8 +97,9 @@ logging:
 system:
     loginHandler: default
     logoutHandler: default
-    loginUrl: /sys/login
-    logoutUrl: /sys/logout
+    loginUrl: /login
+    loginPage: /loginPage
+    logoutUrl: /logout
     expireTime: 86400
     #最少32位的密钥
     secretKey: 123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ

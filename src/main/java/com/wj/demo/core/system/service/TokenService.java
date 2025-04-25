@@ -33,5 +33,10 @@ public interface TokenService {
      */
     LoginUser getLoginUser(String token);
 
-
+    /**
+     * 删除用户信息
+     *
+     * @param loginUser 用户信息
+     */
+    void removeLoginUser(LoginUser loginUser);
 }

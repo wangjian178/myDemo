@@ -86,6 +86,14 @@ public class Result<T> implements Serializable {
         return result;
     }
 
+    public static <T> Result<T> ofSuccess(T data,String msg) {
+        Result<T> result = build();
+        result.setCode(SUCCESS_CODE);
+        result.setData(data);
+        result.setMsg(msg);
+        return result;
+    }
+
     public static <T> Result<T> ofFail() {
         Result<T> result = build();
         result.setCode(FAIL_CODE);

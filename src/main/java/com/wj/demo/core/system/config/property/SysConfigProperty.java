@@ -34,6 +34,11 @@ public class SysConfigProperty {
     private String loginUrl;
 
     /**
+     * 登陆页面地址
+     */
+    private String loginPage;
+
+    /**
      * 登出页面地址
      */
     private String logoutUrl;

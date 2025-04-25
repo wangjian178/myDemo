@@ -152,7 +152,7 @@ public class SecurityConfig {
 
         //配置登陆页面
         httpSecurity.formLogin(f -> f
-                .loginPage(sysConfigProperty.getLoginUrl())
+                .loginPage(sysConfigProperty.getLoginPage())
                 .loginProcessingUrl(sysConfigProperty.getLoginUrl())
                 .successHandler(new MyAuthSuccessHandler())
                 .failureHandler(new MyAuthFailureHandler())
@@ -162,6 +162,8 @@ public class SecurityConfig {
         httpSecurity.logout(
                 l -> l
                         .logoutUrl(sysConfigProperty.getLogoutUrl())
+                        .logoutSuccessUrl(sysConfigProperty.getLoginPage())
+                        .addLogoutHandler(new MyLogoutHandler())
                         .logoutSuccessHandler(new MyLogoutSuccessHandler())
         );
 

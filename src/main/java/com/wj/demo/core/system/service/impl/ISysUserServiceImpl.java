@@ -139,7 +139,6 @@ public class ISysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> imp
     @Override
     public SysUser queryByUsername(String username) {
         return queryChain()
-                .eq(SysUser::getDeleted, Boolean.FALSE)
                 .eq(SysUser::getUsername, username)
                 .one();
     }

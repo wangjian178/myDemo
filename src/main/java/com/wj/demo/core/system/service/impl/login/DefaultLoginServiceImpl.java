@@ -9,6 +9,8 @@ import com.wj.demo.core.system.model.vo.LoginResultVO;
 import com.wj.demo.core.system.service.ILoginService;
 import com.wj.demo.core.system.service.ISysUserService;
 import com.wj.demo.framework.common.constant.BaseConstant;
+import com.wj.demo.framework.common.constant.LoginConstant;
+import com.wj.demo.framework.common.constant.SecurityConstant;
 import com.wj.demo.framework.common.model.LoginUser;
 import com.wj.demo.framework.common.utils.JwtUtils;
 import com.wj.demo.framework.common.utils.PasswordUtils;
@@ -23,7 +25,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -115,13 +116,13 @@ public class DefaultLoginServiceImpl implements ILoginService {
         LoginResultVO loginResultVO = createToken(loginUser);
 
         //记录token
-        redisClient.set(BaseConstant.TOKEN_PREFIX + loginUser.getId(), loginUser, sysConfigProperty.getExpireTime(), TimeUnit.SECONDS);
+        redisClient.set(LoginConstant.TOKEN_PREFIX + loginResultVO.getToken(), loginUser, sysConfigProperty.getExpireTime(), TimeUnit.SECONDS);
 
         //修改登录状态
         sysUserService.updateOnlineStatus(loginUser.getId(), UserOnLineStatusEnum.ONLINE);
 
         //删除登录记录
-        redisClient.delete(BaseConstant.LOGIN_LOCK_USER_RETRY_TIMES_KEY + loginParamVO.getUsername());
+        redisClient.delete(LoginConstant.LOGIN_LOCK_USER_RETRY_TIMES_KEY + loginParamVO.getUsername());
 
         return loginResultVO;
     }
@@ -135,11 +136,16 @@ public class DefaultLoginServiceImpl implements ILoginService {
     @Override
     public LoginResultVO createToken(LoginUser loginUser) {
 
+        //负载信息
         HashMap<String, String> claims = new HashMap<>();
-        claims.put(BaseConstant.USER_ID, loginUser.getId().toString());
-        claims.put(BaseConstant.USER_NAME, loginUser.getUsername());
+        claims.put(SecurityConstant.USER_ID, loginUser.getId().toString());
+        claims.put(SecurityConstant.USER_NAME, loginUser.getUsername());
         String token = JwtUtils.createToken(claims, sysConfigProperty.getExpireTime(), sysConfigProperty.getSecretKey());
 
+        //记录token
+        loginUser.setToken(token);
+
+        //返回token
         LoginResultVO loginResultVO = new LoginResultVO();
         loginResultVO.setToken(token);
         loginResultVO.setExpireTime(sysConfigProperty.getExpireTime());
@@ -155,7 +161,7 @@ public class DefaultLoginServiceImpl implements ILoginService {
      */
     private void checkLoginCount(LoginParamVO loginParamVO) {
         //缓存的KEY
-        String timesKey = BaseConstant.LOGIN_LOCK_USER_RETRY_TIMES_KEY + loginParamVO.getUsername();
+        String timesKey = LoginConstant.LOGIN_LOCK_USER_RETRY_TIMES_KEY + loginParamVO.getUsername();
         Integer times = redisClient.get(timesKey);
         if (times == null) {
             times = 0;
@@ -182,7 +188,7 @@ public class DefaultLoginServiceImpl implements ILoginService {
         if (!captchaEnable) {
             return;
         }
-        String captchaCache = redisClient.get(BaseConstant.LOGIN_CAPTCHA_KEY + uuid);
+        String captchaCache = redisClient.get(LoginConstant.LOGIN_CAPTCHA_KEY + uuid);
         if (captchaCache == null) {
             throw new BaseException(ResultCodeEnum.LOGIN_CAPTCHA_EXPIRE_ERROR);
         }
@@ -208,7 +214,7 @@ public class DefaultLoginServiceImpl implements ILoginService {
      */
     public void checkAccountLocked(String username) {
         //缓存的KEY
-        String timesKey = BaseConstant.LOGIN_LOCK_USER_RETRY_TIMES_KEY + username;
+        String timesKey = LoginConstant.LOGIN_LOCK_USER_RETRY_TIMES_KEY + username;
 
         //  1.获取错误次数
         Integer times = 0;

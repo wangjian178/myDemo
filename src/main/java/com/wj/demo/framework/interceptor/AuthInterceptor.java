@@ -1,9 +1,7 @@
 package com.wj.demo.framework.interceptor;
 
+import com.wj.demo.core.system.config.property.SysConfigProperty;
 import com.wj.demo.core.system.service.TokenService;
-import com.wj.demo.framework.baseContext.BaseContext;
-import com.wj.demo.framework.baseContext.BaseContextHolder;
-import com.wj.demo.framework.common.constant.BaseConstant;
 import com.wj.demo.framework.common.model.LoginUser;
 import com.wj.demo.framework.common.utils.SecurityUtils;
 import com.wj.demo.framework.common.utils.SpringContextUtils;
@@ -35,9 +33,12 @@ public class AuthInterceptor implements HandlerInterceptor {
         TokenService tokenService = SpringContextUtils.getBean(TokenService.class);
         String token = tokenService.getToken(request);
 
+        SysConfigProperty sysConfigProperty = SpringContextUtils.getBean(SysConfigProperty.class);
+        String loginPage = sysConfigProperty.getLoginPage();
+
         if (StringUtils.isEmpty(token)) {
             //跳转到登录登录
-            response.sendRedirect(BaseConstant.LOGIN_INDEX);
+            response.sendRedirect(loginPage);
             return false;
         }
 
@@ -45,15 +46,9 @@ public class AuthInterceptor implements HandlerInterceptor {
         if (loginUser == null) {
             //未登录或者过期
             //跳转到首页登录
-            response.sendRedirect(BaseConstant.LOGIN_INDEX);
+            response.sendRedirect(loginPage);
             return false;
         }
-
-        //补充上下文信息
-        BaseContext baseContext = BaseContextHolder.getBaseContext();
-        baseContext.setToken(token);
-        //用户信息
-        baseContext.setLoginUser(SecurityUtils.getUser());
 
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }
