@@ -1,7 +1,7 @@
 package com.wj.demo.framework.baseContext;
 
 
-import com.wj.demo.framework.common.model.User;
+import com.wj.demo.framework.common.model.LoginUser;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -30,7 +30,7 @@ public class BaseContext {
 
     private String token;
 
-    private User user;
+    private LoginUser loginUser;
 
     /**
      * 私有化构造方法

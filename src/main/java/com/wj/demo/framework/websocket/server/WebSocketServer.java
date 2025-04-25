@@ -1,6 +1,7 @@
 package com.wj.demo.framework.websocket.server;
 
 import com.wj.demo.framework.common.utils.SecurityUtils;
+import com.wj.demo.framework.websocket.config.WebSocketSessionPool;
 import com.wj.demo.framework.websocket.model.WebSocketSender;
 import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
@@ -12,8 +13,6 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -32,15 +31,12 @@ public class WebSocketServer {
     //用来记录当前在线连接数。应该把它设计成线程安全的。
     private static final AtomicInteger ON_LINE_NUM = new AtomicInteger(0);
 
-    //concurrent包的线程安全Set，用来存放每个客户端对应的WebSocketServer对象。
-    private static final Set<Session> SESSION_POOL = new CopyOnWriteArraySet<>();
-
     @OnOpen
     public void onOpen(Session session,
                        @PathParam(value = "chanel") String chanel,
                        @PathParam(value = "token") String token) {
         int onLineNum = ON_LINE_NUM.incrementAndGet();
-        SESSION_POOL.add(session);
+        WebSocketSessionPool.add(session);
         session.getUserProperties().put("chanel", chanel);
         session.getUserProperties().put("userId", SecurityUtils.getUser(token).getId().toString());
         log.info("连接加入，当前连接数为：{}，chanel为：{}", onLineNum, chanel);
@@ -49,7 +45,7 @@ public class WebSocketServer {
     @OnClose
     public void onClose(Session session) {
         int onLineNum = ON_LINE_NUM.decrementAndGet();
-        SESSION_POOL.remove(session);
+        WebSocketSessionPool.remove(session);
         log.info("连接断开，当前连接数为：{}", onLineNum);
     }
 
@@ -101,14 +97,14 @@ public class WebSocketServer {
      * @param sender 消息
      */
     public void sendMessage(WebSocketSender sender) {
-        for (Session session : SESSION_POOL) {
+        for (Session session : WebSocketSessionPool.sessionPool()) {
             //发送频道不同
             if (!session.getUserProperties().get("chanel").equals(sender.getChanel())) {
                 continue;
             }
             //不发送全部 并且 接收人不包含当前用户
             List<String> receiver = CollectionUtils.isEmpty(sender.getReceiver()) ? new ArrayList<>() : sender.getReceiver();
-            if (sender.getSendAll() == null || !sender.getSendAll() && !receiver.contains(session.getUserProperties().get("userId"))) {
+            if (sender.getSendAll() == null || !sender.getSendAll() && !receiver.contains((String) session.getUserProperties().get("userId"))) {
                 continue;
             }
             if (sender.getAsync() != null && sender.getAsync()) {

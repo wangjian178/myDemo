@@ -3,8 +3,10 @@ package com.wj.demo.core.system.service;
 
 import com.mybatisflex.core.service.IService;
 import com.wj.demo.core.system.entity.SysUser;
+import com.wj.demo.core.system.enums.UserOnLineStatusEnum;
 import com.wj.demo.core.system.model.vo.SysUserPasswordVO;
 import com.wj.demo.core.system.model.vo.SysUserVO;
+import com.wj.demo.framework.common.model.LoginUser;
 
 import java.util.List;
 
@@ -57,8 +59,33 @@ public interface ISysUserService extends IService<SysUser> {
 
     /**
      * 修改密码
+     *
      * @param sysUserPasswordVO 用户
      * @return 是否成功
      */
     boolean updatePassword(SysUserPasswordVO sysUserPasswordVO);
+
+    /**
+     * 根据用户名查询用户
+     * @param username 用户名
+     * @return 用户
+     */
+    SysUser queryByUsername(String username);
+
+    /**
+     * 根据用户名密码查询用户
+     *
+     * @param username 用户名
+     * @param password 密码
+     * @return 用户
+     */
+    SysUser queryUserByNameAndPassword(String username, String password);
+
+    /**
+     * 更新在线状态
+     *
+     * @param userId 用户ID
+     * @param onlineStatus 在线状态
+     */
+    void updateOnlineStatus(Long userId, UserOnLineStatusEnum onlineStatus);
 }

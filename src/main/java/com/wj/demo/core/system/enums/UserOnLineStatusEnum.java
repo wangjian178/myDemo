@@ -1,5 +1,6 @@
 package com.wj.demo.core.system.enums;
 
+import com.mybatisflex.annotation.EnumValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -19,6 +20,7 @@ public enum UserOnLineStatusEnum {
     ONLINE(1, "在线"),
     OFFLINE(0, "离线");
 
+    @EnumValue
     private final Integer code;
     private final String desc;
 }

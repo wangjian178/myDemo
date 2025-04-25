@@ -6,7 +6,7 @@ import com.wj.demo.core.system.model.vo.LogoutResultVO;
 import com.wj.demo.core.system.service.ILogoutService;
 import com.wj.demo.framework.baseContext.BaseContextHolder;
 import com.wj.demo.framework.common.constant.BaseConstant;
-import com.wj.demo.framework.common.model.User;
+import com.wj.demo.framework.common.model.LoginUser;
 import com.wj.demo.framework.redis.service.RedisClient;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,11 +39,11 @@ public class DefaultLogoutServiceImpl implements ILogoutService {
         LogoutResultVO resultVO = new LogoutResultVO();
 
         //  1.修改用户状态
-        User user = BaseContextHolder.getBaseContext().getUser();
-        user.setStatus(UserOnLineStatusEnum.OFFLINE);
+        LoginUser loginUser = BaseContextHolder.getBaseContext().getLoginUser();
+        loginUser.setOnLineStatus(UserOnLineStatusEnum.OFFLINE);
 
         //  2.删除token
-        redisClient.delete(BaseConstant.TOKEN_PREFIX + BaseContextHolder.getBaseContext().getToken());
+        redisClient.delete(BaseConstant.TOKEN_PREFIX + BaseContextHolder.getBaseContext().getLoginUser().getId());
 
         //  3.清理cookie
 

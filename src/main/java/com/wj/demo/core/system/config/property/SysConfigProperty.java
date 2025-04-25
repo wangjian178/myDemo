@@ -34,7 +34,17 @@ public class SysConfigProperty {
     private String loginUrl;
 
     /**
+     * 登出页面地址
+     */
+    private String logoutUrl;
+
+    /**
      * 过期时间 s
      */
     private Long expireTime;
+
+    /**
+     * 密钥
+     */
+    private String secretKey;
 }

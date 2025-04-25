@@ -2,13 +2,19 @@ package com.wj.demo.framework.exception.model;
 
 import com.wj.demo.framework.exception.enums.ResultCodeEnum;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * @author wj
  * @version 1.0
  * @Desc
  * @date 2024/4/18 10:23
  */
-public class Result<T> {
+public class Result<T> implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     private static final String SUCCESS_CODE = "0";
 

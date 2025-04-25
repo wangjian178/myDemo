@@ -1,18 +1,19 @@
 package com.wj.demo.core.system.service.impl;
 
 
-import com.mybatisflex.core.paginate.Page;
-import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 import com.wj.demo.core.system.entity.SysUser;
+import com.wj.demo.core.system.enums.UserOnLineStatusEnum;
 import com.wj.demo.core.system.enums.UserStatusEnum;
 import com.wj.demo.core.system.mapper.SysUserMapper;
 import com.wj.demo.core.system.model.vo.SysUserPasswordVO;
 import com.wj.demo.core.system.model.vo.SysUserVO;
 import com.wj.demo.core.system.service.ISysUserService;
+import com.wj.demo.framework.common.model.LoginUser;
 import com.wj.demo.framework.common.utils.StringUtils;
 import com.wj.demo.framework.exception.exception.BaseException;
 import com.wj.demo.framework.mybatisFlex.entity.BaseEntity;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -127,6 +128,50 @@ public class ISysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> imp
     @Override
     public List<SysUserVO> list(SysUserVO sysUserVO) {
         return mapper.list(sysUserVO);
+    }
+
+    /**
+     * 根据用户名查询用户
+     *
+     * @param username 用户名
+     * @return 用户
+     */
+    @Override
+    public SysUser queryByUsername(String username) {
+        return queryChain()
+                .eq(SysUser::getDeleted, Boolean.FALSE)
+                .eq(SysUser::getUsername, username)
+                .one();
+    }
+
+    /**
+     * 根据用户名密码查询用户
+     *
+     * @param username 用户名
+     * @param password 密码
+     * @return 用户
+     */
+    @Override
+    public SysUser queryUserByNameAndPassword(String username, String password) {
+        return queryChain()
+                .eq(SysUser::getDeleted, Boolean.FALSE)
+                .eq(SysUser::getUsername, username)
+                .eq(SysUser::getPassword, password)
+                .one();
+    }
+
+    /**
+     * 更新在线状态
+     *
+     * @param userId 用户ID
+     * @param onlineStatus 在线状态
+     */
+    @Override
+    public void updateOnlineStatus(Long userId, UserOnLineStatusEnum onlineStatus) {
+        updateChain()
+                .set(SysUser::getOnlineStatus, onlineStatus)
+                .eq(SysUser::getId, userId)
+                .update();
     }
 }
 

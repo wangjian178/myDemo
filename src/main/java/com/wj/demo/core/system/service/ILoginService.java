@@ -1,7 +1,10 @@
 package com.wj.demo.core.system.service;
 
+import com.wj.demo.core.system.entity.SysUser;
 import com.wj.demo.core.system.model.vo.LoginParamVO;
 import com.wj.demo.core.system.model.vo.LoginResultVO;
+import com.wj.demo.framework.common.model.LoginUser;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  * @ClassName SysLoginService
@@ -10,12 +13,21 @@ import com.wj.demo.core.system.model.vo.LoginResultVO;
  * @CreateDate: 2025/3/19 15:04
  * @Version:
  */
-public interface ILoginService {
+public interface ILoginService extends UserDetailsService {
 
     /**
      * 登录
+     *
      * @param loginParamVO 登录参数
      * @return token
      */
     LoginResultVO login(LoginParamVO loginParamVO);
+
+    /**
+     * 生成token
+     *
+     * @param loginUser 用户
+     * @return token
+     */
+    LoginResultVO createToken(LoginUser loginUser);
 }

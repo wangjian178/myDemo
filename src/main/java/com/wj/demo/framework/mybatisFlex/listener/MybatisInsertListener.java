@@ -1,7 +1,7 @@
 package com.wj.demo.framework.mybatisFlex.listener;
 
 import com.mybatisflex.annotation.InsertListener;
-import com.wj.demo.framework.common.model.User;
+import com.wj.demo.framework.common.model.LoginUser;
 import com.wj.demo.framework.common.utils.SecurityUtils;
 import com.wj.demo.framework.mybatisFlex.entity.BaseEntity;
 
@@ -27,10 +27,10 @@ public class MybatisInsertListener implements InsertListener {
             entity.setUpdateTime(LocalDateTime.now());
 
             //获取当前用户
-            User user = SecurityUtils.getUser();
-            if (user != null) {
-                entity.setCreateBy(user.getUsername());
-                entity.setUpdateBy(user.getUsername());
+            LoginUser loginUser = SecurityUtils.getUser();
+            if (loginUser != null) {
+                entity.setCreateBy(loginUser.getUsername());
+                entity.setUpdateBy(loginUser.getUsername());
             }
         }
     }

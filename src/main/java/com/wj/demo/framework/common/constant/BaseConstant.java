@@ -16,7 +16,7 @@ public class BaseConstant {
     /**
      * token
      */
-    public static final String TOKEN = "Authorization";
+    public static final String AUTHORIZATION = "Authorization";
 
     /**
      * 语言
@@ -65,7 +65,7 @@ public class BaseConstant {
     public static final Long LOCK_USER_LOCK_SECONDS = 600L;
 
     /**
-     * 登录Token前缀
+     * 登录Token前缀 +userId
      */
     public static final String TOKEN_PREFIX = "LOGIN:USER:TOKEN:";
 
@@ -73,4 +73,8 @@ public class BaseConstant {
      * 鉴权Authorization前缀
      */
     public static final String AUTHORIZATION_PREFIX = "Bearer ";
+
+    public static final String USER_ID = "id";
+
+    public static final String USER_NAME = "username";
 }

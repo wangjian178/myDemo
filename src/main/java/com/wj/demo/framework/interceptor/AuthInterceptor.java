@@ -1,12 +1,13 @@
 package com.wj.demo.framework.interceptor;
 
+import com.wj.demo.core.system.service.TokenService;
 import com.wj.demo.framework.baseContext.BaseContext;
 import com.wj.demo.framework.baseContext.BaseContextHolder;
 import com.wj.demo.framework.common.constant.BaseConstant;
+import com.wj.demo.framework.common.model.LoginUser;
 import com.wj.demo.framework.common.utils.SecurityUtils;
 import com.wj.demo.framework.common.utils.SpringContextUtils;
 import com.wj.demo.framework.common.utils.StringUtils;
-import com.wj.demo.framework.redis.service.RedisClient;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -31,7 +32,8 @@ public class AuthInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String token = request.getHeader(BaseConstant.TOKEN);
+        TokenService tokenService = SpringContextUtils.getBean(TokenService.class);
+        String token = tokenService.getToken(request);
 
         if (StringUtils.isEmpty(token)) {
             //跳转到登录登录
@@ -39,8 +41,8 @@ public class AuthInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        RedisClient redisClient = SpringContextUtils.getBean(RedisClient.class);
-        if (redisClient == null || !redisClient.exists((BaseConstant.TOKEN_PREFIX + token).replace(BaseConstant.AUTHORIZATION_PREFIX, BaseConstant.EMPTY_STRING))) {
+        LoginUser loginUser = SecurityUtils.getUser(token);
+        if (loginUser == null) {
             //未登录或者过期
             //跳转到首页登录
             response.sendRedirect(BaseConstant.LOGIN_INDEX);
@@ -51,7 +53,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         BaseContext baseContext = BaseContextHolder.getBaseContext();
         baseContext.setToken(token);
         //用户信息
-        baseContext.setUser(SecurityUtils.getUser());
+        baseContext.setLoginUser(SecurityUtils.getUser());
 
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }

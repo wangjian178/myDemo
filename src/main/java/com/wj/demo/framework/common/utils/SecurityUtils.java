@@ -1,9 +1,13 @@
 package com.wj.demo.framework.common.utils;
 
-import com.wj.demo.framework.baseContext.BaseContextHolder;
+import com.wj.demo.core.system.config.property.SysConfigProperty;
+import com.wj.demo.core.system.service.TokenService;
 import com.wj.demo.framework.common.constant.BaseConstant;
-import com.wj.demo.framework.common.model.User;
+import com.wj.demo.framework.common.model.LoginUser;
 import com.wj.demo.framework.redis.service.RedisClient;
+import io.jsonwebtoken.Claims;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * @author wj
@@ -14,14 +18,35 @@ import com.wj.demo.framework.redis.service.RedisClient;
 public class SecurityUtils {
 
     /**
-     * 获取用户信息 todo
+     * 获取当前用户鉴权信息
+     */
+    public static Authentication getAuthentication() {
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
+
+    /**
+     * 获取用户信息
      *
      * @return 用户
      */
-    public static User getUser() {
-        return SpringContextUtils
-                .getBean(RedisClient.class)
-                .get((BaseConstant.TOKEN_PREFIX + BaseContextHolder.getBaseContext().getToken()).replace(BaseConstant.AUTHORIZATION_PREFIX, BaseConstant.EMPTY_STRING));
+    public static LoginUser getUser() {
+        Authentication authentication = getAuthentication();
+        if (authentication != null && authentication.getPrincipal() != null && authentication.getPrincipal() instanceof LoginUser loginUser) {
+            return loginUser;
+        }
+        return null;
+    }
+
+    /**
+     * 获取用户名
+     * @return 用户名
+     */
+    public static String getUsername() {
+        LoginUser loginUser = getUser();
+        if (loginUser == null) {
+            return null;
+        }
+        return loginUser.getUsername();
     }
 
     /**
@@ -30,9 +55,8 @@ public class SecurityUtils {
      * @param token 鉴权信息
      * @return 当前用户
      */
-    public static User getUser(String token) {
-        return SpringContextUtils
-                .getBean(RedisClient.class)
-                .get((BaseConstant.TOKEN_PREFIX + token).replace(BaseConstant.AUTHORIZATION_PREFIX, BaseConstant.EMPTY_STRING));
+    public static LoginUser getUser(String token) {
+        TokenService tokenService =  SpringContextUtils.getBean(TokenService.class);
+        return tokenService.getLoginUser(token);
     }
 }
