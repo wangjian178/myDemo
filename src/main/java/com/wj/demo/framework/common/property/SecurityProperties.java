@@ -1,22 +1,16 @@
-package com.wj.demo.core.system.config.property;
+package com.wj.demo.framework.common.property;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
 /**
- * @ClassName SysConfigProperty
- * @Description: 系统配置属性
- * @Author: W.Jian
- * @CreateDate: 2025/3/19 16:35
- * @Version:
+ * @author wj
+ * @version 1.0
+ * @Desc 登录接口
  */
 @Getter
 @Setter
-@Component
-@ConfigurationProperties(prefix = "system")
-public class SysConfigProperty {
+public class SecurityProperties {
 
     /**
      * 登录处理器
@@ -52,4 +46,9 @@ public class SysConfigProperty {
      * 密钥
      */
     private String secretKey;
+
+    /**
+     * 认证
+     */
+    private AuthProperties auth;
 }

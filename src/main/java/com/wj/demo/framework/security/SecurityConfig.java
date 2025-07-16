@@ -1,7 +1,7 @@
 package com.wj.demo.framework.security;
 
-import com.wj.demo.core.system.config.property.SysConfigProperty;
 import com.wj.demo.framework.common.constant.BaseConstant;
+import com.wj.demo.framework.common.property.SystemProperties;
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,7 +39,7 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 public class SecurityConfig {
 
     @Resource
-    private SysConfigProperty sysConfigProperty;
+    private SystemProperties systemProperties;
 
     @Resource(name = "ILoginService" + BaseConstant.UNDERLINE + BaseConstant.DEFAULT)
     private UserDetailsService userDetailsService;
@@ -110,22 +110,23 @@ public class SecurityConfig {
                 authorize
                         .requestMatchers(
                                 new RequestMatcher[]{
-                                        mvcMatcherBuilder.pattern("/login")
-                                        , mvcMatcherBuilder.pattern("/logout")
-                                        , mvcMatcherBuilder.pattern("/sso/**")
-                                        , mvcMatcherBuilder.pattern("/register")
-                                        , mvcMatcherBuilder.pattern("/captchaImage")
-                                        , mvcMatcherBuilder.pattern("/websocket/**")
-                                        , mvcMatcherBuilder.pattern("/xxlJobAdmin/**")
-                                        , mvcMatcherBuilder.pattern("/actuator/**")
-                                        , mvcMatcherBuilder.pattern("/springBootAdmin/**")
-                                        , mvcMatcherBuilder.pattern("favicon.ico")
-                                        , mvcMatcherBuilder.pattern("/doc.html")
-                                        , mvcMatcherBuilder.pattern("/webjars/**")
-                                        , mvcMatcherBuilder.pattern("/swagger-resources/**")
-                                        , mvcMatcherBuilder.pattern("/swagger-ui/**")
-                                        , mvcMatcherBuilder.pattern("/v3/api-docs/**")
-                                        , AntPathRequestMatcher.antMatcher("/druid/*")
+                                        mvcMatcherBuilder.pattern("/login"),
+                                        mvcMatcherBuilder.pattern("/logout"),
+                                        mvcMatcherBuilder.pattern("/sso/**"),
+                                        mvcMatcherBuilder.pattern("/register"),
+                                        mvcMatcherBuilder.pattern("/wechat/**"),
+                                        mvcMatcherBuilder.pattern("/captchaImage"),
+                                        mvcMatcherBuilder.pattern("/websocket/**"),
+                                        mvcMatcherBuilder.pattern("/xxlJobAdmin/**"),
+                                        mvcMatcherBuilder.pattern("/actuator/**"),
+                                        mvcMatcherBuilder.pattern("/springBootAdmin/**"),
+                                        mvcMatcherBuilder.pattern("favicon.ico"),
+                                        mvcMatcherBuilder.pattern("/doc.html"),
+                                        mvcMatcherBuilder.pattern("/webjars/**"),
+                                        mvcMatcherBuilder.pattern("/swagger-resources/**"),
+                                        mvcMatcherBuilder.pattern("/swagger-ui/**"),
+                                        mvcMatcherBuilder.pattern("/v3/api-docs/**"),
+                                        AntPathRequestMatcher.antMatcher("/druid/*")
                                 }
                         ).permitAll()
                         .requestMatchers(
@@ -146,14 +147,17 @@ public class SecurityConfig {
                                         AntPathRequestMatcher.antMatcher("/**/*.woff2")
                                 }
                         ).permitAll()
+                        .requestMatchers(
+                                systemProperties.getSecurity().getAuth().getExclude()
+                        ).permitAll()
                         .anyRequest()
                         .access(new AuthenticatedAuthorizationManager<>())
         ).headers(h -> h.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
 
-        //配置登陆页面
+        //配置表单登陆
         httpSecurity.formLogin(f -> f
-                .loginPage(sysConfigProperty.getLoginPage())
-                .loginProcessingUrl(sysConfigProperty.getLoginUrl())
+                .loginPage(systemProperties.getSecurity().getLoginPage())
+                .loginProcessingUrl(systemProperties.getSecurity().getLoginUrl())
                 .successHandler(new MyAuthSuccessHandler())
                 .failureHandler(new MyAuthFailureHandler())
         );
@@ -161,8 +165,8 @@ public class SecurityConfig {
         // 配置注销功能
         httpSecurity.logout(
                 l -> l
-                        .logoutUrl(sysConfigProperty.getLogoutUrl())
-                        .logoutSuccessUrl(sysConfigProperty.getLoginPage())
+                        .logoutUrl(systemProperties.getSecurity().getLogoutUrl())
+                        .logoutSuccessUrl(systemProperties.getSecurity().getLoginPage())
                         .addLogoutHandler(new MyLogoutHandler())
                         .logoutSuccessHandler(new MyLogoutSuccessHandler())
         );

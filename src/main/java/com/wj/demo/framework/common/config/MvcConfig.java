@@ -1,9 +1,7 @@
 package com.wj.demo.framework.common.config;
 
 
-import com.wj.demo.framework.common.property.AuthProperties;
-import com.wj.demo.framework.common.property.BaseContextProperties;
-import com.wj.demo.framework.interceptor.AuthInterceptor;
+import com.wj.demo.framework.common.property.SystemProperties;
 import com.wj.demo.framework.interceptor.BaseContextInterceptor;
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Configuration;
@@ -20,10 +18,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class MvcConfig implements WebMvcConfigurer {
 
     @Resource
-    private BaseContextProperties baseContextProperties;
-
-    @Resource
-    private AuthProperties authProperties;
+    private SystemProperties systemProperties;
 
     /**
      * 按照顺序拦截
@@ -33,11 +28,11 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //权限访问
-        registry.addInterceptor(new AuthInterceptor())
-                .excludePathPatterns(authProperties.getExclude());
+/*        registry.addInterceptor(new AuthInterceptor())
+                .excludePathPatterns(systemProperties.getSecurity().getAuth().getExclude());*/
 
         //多语言 国际化
         registry.addInterceptor(new BaseContextInterceptor())
-                .excludePathPatterns(baseContextProperties.getExclude());
+                .excludePathPatterns(systemProperties.getI18n().getExclude());
     }
 }

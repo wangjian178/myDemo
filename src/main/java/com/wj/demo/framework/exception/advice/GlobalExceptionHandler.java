@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public Result<String> handleException(Exception e) {
-        log.error("Exception {}", String.valueOf(e));
+        log.error("Exception ", e);
         return Result.ofFail(e.getMessage());
     }
 }

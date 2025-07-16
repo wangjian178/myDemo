@@ -1,6 +1,6 @@
 package com.wj.demo.framework.interceptor;
 
-import com.wj.demo.core.system.config.property.SysConfigProperty;
+import com.wj.demo.framework.common.property.SystemProperties;
 import com.wj.demo.core.system.service.TokenService;
 import com.wj.demo.framework.common.model.LoginUser;
 import com.wj.demo.framework.common.utils.SecurityUtils;
@@ -33,8 +33,8 @@ public class AuthInterceptor implements HandlerInterceptor {
         TokenService tokenService = SpringContextUtils.getBean(TokenService.class);
         String token = tokenService.getToken(request);
 
-        SysConfigProperty sysConfigProperty = SpringContextUtils.getBean(SysConfigProperty.class);
-        String loginPage = sysConfigProperty.getLoginPage();
+        SystemProperties systemProperties = SpringContextUtils.getBean(SystemProperties.class);
+        String loginPage = systemProperties.getSecurity().getLoginPage();
 
         if (StringUtils.isEmpty(token)) {
             //跳转到登录登录

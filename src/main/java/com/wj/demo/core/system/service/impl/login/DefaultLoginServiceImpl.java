@@ -1,6 +1,6 @@
 package com.wj.demo.core.system.service.impl.login;
 
-import com.wj.demo.core.system.config.property.SysConfigProperty;
+import com.wj.demo.framework.common.property.SystemProperties;
 import com.wj.demo.core.system.entity.SysUser;
 import com.wj.demo.core.system.enums.UserOnLineStatusEnum;
 import com.wj.demo.core.system.enums.UserStatusEnum;
@@ -48,7 +48,7 @@ import java.util.concurrent.TimeUnit;
 public class DefaultLoginServiceImpl implements ILoginService {
 
     @Resource
-    private SysConfigProperty sysConfigProperty;
+    private SystemProperties systemProperties;
 
     @Lazy
     @Resource
@@ -116,7 +116,7 @@ public class DefaultLoginServiceImpl implements ILoginService {
         LoginResultVO loginResultVO = createToken(loginUser);
 
         //记录token
-        redisClient.set(LoginConstant.TOKEN_PREFIX + loginResultVO.getToken(), loginUser, sysConfigProperty.getExpireTime(), TimeUnit.SECONDS);
+        redisClient.set(LoginConstant.TOKEN_PREFIX + loginResultVO.getToken(), loginUser, systemProperties.getSecurity().getExpireTime(), TimeUnit.SECONDS);
 
         //修改登录状态
         sysUserService.updateOnlineStatus(loginUser.getId(), UserOnLineStatusEnum.ONLINE);
@@ -140,7 +140,7 @@ public class DefaultLoginServiceImpl implements ILoginService {
         HashMap<String, String> claims = new HashMap<>();
         claims.put(SecurityConstant.USER_ID, loginUser.getId().toString());
         claims.put(SecurityConstant.USER_NAME, loginUser.getUsername());
-        String token = JwtUtils.createToken(claims, sysConfigProperty.getExpireTime(), sysConfigProperty.getSecretKey());
+        String token = JwtUtils.createToken(claims, systemProperties.getSecurity().getExpireTime(), systemProperties.getSecurity().getSecretKey());
 
         //记录token
         loginUser.setToken(token);
@@ -148,7 +148,7 @@ public class DefaultLoginServiceImpl implements ILoginService {
         //返回token
         LoginResultVO loginResultVO = new LoginResultVO();
         loginResultVO.setToken(token);
-        loginResultVO.setExpireTime(sysConfigProperty.getExpireTime());
+        loginResultVO.setExpireTime(systemProperties.getSecurity().getExpireTime());
         loginResultVO.setTimestamp(System.currentTimeMillis());
 
         return loginResultVO;

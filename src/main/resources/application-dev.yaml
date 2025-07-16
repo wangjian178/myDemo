@@ -95,37 +95,30 @@ logging:
 
 #系统配置
 system:
-    loginHandler: default
-    logoutHandler: default
-    loginUrl: /login
-    loginPage: /loginPage
-    logoutUrl: /logout
-    expireTime: 86400
-    #最少32位的密钥
-    secretKey: 123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
-
-#国际化忽略接口
-base-context:
-  exclude:
-
-#接口权限忽略接口
-auth:
-  exclude:
-    - /actuator/health
-    - /sys/user/register
-    - /login
-    - /logout
-    - /loginPage
-    - /ws/**
-    - /sse/**
-    - /wechat/checkCallback
+  #登录登出配置
+  security:
+      loginHandler: default
+      logoutHandler: default
+      loginUrl: /formLogin
+      loginPage: /loginPage
+      logoutUrl: /logout
+      expireTime: 86400
+      #最少32位的密钥
+      secretKey: 123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
+      #接口权限忽略接口
+      auth:
+        exclude:
+          - /actuator/health
+  #国际化忽略接口
+  i18n:
+    exclude:
 
 # 企业微信
 wechat:
   # 企业id
   corpId: ww41dd9ec8de52f188
   # 企业密钥
-  corpSecret: FFJlhGY85Vuqsijn4nKjYDSjxFvK4Mxuf3EB9JCTabg
+  corpSecret: UKtzKvjp3NPsmIxSbNufTok8VaXyQ5d01aKcnCeMU-U
   # 应用密钥
   encodingAESKey: ABC1234567890123456789012345678901234567890
   # 应用ID todo后面支持多个应用ID
@@ -133,7 +126,7 @@ wechat:
   # 获取token的url
   tokenUrl: https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=%s&corpsecret=%s
   # 发送消息的url
-  messageUrl: https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=%s
+  messageUrl: https://qyapi.weixin.qq.com/cgi-bin/message/send?debug=1&access_token=%s
   # 上传临时素材url
   uploadUrl: https://qyapi.weixin.qq.com/cgi-bin/media/upload?access_token=%s&type=%s
   # 上传图片url

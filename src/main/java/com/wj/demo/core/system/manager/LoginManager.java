@@ -1,6 +1,6 @@
 package com.wj.demo.core.system.manager;
 
-import com.wj.demo.core.system.config.property.SysConfigProperty;
+import com.wj.demo.framework.common.property.SystemProperties;
 import com.wj.demo.core.system.model.vo.LoginParamVO;
 import com.wj.demo.core.system.model.vo.LoginResultVO;
 import com.wj.demo.core.system.service.ILoginService;
@@ -19,9 +19,9 @@ import org.springframework.stereotype.Service;
 public class LoginManager {
 
     @Resource
-    private SysConfigProperty sysConfigProperty;
+    private SystemProperties systemProperties;
 
     public LoginResultVO login(LoginParamVO loginParamVO) {
-        return HandlerAdapter.finderHandler(ILoginService.class, sysConfigProperty.getLoginHandler()).login(loginParamVO);
+        return HandlerAdapter.finderHandler(ILoginService.class, systemProperties.getSecurity().getLoginHandler()).login(loginParamVO);
     }
 }

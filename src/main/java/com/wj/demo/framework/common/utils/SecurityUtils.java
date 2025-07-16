@@ -1,11 +1,7 @@
 package com.wj.demo.framework.common.utils;
 
-import com.wj.demo.core.system.config.property.SysConfigProperty;
 import com.wj.demo.core.system.service.TokenService;
-import com.wj.demo.framework.common.constant.BaseConstant;
 import com.wj.demo.framework.common.model.LoginUser;
-import com.wj.demo.framework.redis.service.RedisClient;
-import io.jsonwebtoken.Claims;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
