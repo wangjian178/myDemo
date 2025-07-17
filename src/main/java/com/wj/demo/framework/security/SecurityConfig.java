@@ -2,6 +2,9 @@ package com.wj.demo.framework.security;
 
 import com.wj.demo.framework.common.constant.BaseConstant;
 import com.wj.demo.framework.common.property.SystemProperties;
+import com.wj.demo.framework.security.handler.MyAuthSuccessHandler;
+import com.wj.demo.framework.security.handler.MyLogoutHandler;
+import com.wj.demo.framework.security.handler.MyLogoutSuccessHandler;
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,6 +43,9 @@ public class SecurityConfig {
 
     @Resource
     private SystemProperties systemProperties;
+
+    @Resource
+    private AnonymousAccessUrlProvider anonymousAccessUrlProvider;
 
     @Resource(name = "ILoginService" + BaseConstant.UNDERLINE + BaseConstant.DEFAULT)
     private UserDetailsService userDetailsService;
@@ -149,7 +155,10 @@ public class SecurityConfig {
                                 }
                         ).permitAll()
                         .requestMatchers(
-                                systemProperties.getSecurity().getAuth().getExclude()
+                                systemProperties.getSecurity().getAuth().getExclude().toArray(String[]::new)
+                        ).permitAll()
+                        .requestMatchers(
+                                anonymousAccessUrlProvider.getIgnoreUrls().toArray(String[]::new)
                         ).permitAll()
                         .anyRequest()
                         .access(new AuthenticatedAuthorizationManager<>())

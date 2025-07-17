@@ -3,6 +3,7 @@ package com.wj.demo.framework.security;
 import com.alibaba.fastjson.JSON;
 import com.wj.demo.core.system.service.TokenService;
 import com.wj.demo.framework.common.utils.SpringContextUtils;
+import com.wj.demo.framework.common.utils.StringUtils;
 import com.wj.demo.framework.exception.model.Result;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,12 +33,14 @@ public class MyAuthEntryPoint implements AuthenticationEntryPoint, Serializable 
         TokenService tokenService = SpringContextUtils.getBean(TokenService.class);
         String token = tokenService.getToken(request);
 
-        //返回信息
-        String msg = String.format("请求访问：%s，认证失败，无法访问系统资源", request.getRequestURI());
-        response.setStatus(HttpStatus.OK.value());
-        response.setContentType("application/json");
-        response.setHeader("Access-Control-Allow-Credentials", "true");
-        response.setCharacterEncoding("utf-8");
-        response.getWriter().print(JSON.toJSONString(Result.ofFail(String.valueOf(HttpStatus.FORBIDDEN.value()), msg)));
+        if (StringUtils.isEmpty(token)) {
+            //返回信息
+            String msg = String.format("请求访问：%s，认证失败，无法访问系统资源", request.getRequestURI());
+            response.setStatus(HttpStatus.OK.value());
+            response.setContentType("application/json");
+            response.setHeader("Access-Control-Allow-Credentials", "true");
+            response.setCharacterEncoding("utf-8");
+            response.getWriter().print(JSON.toJSONString(Result.ofFail(String.valueOf(HttpStatus.FORBIDDEN.value()), msg)));
+        }
     }
 }

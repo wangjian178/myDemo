@@ -1,4 +1,4 @@
-package com.wj.demo.framework.security;
+package com.wj.demo.framework.security.handler;
 
 import com.wj.demo.core.system.service.TokenService;
 import com.wj.demo.framework.common.model.LoginUser;

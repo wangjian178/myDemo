@@ -1,4 +1,4 @@
-package com.wj.demo.framework.security;
+package com.wj.demo.framework.security.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.wj.demo.framework.exception.model.Result;

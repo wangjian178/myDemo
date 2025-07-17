@@ -17,6 +17,6 @@ public class AuthProperties {
     /**
      * 白名单
      */
-    private String[] exclude;
+    private List<String> exclude;
 
 }
