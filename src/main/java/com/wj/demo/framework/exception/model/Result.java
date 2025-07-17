@@ -1,6 +1,8 @@
 package com.wj.demo.framework.exception.model;
 
 import com.wj.demo.framework.exception.enums.ResultCodeEnum;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -11,6 +13,8 @@ import java.io.Serializable;
  * @Desc
  * @date 2024/4/18 10:23
  */
+@Getter
+@Setter
 public class Result<T> implements Serializable {
 
     @Serial
@@ -35,30 +39,6 @@ public class Result<T> implements Serializable {
     private T data;
 
     private Integer alert = NOT_ALERT;
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
 
     public static <T> Result<T> build() {
         return new Result<>();
@@ -86,7 +66,7 @@ public class Result<T> implements Serializable {
         return result;
     }
 
-    public static <T> Result<T> ofSuccess(T data,String msg) {
+    public static <T> Result<T> ofSuccess(T data, String msg) {
         Result<T> result = build();
         result.setCode(SUCCESS_CODE);
         result.setData(data);
@@ -95,17 +75,11 @@ public class Result<T> implements Serializable {
     }
 
     public static <T> Result<T> ofFail() {
-        Result<T> result = build();
-        result.setCode(FAIL_CODE);
-        result.setMsg(FAIL_MSG);
-        return result;
+        return ofFail(FAIL_MSG);
     }
 
     public static <T> Result<T> ofFail(String msg) {
-        Result<T> result = build();
-        result.setCode(FAIL_CODE);
-        result.setMsg(msg);
-        return result;
+        return ofFail(FAIL_CODE, msg);
     }
 
     public static <T> Result<T> ofFail(ResultCodeEnum resultCodeEnum) {
@@ -128,12 +102,11 @@ public class Result<T> implements Serializable {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Result{");
-        sb.append("code='").append(code).append('\'');
-        sb.append(", msg='").append(msg).append('\'');
-        sb.append(", data=").append(data);
-        sb.append(", alert=").append(alert);
-        sb.append('}');
-        return sb.toString();
+        return "Result{" +
+                "code='" + code + '\'' +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                ", alert=" + alert +
+                '}';
     }
 }

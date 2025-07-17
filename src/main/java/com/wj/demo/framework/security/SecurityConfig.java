@@ -133,6 +133,7 @@ public class SecurityConfig {
                                 new RequestMatcher[]{
                                         AntPathRequestMatcher.antMatcher(HttpMethod.OPTIONS),
                                         AntPathRequestMatcher.antMatcher("/"),
+                                        AntPathRequestMatcher.antMatcher("/static/**"),
                                         AntPathRequestMatcher.antMatcher("/*.html"),
                                         AntPathRequestMatcher.antMatcher("/*.ico"),
                                         AntPathRequestMatcher.antMatcher("/**/*.html"),
@@ -155,12 +156,12 @@ public class SecurityConfig {
         ).headers(h -> h.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
 
         //配置表单登陆
-        httpSecurity.formLogin(f -> f
+/*        httpSecurity.formLogin(f -> f
                 .loginPage(systemProperties.getSecurity().getLoginPage())
                 .loginProcessingUrl(systemProperties.getSecurity().getLoginUrl())
                 .successHandler(new MyAuthSuccessHandler())
                 .failureHandler(new MyAuthFailureHandler())
-        );
+        );*/
 
         // 配置注销功能
         httpSecurity.logout(
