@@ -14,12 +14,6 @@ import lombok.Data;
 @Schema(description = "登陆参数")
 public class LoginParamVO {
     /**
-     * 唯一标识
-     */
-    @Schema(description = "唯一标识")
-    private String uuid;
-
-    /**
      * 用户名
      */
     @Schema(description = "用户名")
@@ -30,8 +24,13 @@ public class LoginParamVO {
     @Schema(description = "密码")
     private String password;
     /**
+     * 验证码唯一标识
+     */
+    @Schema(description = "验证码唯一标识")
+    private String captchaId;
+    /**
      * 验证码
      */
     @Schema(description = "验证码")
-    private String captcha;
+    private String captchaCode;
 }

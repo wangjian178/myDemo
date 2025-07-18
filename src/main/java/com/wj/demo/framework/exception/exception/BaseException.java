@@ -1,6 +1,8 @@
 package com.wj.demo.framework.exception.exception;
 
 import com.wj.demo.framework.exception.enums.ResultCodeEnum;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author wj
@@ -8,17 +10,11 @@ import com.wj.demo.framework.exception.enums.ResultCodeEnum;
  * @Desc
  * @date 2024/4/18 10:56
  */
+@Setter
+@Getter
 public class BaseException extends RuntimeException {
 
     private String code;
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
 
     public BaseException(String code, String message) {
         super(message);

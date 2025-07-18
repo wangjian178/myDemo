@@ -26,6 +26,7 @@
         <fastjson.version>1.2.83</fastjson.version>
         <jwt.version>0.12.6</jwt.version>
         <pagehelper.version>2.1.0</pagehelper.version>
+        <kaptcha.version>0.0.9</kaptcha.version>
     </properties>
     <dependencies>
         <!--web-->
@@ -195,6 +196,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <!--kaptcha 验证码-->
+        <dependency>
+            <groupId>com.github.axet</groupId>
+            <artifactId>kaptcha</artifactId>
+            <version>${kaptcha.version}</version>
         </dependency>
     </dependencies>
 

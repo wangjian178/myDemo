@@ -1,6 +1,5 @@
 package com.wj.demo.core.system.service.impl.login;
 
-import com.wj.demo.framework.common.property.SystemProperties;
 import com.wj.demo.core.system.entity.SysUser;
 import com.wj.demo.core.system.enums.UserOnLineStatusEnum;
 import com.wj.demo.core.system.enums.UserStatusEnum;
@@ -12,6 +11,8 @@ import com.wj.demo.framework.common.constant.BaseConstant;
 import com.wj.demo.framework.common.constant.LoginConstant;
 import com.wj.demo.framework.common.constant.SecurityConstant;
 import com.wj.demo.framework.common.model.LoginUser;
+import com.wj.demo.framework.common.property.SystemProperties;
+import com.wj.demo.framework.common.utils.CaptchaUtils;
 import com.wj.demo.framework.common.utils.JwtUtils;
 import com.wj.demo.framework.common.utils.PasswordUtils;
 import com.wj.demo.framework.exception.enums.ResultCodeEnum;
@@ -97,7 +98,7 @@ public class DefaultLoginServiceImpl implements ILoginService {
     @Override
     public LoginResultVO login(LoginParamVO loginParamVO) {
         // 校验验证码 captcha
-        checkCaptcha(loginParamVO.getUuid(), loginParamVO.getCaptcha());
+        checkCaptcha(loginParamVO.getCaptchaId(), loginParamVO.getCaptchaCode());
 
         // 检测账号是否锁定
         checkAccountLocked(loginParamVO.getUsername());
@@ -179,22 +180,14 @@ public class DefaultLoginServiceImpl implements ILoginService {
 
     /**
      * 校验验证码
-     *
-     * @param captcha 验证码
+     * @param captchaId     验证码ID
+     * @param captchaCode   验证码
      */
-    public void checkCaptcha(String uuid, String captcha) {
-        //todo 查询配置是否启用验证码
-        boolean captchaEnable = Boolean.FALSE;
-        if (!captchaEnable) {
+    public void checkCaptcha(String captchaId, String captchaCode) {
+        if (systemProperties.getSecurity().getCaptcha() == null || !systemProperties.getSecurity().getCaptcha()) {
             return;
         }
-        String captchaCache = redisClient.get(LoginConstant.LOGIN_CAPTCHA_KEY + uuid);
-        if (captchaCache == null) {
-            throw new BaseException(ResultCodeEnum.LOGIN_CAPTCHA_EXPIRE_ERROR);
-        }
-        if (!captcha.equals(captchaCache)) {
-            throw new BaseException(ResultCodeEnum.LOGIN_CAPTCHA_ERROR);
-        }
+        CaptchaUtils.checkCaptcha(captchaId, captchaCode);
     }
 
     /**

@@ -48,6 +48,16 @@ public class SecurityProperties {
     private String secretKey;
 
     /**
+     * 启用验证码
+     */
+    private Boolean captcha = Boolean.FALSE;
+
+    /**
+     * 验证码过期时间 s
+     */
+    private Long captchaExpireTime = 60L;
+
+    /**
      * 认证
      */
     private AuthProperties auth;

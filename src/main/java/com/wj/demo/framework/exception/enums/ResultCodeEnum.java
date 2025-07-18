@@ -12,8 +12,9 @@ import lombok.Getter;
 public enum ResultCodeEnum {
 
     SYSTEM_ERROR("500", "未知错误"),
-    LOGIN_CAPTCHA_EXPIRE_ERROR("601", "验证码超时！"),
-    LOGIN_CAPTCHA_ERROR("602", "验证码错误！"),
+    CAPTCHA_CREATE_ERROR("601", "验证码生成失败！"),
+    CAPTCHA_EXPIRE_ERROR("602", "验证码失效！"),
+    CAPTCHA_ERROR("603", "验证码错误！"),
     ;
 
     private final String code;
