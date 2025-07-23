@@ -1,7 +1,7 @@
 package com.wj.demo.framework.interceptor;
 
 import com.wj.demo.framework.common.property.SystemProperties;
-import com.wj.demo.core.system.service.TokenService;
+import com.wj.demo.core.system.service.ITokenService;
 import com.wj.demo.framework.common.model.LoginUser;
 import com.wj.demo.framework.common.utils.SecurityUtils;
 import com.wj.demo.framework.common.utils.SpringContextUtils;
@@ -30,7 +30,7 @@ public class AuthInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        TokenService tokenService = SpringContextUtils.getBean(TokenService.class);
+        ITokenService tokenService = SpringContextUtils.getBean(ITokenService.class);
         String token = tokenService.getToken(request);
 
         SystemProperties systemProperties = SpringContextUtils.getBean(SystemProperties.class);

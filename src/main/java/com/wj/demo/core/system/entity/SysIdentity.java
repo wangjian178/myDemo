@@ -8,9 +8,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.io.Serial;
-import java.io.Serializable;
-
 /**
  * 流水号生成
  *
@@ -22,10 +19,9 @@ import java.io.Serializable;
 @Accessors(chain = true)
 @Table(value = "SYS_IDENTITY")
 @Schema(title = "SysIdentity", description = "流水号生成")
-public class SysIdentity extends BaseEntity implements Serializable {
+public class SysIdentity extends BaseEntity{
 
-    @Serial
-    private static final long serialVersionUID = 1L;
+
 
     /**
      * 名称

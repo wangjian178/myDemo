@@ -1,6 +1,6 @@
 package com.wj.demo.framework.security.handler;
 
-import com.wj.demo.core.system.service.TokenService;
+import com.wj.demo.core.system.service.ITokenService;
 import com.wj.demo.framework.common.model.LoginUser;
 import com.wj.demo.framework.common.utils.SpringContextUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 public class MyLogoutHandler implements LogoutHandler {
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        TokenService tokenService = SpringContextUtils.getBean(TokenService.class);
+        ITokenService tokenService = SpringContextUtils.getBean(ITokenService.class);
         LoginUser loginUser = tokenService.getLoginUser(request);
         if (loginUser != null) {
             tokenService.removeLoginUser(loginUser);

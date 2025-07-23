@@ -45,10 +45,7 @@ public class Result<T> implements Serializable {
     }
 
     public static <T> Result<T> ofSuccess() {
-        Result<T> result = build();
-        result.setCode(SUCCESS_CODE);
-        result.setMsg(SUCCESS_MSG);
-        return result;
+        return ofFail(SUCCESS_CODE, SUCCESS_MSG);
     }
 
     public static <T> Result<T> ofSuccess(T data) {
@@ -60,10 +57,7 @@ public class Result<T> implements Serializable {
     }
 
     public static <T> Result<T> ofSuccess(String msg) {
-        Result<T> result = build();
-        result.setCode(SUCCESS_CODE);
-        result.setMsg(msg);
-        return result;
+        return ofFail(SUCCESS_CODE, msg);
     }
 
     public static <T> Result<T> ofSuccess(T data, String msg) {

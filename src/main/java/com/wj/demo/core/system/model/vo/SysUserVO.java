@@ -1,9 +1,7 @@
 package com.wj.demo.core.system.model.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.wj.demo.core.system.enums.UserOnLineStatusEnum;
 import com.wj.demo.core.system.enums.UserSexEnum;
-import com.wj.demo.core.system.enums.UserStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;

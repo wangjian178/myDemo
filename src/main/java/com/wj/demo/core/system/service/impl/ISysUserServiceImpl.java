@@ -9,11 +9,9 @@ import com.wj.demo.core.system.mapper.SysUserMapper;
 import com.wj.demo.core.system.model.vo.SysUserPasswordVO;
 import com.wj.demo.core.system.model.vo.SysUserVO;
 import com.wj.demo.core.system.service.ISysUserService;
-import com.wj.demo.framework.common.model.LoginUser;
 import com.wj.demo.framework.common.utils.StringUtils;
 import com.wj.demo.framework.exception.exception.BaseException;
 import com.wj.demo.framework.mybatisFlex.entity.BaseEntity;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

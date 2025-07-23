@@ -1,10 +1,10 @@
 package com.wj.demo.core.system.manager;
 
-import com.wj.demo.framework.common.property.SystemProperties;
 import com.wj.demo.core.system.model.vo.LoginParamVO;
 import com.wj.demo.core.system.model.vo.LoginResultVO;
 import com.wj.demo.core.system.service.ILoginService;
 import com.wj.demo.framework.baseContext.HandlerAdapter;
+import com.wj.demo.framework.common.property.SystemProperties;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 

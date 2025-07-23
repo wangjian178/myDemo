@@ -6,7 +6,6 @@ import com.wj.demo.core.system.entity.SysUser;
 import com.wj.demo.core.system.enums.UserOnLineStatusEnum;
 import com.wj.demo.core.system.model.vo.SysUserPasswordVO;
 import com.wj.demo.core.system.model.vo.SysUserVO;
-import com.wj.demo.framework.common.model.LoginUser;
 
 import java.util.List;
 

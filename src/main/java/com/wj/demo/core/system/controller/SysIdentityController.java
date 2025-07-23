@@ -1,8 +1,8 @@
 package com.wj.demo.core.system.controller;
 
-import com.wj.demo.framework.exception.model.Result;
 import com.wj.demo.core.system.entity.SysIdentity;
 import com.wj.demo.core.system.service.ISysIdentityService;
+import com.wj.demo.framework.exception.model.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;

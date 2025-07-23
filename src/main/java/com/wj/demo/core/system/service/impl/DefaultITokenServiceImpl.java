@@ -2,7 +2,7 @@ package com.wj.demo.core.system.service.impl;
 
 import com.wj.demo.core.system.enums.UserOnLineStatusEnum;
 import com.wj.demo.core.system.service.ISysUserService;
-import com.wj.demo.core.system.service.TokenService;
+import com.wj.demo.core.system.service.ITokenService;
 import com.wj.demo.framework.common.constant.LoginConstant;
 import com.wj.demo.framework.common.constant.SecurityConstant;
 import com.wj.demo.framework.common.model.LoginUser;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
  * @Version:
  */
 @Service
-public class DefaultTokenServiceImpl implements TokenService {
+public class DefaultITokenServiceImpl implements ITokenService {
 
     @Resource
     private RedisClient redisClient;

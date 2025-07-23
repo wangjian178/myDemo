@@ -1,6 +1,6 @@
 package com.wj.demo.framework.common.utils;
 
-import com.wj.demo.core.system.service.TokenService;
+import com.wj.demo.core.system.service.ITokenService;
 import com.wj.demo.framework.common.model.LoginUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -52,7 +52,7 @@ public class SecurityUtils {
      * @return 当前用户
      */
     public static LoginUser getUser(String token) {
-        TokenService tokenService =  SpringContextUtils.getBean(TokenService.class);
+        ITokenService tokenService =  SpringContextUtils.getBean(ITokenService.class);
         return tokenService.getLoginUser(token);
     }
 }

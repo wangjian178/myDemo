@@ -1,6 +1,5 @@
 package com.wj.demo.core.system.service;
 
-import com.wj.demo.core.system.entity.SysUser;
 import com.wj.demo.core.system.model.vo.LoginParamVO;
 import com.wj.demo.core.system.model.vo.LoginResultVO;
 import com.wj.demo.framework.common.model.LoginUser;

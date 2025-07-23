@@ -1,8 +1,5 @@
 package com.wj.demo.core.system.constant;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 /**
  * @ClassName UserConstant
  * @Description: 用户常量

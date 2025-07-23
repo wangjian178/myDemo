@@ -1,7 +1,7 @@
 package com.wj.demo.framework.security;
 
 import com.alibaba.fastjson.JSON;
-import com.wj.demo.core.system.service.TokenService;
+import com.wj.demo.core.system.service.ITokenService;
 import com.wj.demo.framework.common.utils.SpringContextUtils;
 import com.wj.demo.framework.common.utils.StringUtils;
 import com.wj.demo.framework.exception.model.Result;
@@ -30,7 +30,7 @@ public class MyAuthEntryPoint implements AuthenticationEntryPoint, Serializable 
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        TokenService tokenService = SpringContextUtils.getBean(TokenService.class);
+        ITokenService tokenService = SpringContextUtils.getBean(ITokenService.class);
         String token = tokenService.getToken(request);
 
         if (StringUtils.isEmpty(token)) {

@@ -15,7 +15,6 @@ import com.wj.demo.framework.common.property.SystemProperties;
 import com.wj.demo.framework.common.utils.CaptchaUtils;
 import com.wj.demo.framework.common.utils.JwtUtils;
 import com.wj.demo.framework.common.utils.PasswordUtils;
-import com.wj.demo.framework.exception.enums.ResultCodeEnum;
 import com.wj.demo.framework.exception.exception.BaseException;
 import com.wj.demo.framework.redis.service.RedisClient;
 import jakarta.annotation.Resource;

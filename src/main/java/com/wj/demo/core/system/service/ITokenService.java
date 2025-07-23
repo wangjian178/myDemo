@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
  * @CreateDate: 2025/4/25 10:02
  * @Version:
  */
-public interface TokenService {
+public interface ITokenService {
 
     /**
      * 根据request获取token
