@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wj.demo.core.system.mapper.SysDictDataMapper">
+    <resultMap id="BaseResultMap" type="com.wj.demo.core.system.entity.SysDictData">
+        <id column="ID" jdbcType="INTEGER" property="id"/>
+        <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_BY" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="REMARK" jdbcType="VARCHAR" property="remark"/>
+        <result column="DELETED" jdbcType="INTEGER" property="deleted"/>
+        <result column="DICT_TYPE" jdbcType="VARCHAR" property="dictType"/>
+        <result column="DICT_LABEL" jdbcType="VARCHAR" property="dictLabel"/>
+        <result column="DICT_VALUE" jdbcType="VARCHAR" property="dictValue"/>
+        <result column="SORT" jdbcType="INTEGER" property="sort"/>
+        <result column="STYLE" jdbcType="VARCHAR" property="style"/>
+        <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+        <result column="IS_DEFAULT" jdbcType="INTEGER" property="isDefault"/>
+        <result column="PARENT_VALUE" jdbcType="VARCHAR" property="parentValue"/>
+    </resultMap>
+    <select id="selectByTypeAndValue" resultType="com.wj.demo.core.system.entity.SysDictData">
+        SELECT * FROM SYS_DICT_DATA
+        <where>
+            DELETED=0
+            <if test="dictDataList != null and dictDataList.size>0">
+                AND (DICT_TYPE,DICT_VALUE) IN
+                <foreach collection="dictDataList" item="item" index="index" open="(" close=")" separator=",">
+                    (#{item.dictType},#{item.dictValue})
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+</mapper>

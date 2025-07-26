@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Tag(name = "流水号生成")
 @RestController
-@RequestMapping("/identity")
+@RequestMapping("/system/identity")
 public class SysIdentityController {
 
     @Resource

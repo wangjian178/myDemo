@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Tag(name = "用户管理")
 @RestController
-@RequestMapping("/sys/user")
+@RequestMapping("/system/user")
 public class SysUserController {
 
     @Resource
