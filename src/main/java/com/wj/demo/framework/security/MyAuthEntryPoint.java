@@ -33,7 +33,7 @@ public class MyAuthEntryPoint implements AuthenticationEntryPoint, Serializable 
         ITokenService tokenService = SpringContextUtils.getBean(ITokenService.class);
         String token = tokenService.getToken(request);
 
-        if (StringUtils.isEmpty(token)) {
+        if (StringUtils.isEmpty(token) || tokenService.getLoginUser(token) == null) {
             //返回信息
             String msg = String.format("请求访问：%s，认证失败，无法访问系统资源", request.getRequestURI());
             response.setStatus(HttpStatus.OK.value());
