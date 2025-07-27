@@ -33,6 +33,14 @@ public enum OperateTypeEnum {
      */
     IMPORT,
     /**
+     * 上传
+     */
+    UPLOAD,
+    /**
+     * 下载
+     */
+    DOWNLOAD,
+    /**
      * 其他
      */
     OTHER;

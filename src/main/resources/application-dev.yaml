@@ -101,21 +101,25 @@ logging:
 system:
   #登录登出配置
   security:
-      loginHandler: default
-      logoutHandler: default
-      loginUrl: /formLogin
-      loginPage: /loginPage
-      logoutUrl: /logout
-      expireTime: 86400
-      #最少32位的密钥
-      secretKey: 123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
-      #接口权限忽略接口
-      auth:
-        exclude:
-          - /actuator/health
+    loginHandler: default
+    logoutHandler: default
+    loginUrl: /formLogin
+    loginPage: /loginPage
+    logoutUrl: /logout
+    expireTime: 86400
+    #最少32位的密钥
+    secretKey: 123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
+    #接口权限忽略接口
+    auth:
+      exclude:
+        - /actuator/health
   #国际化忽略接口
   i18n:
     exclude:
+  #文件上传
+  file:
+    # 环境变量优先，不存在则用默认值
+    upload-path: ${SYSTEM_FILE_UPLOAD_PATH:D:\upload}
 
 # 企业微信
 wechat:
