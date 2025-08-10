@@ -89,9 +89,14 @@ public class SysScheduleJobController {
         return sysScheduleJobService.getById(id);
     }
 
+    /**
+     * 系统-定时任务-执行
+     *
+     * @param scheduleJob 任务
+     */
     @PostMapping("/execute")
-    @OperateLog(module = "系统-定时任务表", function = "执行任务", operateType = OperateTypeEnum.OTHER)
-    public void getInfo(@RequestBody SysScheduleJob scheduleJob) {
+    @OperateLog(module = "系统-定时任务", function = "执行任务", operateType = OperateTypeEnum.OTHER)
+    public void execute(@RequestBody SysScheduleJob scheduleJob) {
         sysScheduleJobService.execute(scheduleJob);
     }
 }
