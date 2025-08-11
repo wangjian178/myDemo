@@ -1,8 +1,12 @@
 package com.wj.demo.core.file.service;
 
 import com.wj.demo.core.file.entity.SysFile;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -33,16 +37,18 @@ public interface IUploadFileService {
     /**
      * 下载
      *
-     * @param fileName 文件名
+     * @param fileId   文件ID
+     * @param response 响应
      */
-    void download(String fileName);
+    void download(Serializable fileId, HttpServletResponse response);
 
     /**
      * 批量下载
+     * 压缩文件
      *
-     * @param fileNames 文件名
+     * @param fileIdList 文件ID
      */
-    void downloadFiles(List<String> fileNames);
+    ResponseEntity<StreamingResponseBody> downloadZip(List<? extends Serializable> fileIdList);
 
     /**
      * 预览
