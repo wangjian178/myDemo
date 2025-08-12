@@ -136,9 +136,6 @@ public class CommonFileServiceImpl implements ICommonFileService {
                 boolean create = dir.mkdirs();
                 log.info("目标文件夹不存在，正在创建。。。{} {}", dir.getAbsolutePath(), create);
             }
-            if (uploadFile.exists()) {
-                boolean create = uploadFile.createNewFile();
-            }
             FileCopyUtils.copy(file.getInputStream(), Files.newOutputStream(uploadFile.toPath()));
         } catch (IOException e) {
             throw new RuntimeException(e);
