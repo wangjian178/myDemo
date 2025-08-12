@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Configuration
 @ConfigurationProperties(prefix = "system.file")
-public class UploadFileConfig {
+public class SystemFileConfig {
 
     private String uploadPath;
 }

@@ -1,10 +1,10 @@
 package com.wj.demo.core.file.service.impl;
 
-import com.wj.demo.core.file.config.UploadFileConfig;
+import com.wj.demo.core.file.config.SystemFileConfig;
 import com.wj.demo.core.file.constant.FileConstant;
 import com.wj.demo.core.file.entity.SysFile;
+import com.wj.demo.core.file.service.ICommonFileService;
 import com.wj.demo.core.file.service.ISysFileService;
-import com.wj.demo.core.file.service.IUploadFileService;
 import com.wj.demo.framework.common.constant.SymbolicConstant;
 import com.wj.demo.framework.common.utils.CollectionUtils;
 import com.wj.demo.framework.common.utils.DateUtils;
@@ -24,8 +24,12 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -42,10 +46,10 @@ import java.util.zip.ZipOutputStream;
  */
 @Slf4j
 @Service
-public class UploadFileServiceImpl implements IUploadFileService {
+public class CommonFileServiceImpl implements ICommonFileService {
 
     @Resource
-    private UploadFileConfig uploadFileConfig;
+    private SystemFileConfig systemFileConfig;
 
     @Resource
     private RedisClient redisClient;
@@ -88,7 +92,7 @@ public class UploadFileServiceImpl implements IUploadFileService {
         //生成的文件路径
         String fileName = generateFileName() + fileType;
         //文件保存路径
-        String filePath = uploadFileConfig.getUploadPath()
+        String filePath = systemFileConfig.getUploadPath()
                 + File.separator
                 + LocalDate.now().format(DateTimeFormatter.ofPattern(DateUtils.YYYY))
                 + File.separator
@@ -162,7 +166,7 @@ public class UploadFileServiceImpl implements IUploadFileService {
      * @param response 响应
      */
     @Override
-    public void download(Serializable fileId, HttpServletResponse response) {
+    public void download(Long fileId, HttpServletResponse response) {
 
         //  1.查询文件
         SysFile sysFile = sysFileService.getById(fileId);
@@ -191,7 +195,7 @@ public class UploadFileServiceImpl implements IUploadFileService {
      * @param fileIdList 文件ID
      */
     @Override
-    public ResponseEntity<StreamingResponseBody> downloadZip(List<? extends Serializable> fileIdList) {
+    public ResponseEntity<StreamingResponseBody> downloadZip(List<Long> fileIdList) {
         //  1.查询文件
         List<SysFile> sysFileList = sysFileService.listByIds(fileIdList);
         if (CollectionUtils.isEmpty(sysFileList)) {
@@ -201,8 +205,10 @@ public class UploadFileServiceImpl implements IUploadFileService {
         //  2. 创建动态ZIP流响应
         StreamingResponseBody stream = outputStream -> {
             try (ZipOutputStream zipOut = new ZipOutputStream(outputStream)) {
+
                 for (SysFile file : sysFileList) {
-                    ZipEntry zipEntry = new ZipEntry(file.getFilePath());
+                    // 使用文件名而不是完整路径作为ZipEntry名称
+                    ZipEntry zipEntry = new ZipEntry(file.getUploadName() != null ? file.getUploadName() : file.getFileName());
                     zipOut.putNextEntry(zipEntry);
 
                     try (FileInputStream fis = new FileInputStream(file.getFilePath())) {
@@ -211,17 +217,24 @@ public class UploadFileServiceImpl implements IUploadFileService {
                         while ((len = fis.read(buffer)) > 0) {
                             zipOut.write(buffer, 0, len);
                         }
+                    } catch (IOException e) {
+                        log.error("读取文件失败: {}", file.getFilePath(), e);
                     }
                     zipOut.closeEntry();
                 }
+
                 zipOut.finish();
+            } catch (IOException e) {
+                log.error("创建ZIP文件失败", e);
+                throw new RuntimeException("压缩文件创建失败", e);
             }
         };
 
-        //  3. 返回响应
+        //  3. 返回响应 utf8编码
+        String zipName = java.net.URLEncoder.encode(System.currentTimeMillis() + ".zip", StandardCharsets.UTF_8);
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=batch-files.zip")
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + zipName)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE + ";charset=UTF-8").contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(stream);
 
         //todo 3.非关系型数据库记录下载次数、下载记录

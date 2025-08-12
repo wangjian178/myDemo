@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -16,7 +15,7 @@ import java.util.List;
  * @CreateDate: 2025/7/27 17:50
  * @Version:
  */
-public interface IUploadFileService {
+public interface ICommonFileService {
 
     /**
      * 单个文件上传
@@ -40,7 +39,7 @@ public interface IUploadFileService {
      * @param fileId   文件ID
      * @param response 响应
      */
-    void download(Serializable fileId, HttpServletResponse response);
+    void download(Long fileId, HttpServletResponse response);
 
     /**
      * 批量下载
@@ -48,7 +47,7 @@ public interface IUploadFileService {
      *
      * @param fileIdList 文件ID
      */
-    ResponseEntity<StreamingResponseBody> downloadZip(List<? extends Serializable> fileIdList);
+    ResponseEntity<StreamingResponseBody> downloadZip(List<Long> fileIdList);
 
     /**
      * 预览
