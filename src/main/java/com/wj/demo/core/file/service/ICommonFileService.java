@@ -1,6 +1,7 @@
 package com.wj.demo.core.file.service;
 
 import com.wj.demo.core.file.entity.SysFile;
+import com.wj.demo.framework.exception.model.Result;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,7 +24,7 @@ public interface ICommonFileService {
      * @param file 文件
      * @return 文件
      */
-    SysFile upload(MultipartFile file);
+    Result<SysFile> upload(MultipartFile file);
 
     /**
      * 批量上传
@@ -31,7 +32,7 @@ public interface ICommonFileService {
      * @param files 批量文件上传
      * @return 文件
      */
-    List<SysFile> uploadFiles(List<MultipartFile> files);
+    Result<List<SysFile>> uploadBatch(MultipartFile[] files);
 
     /**
      * 下载
@@ -50,23 +51,32 @@ public interface ICommonFileService {
     ResponseEntity<StreamingResponseBody> downloadZip(List<Long> fileIdList);
 
     /**
-     * 预览
-     *
-     * @param fileName 文件名
-     */
-    void preview(String fileName);
-
-    /**
      * 删除
      *
-     * @param fileName 文件名
+     * @param fileId 文件Id
      */
-    void delete(String fileName);
+    Result<String> remove(Long fileId);
 
     /**
      * 批量删除
      *
-     * @param fileNames 文件名
+     * @param fileIds 文件名
      */
-    void deleteFiles(List<String> fileNames);
+    Result<String> removeBatch(List<Long> fileIds);
+
+    /**
+     * 预览图片
+     *
+     * @param fileId   文件Id
+     * @param response 响应
+     */
+    void previewImage(Long fileId, HttpServletResponse response);
+
+    /**
+     * 预览PDF
+     *
+     * @param fileId   文件Id
+     * @param response 响应
+     */
+    void previewPDF(Long fileId, HttpServletResponse response);
 }

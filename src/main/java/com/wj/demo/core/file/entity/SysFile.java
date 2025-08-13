@@ -53,8 +53,8 @@ public class SysFile extends BaseEntity {
      * 上传文件名称
      */
     @Schema(description = "上传文件名称")
-    @Column(value = "UPLOAD_NAME")
-    private String uploadName;
+    @Column(value = "ORIGIN_FILE_NAME")
+    private String originFileName;
 
     /**
      * 服务器地址

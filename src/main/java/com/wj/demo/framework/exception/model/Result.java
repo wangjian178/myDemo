@@ -90,6 +90,12 @@ public class Result<T> implements Serializable {
         return result;
     }
 
+    public static <T> Result<T> ofFail(T data, String msg) {
+        Result<T> result = ofFail(msg);
+        result.setData(data);
+        return result;
+    }
+
     public static <T> boolean isSuccess(Result<T> result) {
         return SUCCESS_CODE.equals(result.code);
     }

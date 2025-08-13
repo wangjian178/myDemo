@@ -18,6 +18,10 @@ public class SymbolicConstant {
      */
     public static final String DOT = ".";
     /**
+     * 顿号
+     */
+    public static final String DOTTED_COMMA = "、";
+    /**
      * 冒号
      */
     public static final String COLON = ":";

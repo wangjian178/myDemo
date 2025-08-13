@@ -15,7 +15,7 @@
         <result column="FILE_PATH" jdbcType="VARCHAR" property="filePath"/>
         <result column="FILE_TYPE" jdbcType="VARCHAR" property="fileType"/>
         <result column="FILE_SIZE" jdbcType="BIGINT" property="fileSize"/>
-        <result column="UPLOAD_PATH" jdbcType="VARCHAR" property="uploadPath"/>
+        <result column="ORIGIN_FILE_NAME" jdbcType="VARCHAR" property="originFileName"/>
         <result column="ADDRESS" jdbcType="VARCHAR" property="address"/>
         <result column="IS_DIRECTORY" jdbcType="INTEGER" property="isDirectory"/>
     </resultMap>

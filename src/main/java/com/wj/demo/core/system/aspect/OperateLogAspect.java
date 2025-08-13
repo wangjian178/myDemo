@@ -19,6 +19,7 @@ import org.aspectj.lang.annotation.Before;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -78,10 +79,12 @@ public class OperateLogAspect {
         log.setOperateTime(LocalDateTime.now());
 
         if (operateLog.saveParams()) {
-            if ((RequestMethod.POST.name().equals(requestMethod) || RequestMethod.PUT.name().equals(requestMethod)) && joinPoint.getArgs().length > 0) {
-                log.setParams(StringUtils.substring(JSON.toJSONString(joinPoint.getArgs()[0]), NumberConstant.ZERO, NumberConstant.FIVE_HUNDREDS));
-            } else {
+            if (RequestMethod.GET.name().equals(requestMethod)) {
                 log.setParams(StringUtils.substring(JSON.toJSONString(request.getParameterMap()), NumberConstant.ZERO, NumberConstant.FIVE_HUNDREDS));
+            } else if (joinPoint.getArgs().length > 0 && joinPoint.getArgs()[0] instanceof MultipartFile) {
+                log.setParams(StringUtils.substring(((MultipartFile) joinPoint.getArgs()[0]).getOriginalFilename(), NumberConstant.ZERO, NumberConstant.FIVE_HUNDREDS));
+            } else if (joinPoint.getArgs().length > 0) {
+                log.setParams(StringUtils.substring(JSON.toJSONString(joinPoint.getArgs()[0]), NumberConstant.ZERO, NumberConstant.FIVE_HUNDREDS));
             }
         }
 

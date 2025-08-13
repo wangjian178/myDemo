@@ -4,6 +4,7 @@ import com.wj.demo.core.file.entity.SysFile;
 import com.wj.demo.core.file.service.ICommonFileService;
 import com.wj.demo.framework.common.annotation.OperateLog;
 import com.wj.demo.framework.common.enums.OperateTypeEnum;
+import com.wj.demo.framework.exception.model.Result;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
@@ -27,10 +28,16 @@ public class CommonFileController {
     @Resource
     private ICommonFileService commonFileService;
 
-    @GetMapping("/upload")
+    @PostMapping("/upload")
     @OperateLog(module = "通用文件", function = "上传文件", operateType = OperateTypeEnum.UPLOAD)
-    public SysFile upload(MultipartFile file) {
+    public Result<SysFile> upload(MultipartFile file) {
         return commonFileService.upload(file);
+    }
+
+    @PostMapping("/uploadBatch")
+    @OperateLog(module = "通用文件", function = "批量上传文件", operateType = OperateTypeEnum.UPLOAD)
+    public Result<List<SysFile>> uploadBatch(MultipartFile[] files) {
+        return commonFileService.uploadBatch(files);
     }
 
     @GetMapping("/download")
@@ -43,5 +50,29 @@ public class CommonFileController {
     @OperateLog(module = "通用文件", function = "下载zip文件", operateType = OperateTypeEnum.DOWNLOAD)
     public ResponseEntity<StreamingResponseBody> downloadZip(@RequestBody List<Long> fileIdList) {
         return commonFileService.downloadZip(fileIdList);
+    }
+
+    @DeleteMapping("/remove")
+    @OperateLog(module = "通用文件", function = "删除文件", operateType = OperateTypeEnum.DELETE)
+    public Result<String> remove(@RequestParam(value = "fileId") Long fileId) {
+        return commonFileService.remove(fileId);
+    }
+
+    @DeleteMapping("/removeBatch")
+    @OperateLog(module = "通用文件", function = "批量删除文件", operateType = OperateTypeEnum.DELETE)
+    public Result<String> removeBatch(@RequestBody List<Long> fileIds) {
+        return commonFileService.removeBatch(fileIds);
+    }
+
+    @PostMapping("/previewImage")
+    @OperateLog(module = "通用文件", function = "预览图片", operateType = OperateTypeEnum.OTHER)
+    public void previewImage(@RequestParam(value = "fileId") Long fileId, HttpServletResponse response) {
+        commonFileService.previewImage(fileId, response);
+    }
+
+    @PostMapping("/previewPDF")
+    @OperateLog(module = "通用文件", function = "预览PDF", operateType = OperateTypeEnum.OTHER)
+    public void previewPDF(@RequestParam(value = "fileId") Long fileId, HttpServletResponse response) {
+        commonFileService.previewPDF(fileId, response);
     }
 }

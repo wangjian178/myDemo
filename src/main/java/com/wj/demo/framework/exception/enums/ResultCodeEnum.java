@@ -15,7 +15,9 @@ public enum ResultCodeEnum {
     CAPTCHA_CREATE_ERROR("601", "验证码生成失败！"),
     CAPTCHA_EXPIRE_ERROR("602", "验证码失效！"),
     CAPTCHA_ERROR("603", "验证码错误！"),
-    FILE_NOT_FOUND_ERROR("703", "文件不存在！"),
+    FILE_NOT_FOUND_ERROR("701", "文件不存在！"),
+    FILE_NOT_IMAGE_ERROR("702", "文件不是图片类型！"),
+    IMAGE_LOADING_ERROR("703", "图片加载失败！"),
     ;
 
     private final String code;
