@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.wj.demo.core.system.context.OperateLogContext;
 import com.wj.demo.core.system.entity.SysOperateLog;
 import com.wj.demo.core.system.service.ISysOperateLogService;
-import com.wj.demo.framework.common.annotation.OperateLog;
+import com.wj.demo.core.system.annotation.OperateLog;
 import com.wj.demo.framework.common.constant.NumberConstant;
 import com.wj.demo.framework.common.utils.ServletUtils;
 import com.wj.demo.framework.common.utils.SpringContextUtils;

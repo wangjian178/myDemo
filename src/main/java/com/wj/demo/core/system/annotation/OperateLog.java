@@ -1,4 +1,4 @@
-package com.wj.demo.framework.common.annotation;
+package com.wj.demo.core.system.annotation;
 
 import com.wj.demo.framework.common.enums.OperateTypeEnum;
 

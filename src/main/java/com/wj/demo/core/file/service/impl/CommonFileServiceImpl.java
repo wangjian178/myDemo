@@ -95,7 +95,7 @@ public class CommonFileServiceImpl implements ICommonFileService {
         //文件类型
         String fileType = originFileName.substring(originFileName.lastIndexOf(SymbolicConstant.DOT) + 1).toLowerCase();
         //生成的文件路径
-        String fileName = generateFileName() + fileType;
+        String fileName = generateFileName() + SymbolicConstant.DOT + fileType;
         //文件保存路径
         String filePath = systemFileConfig.getUploadPath()
                 + File.separator
@@ -132,8 +132,7 @@ public class CommonFileServiceImpl implements ICommonFileService {
     @Override
     public Result<SysFile> upload(MultipartFile file) {
         //上传文件
-        MultipartFile[] files = {file};
-        Result<List<SysFile>> result = uploadBatch(files);
+        Result<List<SysFile>> result = uploadBatch(new MultipartFile[]{file});
 
         return Result.isSuccess(result) ? Result.ofSuccess(result.getData().getFirst()) : Result.ofFail(result.getMsg());
     }
@@ -290,7 +289,7 @@ public class CommonFileServiceImpl implements ICommonFileService {
         //批量删除源文件
         for (SysFile sysFile : sysFiles) {
             File file = new File(sysFile.getFilePath());
-            if (!file.delete()) {
+            if (file.exists() && !file.delete()) {
                 log.error("删除文件失败 {}", file.getAbsolutePath());
                 return Result.ofFail("删除失败！");
             }
@@ -350,16 +349,5 @@ public class CommonFileServiceImpl implements ICommonFileService {
 
         // 4. 记录预览次数（可选）todo
         // sysFileService.recordPreview(fileId);
-    }
-
-    /**
-     * 预览PDF
-     *
-     * @param fileId   文件Id
-     * @param response 响应
-     */
-    @Override
-    public void previewPDF(Long fileId, HttpServletResponse response) {
-
     }
 }

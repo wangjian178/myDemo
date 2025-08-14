@@ -2,7 +2,7 @@ package com.wj.demo.core.system.controller;
 
 import com.wj.demo.core.system.entity.SysScheduleJob;
 import com.wj.demo.core.system.service.ISysScheduleJobService;
-import com.wj.demo.framework.common.annotation.OperateLog;
+import com.wj.demo.core.system.annotation.OperateLog;
 import com.wj.demo.framework.common.enums.OperateTypeEnum;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

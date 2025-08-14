@@ -2,7 +2,7 @@ package com.wj.demo.core.system.controller;
 
 import com.wj.demo.core.system.entity.SysDictType;
 import com.wj.demo.core.system.service.ISysDictTypeService;
-import com.wj.demo.framework.common.annotation.OperateLog;
+import com.wj.demo.core.system.annotation.OperateLog;
 import com.wj.demo.framework.common.enums.OperateTypeEnum;
 import com.wj.demo.framework.pageHelper.annotation.Pagination;
 import io.swagger.v3.oas.annotations.Operation;

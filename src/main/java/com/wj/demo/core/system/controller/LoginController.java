@@ -2,7 +2,7 @@ package com.wj.demo.core.system.controller;
 
 import com.wj.demo.core.system.manager.LoginManager;
 import com.wj.demo.core.system.model.vo.LoginParamVO;
-import com.wj.demo.framework.common.annotation.OperateLog;
+import com.wj.demo.core.system.annotation.OperateLog;
 import com.wj.demo.framework.common.enums.OperateTypeEnum;
 import com.wj.demo.framework.exception.model.Result;
 import io.swagger.v3.oas.annotations.Operation;

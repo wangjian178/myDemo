@@ -2,9 +2,11 @@ package com.wj.demo.core.file.controller;
 
 import com.wj.demo.core.file.entity.SysFile;
 import com.wj.demo.core.file.service.ICommonFileService;
-import com.wj.demo.framework.common.annotation.OperateLog;
+import com.wj.demo.framework.common.annotation.CheckReferer;
+import com.wj.demo.core.system.annotation.OperateLog;
 import com.wj.demo.framework.common.enums.OperateTypeEnum;
 import com.wj.demo.framework.exception.model.Result;
+import com.wj.demo.framework.security.annotation.AnonymousAccess;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
@@ -65,14 +67,10 @@ public class CommonFileController {
     }
 
     @PostMapping("/previewImage")
+    @AnonymousAccess
+    @CheckReferer
     @OperateLog(module = "通用文件", function = "预览图片", operateType = OperateTypeEnum.OTHER)
     public void previewImage(@RequestParam(value = "fileId") Long fileId, HttpServletResponse response) {
         commonFileService.previewImage(fileId, response);
-    }
-
-    @PostMapping("/previewPDF")
-    @OperateLog(module = "通用文件", function = "预览PDF", operateType = OperateTypeEnum.OTHER)
-    public void previewPDF(@RequestParam(value = "fileId") Long fileId, HttpServletResponse response) {
-        commonFileService.previewPDF(fileId, response);
     }
 }

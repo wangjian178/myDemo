@@ -71,12 +71,4 @@ public interface ICommonFileService {
      * @param response 响应
      */
     void previewImage(Long fileId, HttpServletResponse response);
-
-    /**
-     * 预览PDF
-     *
-     * @param fileId   文件Id
-     * @param response 响应
-     */
-    void previewPDF(Long fileId, HttpServletResponse response);
 }
