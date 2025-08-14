@@ -12,7 +12,8 @@ import com.wj.demo.framework.common.utils.CollectionUtils;
 import com.wj.demo.framework.common.utils.DateUtils;
 import com.wj.demo.framework.common.utils.ServletUtils;
 import com.wj.demo.framework.exception.enums.ResultCodeEnum;
-import com.wj.demo.framework.exception.exception.BaseException;
+import com.wj.demo.framework.exception.exception.BusinessException;
+import com.wj.demo.framework.exception.exception.BusinessException;
 import com.wj.demo.framework.exception.model.Result;
 import com.wj.demo.framework.redis.service.RedisClient;
 import jakarta.annotation.Resource;
@@ -87,7 +88,7 @@ public class CommonFileServiceImpl implements ICommonFileService {
      */
     private SysFile buildSysFile(MultipartFile file) {
         if (file == null) {
-            throw new BaseException("文件不能为空");
+            throw new BusinessException("文件不能为空");
         }
         //上传文件名称
         String originFileName = file.getOriginalFilename();
@@ -191,7 +192,7 @@ public class CommonFileServiceImpl implements ICommonFileService {
         //  1.查询文件
         SysFile sysFile = sysFileService.getById(fileId);
         if (sysFile == null) {
-            throw new BaseException(ResultCodeEnum.FILE_NOT_FOUND_ERROR);
+            throw new BusinessException(ResultCodeEnum.FILE_NOT_FOUND_ERROR);
         }
 
         //  2.读取文件
@@ -219,7 +220,7 @@ public class CommonFileServiceImpl implements ICommonFileService {
         //  1.查询文件
         List<SysFile> sysFileList = sysFileService.listByIds(fileIdList);
         if (CollectionUtils.isEmpty(sysFileList)) {
-            throw new BaseException(ResultCodeEnum.FILE_NOT_FOUND_ERROR);
+            throw new BusinessException(ResultCodeEnum.FILE_NOT_FOUND_ERROR);
         }
 
         //  2. 创建动态ZIP流响应
@@ -312,13 +313,13 @@ public class CommonFileServiceImpl implements ICommonFileService {
         // 1. 查询文件信息
         SysFile sysFile = sysFileService.getById(fileId);
         if (sysFile == null) {
-            throw new BaseException(ResultCodeEnum.FILE_NOT_FOUND_ERROR);
+            throw new BusinessException(ResultCodeEnum.FILE_NOT_FOUND_ERROR);
         }
 
         // 2. 校验是否为图片类型
         ImageTypeEnum imageType = ImageTypeEnum.getImageTypeEnum(sysFile.getFileType());
         if (Arrays.stream(ImageTypeEnum.values()).noneMatch(x -> x.equals(imageType))) {
-            throw new BaseException(ResultCodeEnum.FILE_NOT_IMAGE_ERROR);
+            throw new BusinessException(ResultCodeEnum.FILE_NOT_IMAGE_ERROR);
         }
 
         // 3. 设置响应头并输出图片流
@@ -344,7 +345,7 @@ public class CommonFileServiceImpl implements ICommonFileService {
 
         } catch (IOException e) {
             log.error("图片预览失败: {}", sysFile.getFilePath(), e);
-            throw new BaseException(ResultCodeEnum.IMAGE_LOADING_ERROR);
+            throw new BusinessException(ResultCodeEnum.IMAGE_LOADING_ERROR);
         }
 
         // 4. 记录预览次数（可选）todo

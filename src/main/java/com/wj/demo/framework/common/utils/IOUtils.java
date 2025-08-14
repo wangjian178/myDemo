@@ -1,6 +1,6 @@
 package com.wj.demo.framework.common.utils;
 
-import com.wj.demo.framework.exception.exception.BaseException;
+import com.wj.demo.framework.exception.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
@@ -25,15 +25,15 @@ public class IOUtils {
      */
     public static String readFromFile(String filePath) {
         if (filePath == null || filePath.isEmpty()) {
-            throw new BaseException("文件路径不能为空！");
+            throw new BusinessException("文件路径不能为空！");
         }
 
         File file = new File(filePath);
         if (!file.exists()) {
-            throw new BaseException("目标文件不存在！");
+            throw new BusinessException("目标文件不存在！");
         }
         if (!file.canRead()) {
-            throw new BaseException("目标文件不可读！");
+            throw new BusinessException("目标文件不可读！");
         }
         StringBuilder builder = new StringBuilder();
         try (FileReader fr = new FileReader(file)) {
@@ -50,7 +50,7 @@ public class IOUtils {
             }
         } catch (Exception e) {
             log.error("文件读取失败", e);
-            throw new BaseException("文件读取失败");
+            throw new BusinessException("文件读取失败");
         }
         log.info("文件读取成功。。。{}", builder);
         return builder.toString();
@@ -78,11 +78,11 @@ public class IOUtils {
                 log.info("文件不存在，新建文件。。。{}  {}", filePath, createStatus);
             } catch (IOException e) {
                 log.error("新建文件失败", e);
-                throw new BaseException("新建文件失败");
+                throw new BusinessException("新建文件失败");
             }
         }
         if (!file.canWrite()) {
-            throw new BaseException("文件不可写入");
+            throw new BusinessException("文件不可写入");
         }
         //创建FileWriter对象
         try (FileWriter fw = new FileWriter(file)) {
@@ -102,16 +102,16 @@ public class IOUtils {
      */
     public static void readFromSourceAndWriteToTarget(String source, String target) {
         if (StringUtils.isEmpty(source)) {
-            throw new BaseException("来源路径不能为空！");
+            throw new BusinessException("来源路径不能为空！");
         }
         if (StringUtils.isEmpty(target)) {
-            throw new BaseException("目标路径不能为空！");
+            throw new BusinessException("目标路径不能为空！");
         }
         //创建指定文件
         File file = new File(source);
         if (!file.exists()) {
             //如果指定文件不存在，新建文件
-            throw new BaseException("来源文件不存在！");
+            throw new BusinessException("来源文件不存在！");
         }
 
         try {

@@ -9,7 +9,7 @@ import com.wj.demo.framework.common.model.Node;
 import com.wj.demo.framework.common.utils.CollectionUtils;
 import com.wj.demo.framework.common.utils.NodeUtils;
 import com.wj.demo.framework.common.utils.StringUtils;
-import com.wj.demo.framework.exception.exception.BaseException;
+import com.wj.demo.framework.exception.exception.BusinessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +34,7 @@ public class SysDictDataServiceImpl extends ServiceImpl<SysDictDataMapper, SysDi
         List<SysDictData> existList = selectByTypeAndValue(dictDataList);
         String errorMsg = existList.stream().map(x -> "字典" + x.getDictType() + "下已存在字典值" + x.getDictValue()).collect(Collectors.joining("；"));
         if (StringUtils.isNotEmpty(errorMsg)) {
-            throw new BaseException(errorMsg);
+            throw new BusinessException(errorMsg);
         }
     }
 

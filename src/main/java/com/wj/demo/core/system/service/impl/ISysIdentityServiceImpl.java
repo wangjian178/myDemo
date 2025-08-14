@@ -5,7 +5,7 @@ import com.mybatisflex.spring.service.impl.ServiceImpl;
 import com.wj.demo.core.system.entity.SysIdentity;
 import com.wj.demo.core.system.mapper.SysIdentityMapper;
 import com.wj.demo.core.system.service.ISysIdentityService;
-import com.wj.demo.framework.exception.exception.BaseException;
+import com.wj.demo.framework.exception.exception.BusinessException;
 import com.wj.demo.framework.redis.service.RedisClient;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -117,7 +117,7 @@ public class ISysIdentityServiceImpl extends ServiceImpl<SysIdentityMapper, SysI
     public Boolean saveOrUpdateEntity(SysIdentity identity) {
 
         if (existWithCode(identity.getCode())) {
-            throw new BaseException("500", "编码已存在！");
+            throw new BusinessException("500", "编码已存在！");
         }
         if (identity.getInitValue() == null) {
             identity.setInitValue(0);

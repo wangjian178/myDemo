@@ -1,6 +1,6 @@
 package com.wj.demo.framework.redis.service;
 
-import com.wj.demo.framework.exception.exception.BaseException;
+import com.wj.demo.framework.exception.exception.BusinessException;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -114,11 +114,10 @@ public class RedisClient {
      *
      * @param key   键
      * @param delta 要增加几(大于0)
-     * @return
      */
     public Long increment(String key, long delta) {
         if (delta < 0) {
-            throw new BaseException("递增因子必须大于0");
+            throw new BusinessException("递增因子必须大于0");
         }
         return redisTemplate.opsForValue().increment(key, delta);
     }
@@ -128,11 +127,10 @@ public class RedisClient {
      *
      * @param key   键
      * @param delta 要减少几(小于0)
-     * @return
      */
     public Long decrement(String key, long delta) {
         if (delta < 0) {
-            throw new BaseException("递减因子必须大于0");
+            throw new BusinessException("递减因子必须大于0");
         }
         return redisTemplate.opsForValue().decrement(key, -delta);
     }
@@ -143,7 +141,7 @@ public class RedisClient {
      * @param key   键
      * @param item  项
      * @param value 值
-     * @return true 成功 false失败
+     *              return true 成功 false失败
      */
     public <T> void hset(String key, String item, T value) {
         redisTemplate.opsForHash().put(key, item, value);
@@ -154,7 +152,7 @@ public class RedisClient {
      *
      * @param key  键 不能为null
      * @param item 项 不能为null
-     * @return 值
+     *             return 值
      */
     public <T> T hget(String key, String item) {
         return (T) redisTemplate.opsForHash().get(key, item);
@@ -174,7 +172,6 @@ public class RedisClient {
      * 根据key获取Set中的所有值
      *
      * @param key 键
-     * @return
      */
     public <T> Set<T> getSet(String key) {
         return (Set<T>) redisTemplate.opsForSet().members(key);
@@ -185,7 +182,7 @@ public class RedisClient {
      *
      * @param key    键
      * @param values 值 可以是多个
-     * @return 成功个数
+     *               return 成功个数
      */
     public <T> Long setSet(String key, T... values) {
         return redisTemplate.opsForSet().add(key, values);
@@ -196,7 +193,7 @@ public class RedisClient {
      *
      * @param key    键
      * @param values 值 可以是多个
-     * @return 移除的个数
+     *               return 移除的个数
      */
     public <T> Long removeSet(String key, T... values) {
         return redisTemplate.opsForSet().remove(key, values);
@@ -207,7 +204,6 @@ public class RedisClient {
      *
      * @param key   键
      * @param value 值
-     * @return
      */
     public <T> Long rightPush(String key, T value) {
         return redisTemplate.opsForList().rightPush(key, value);
@@ -218,7 +214,6 @@ public class RedisClient {
      *
      * @param key   键
      * @param value 值
-     * @return
      */
     public <T> Long rightPushAll(String key, List<T> value) {
         return redisTemplate.opsForList().rightPushAll(key, value);
@@ -230,7 +225,6 @@ public class RedisClient {
      * @param key   键
      * @param start 开始
      * @param end   结束  0 到 -1 代表所有值
-     * @return
      */
     public <T> List<T> getList(String key, long start, long end) {
         return (List<T>) redisTemplate.opsForList().range(key, start, end);
@@ -242,7 +236,7 @@ public class RedisClient {
      * @param key   键
      * @param count 移除多少个
      * @param value 值
-     * @return 移除的个数
+     *              return 移除的个数
      */
     public <T> Long removeListValue(String key, long count, T value) {
         return redisTemplate.opsForList().remove(key, count, value);

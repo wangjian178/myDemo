@@ -5,7 +5,7 @@ import com.wj.demo.core.system.model.vo.CaptchaVO;
 import com.wj.demo.framework.common.constant.LoginConstant;
 import com.wj.demo.framework.common.property.SystemProperties;
 import com.wj.demo.framework.exception.enums.ResultCodeEnum;
-import com.wj.demo.framework.exception.exception.BaseException;
+import com.wj.demo.framework.exception.exception.BusinessException;
 import com.wj.demo.framework.redis.service.RedisClient;
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,7 +42,7 @@ public class CaptchaUtils {
             ImageIO.write(image, "jpg", outputStream);
         } catch (Exception e) {
             log.info("验证码生成图片异常", e);
-            throw new BaseException(ResultCodeEnum.CAPTCHA_CREATE_ERROR);
+            throw new BusinessException(ResultCodeEnum.CAPTCHA_CREATE_ERROR);
         }
         String base64Img = PREFIX + Base64.getEncoder().encodeToString(outputStream.toByteArray());
         //生成验证码id
@@ -61,10 +61,10 @@ public class CaptchaUtils {
         //获取缓存验证码
         String cacheCode = SpringContextUtils.getBean(RedisClient.class).get(LoginConstant.LOGIN_CAPTCHA_KEY + id);
         if (StringUtils.isEmpty(cacheCode)) {
-            throw new BaseException(ResultCodeEnum.CAPTCHA_EXPIRE_ERROR);
+            throw new BusinessException(ResultCodeEnum.CAPTCHA_EXPIRE_ERROR);
         }
         if (!code.equals(cacheCode)) {
-            throw new BaseException(ResultCodeEnum.CAPTCHA_ERROR);
+            throw new BusinessException(ResultCodeEnum.CAPTCHA_ERROR);
         }
     }
 }

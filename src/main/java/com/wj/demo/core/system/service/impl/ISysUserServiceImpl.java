@@ -10,7 +10,7 @@ import com.wj.demo.core.system.model.vo.SysUserPasswordVO;
 import com.wj.demo.core.system.model.vo.SysUserVO;
 import com.wj.demo.core.system.service.ISysUserService;
 import com.wj.demo.framework.common.utils.StringUtils;
-import com.wj.demo.framework.exception.exception.BaseException;
+import com.wj.demo.framework.exception.exception.BusinessException;
 import com.wj.demo.framework.mybatisFlex.entity.BaseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +37,7 @@ public class ISysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> imp
     public int register(SysUser sysUser) {
         //校验用户名
         if (queryChain().eq(BaseEntity::getDeleted, Boolean.FALSE).eq(SysUser::getUsername, sysUser.getUsername()).exists()) {
-            throw new BaseException("用户名已存在");
+            throw new BusinessException("用户名已存在");
         }
         //todo 默认角色
 

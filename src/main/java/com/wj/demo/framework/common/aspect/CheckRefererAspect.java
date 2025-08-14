@@ -5,7 +5,7 @@ import com.wj.demo.framework.common.property.AllowedReferer;
 import com.wj.demo.framework.common.utils.ServletUtils;
 import com.wj.demo.framework.common.utils.SpringContextUtils;
 import com.wj.demo.framework.common.utils.StringUtils;
-import com.wj.demo.framework.exception.exception.BaseException;
+import com.wj.demo.framework.exception.exception.BusinessException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -34,7 +34,7 @@ public class CheckRefererAspect {
 
         if (checkReferer.enabled() && StringUtils.isNotEmpty(referer) && Arrays.stream(SpringContextUtils.getBean(AllowedReferer.class).getReferer()).noneMatch(allowedReferer -> allowedReferer.equals(referer))) {
             log.error("非法请求：{}", referer);
-            throw new BaseException("非法请求");
+            throw new BusinessException("非法请求");
         }
     }
 }

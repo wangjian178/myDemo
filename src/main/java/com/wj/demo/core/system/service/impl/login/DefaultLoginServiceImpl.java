@@ -15,7 +15,7 @@ import com.wj.demo.framework.common.property.SystemProperties;
 import com.wj.demo.framework.common.utils.CaptchaUtils;
 import com.wj.demo.framework.common.utils.JwtUtils;
 import com.wj.demo.framework.common.utils.PasswordUtils;
-import com.wj.demo.framework.exception.exception.BaseException;
+import com.wj.demo.framework.exception.exception.BusinessException;
 import com.wj.demo.framework.redis.service.RedisClient;
 import jakarta.annotation.Resource;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
@@ -64,10 +64,10 @@ public class DefaultLoginServiceImpl implements ILoginService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         SysUser sysUser = sysUserService.queryByUsername(username);
         if (sysUser == null) {
-            throw new BaseException("500", "用户不存在！");
+            throw new BusinessException("500", "用户不存在！");
         }
         if (UserStatusEnum.DISABLE.equals(sysUser.getStatus())) {
-            throw new BaseException("500", "用户已禁用！");
+            throw new BusinessException("500", "用户已禁用！");
         }
         return createLoginUser(sysUser);
     }
@@ -173,7 +173,7 @@ public class DefaultLoginServiceImpl implements ILoginService {
 
         //超过尝试次数
         if (restTimes.equals(0)) {
-            throw new BaseException("已超过最大尝试次数（" + BaseConstant.LOCK_USER_MAX_RETRY_TIMES + "），账户已锁定！");
+            throw new BusinessException("已超过最大尝试次数（" + BaseConstant.LOCK_USER_MAX_RETRY_TIMES + "），账户已锁定！");
         }
     }
 
@@ -218,7 +218,7 @@ public class DefaultLoginServiceImpl implements ILoginService {
         //  2.已锁定提示报错
         if (times.equals(BaseConstant.LOCK_USER_MAX_RETRY_TIMES)) {
             long restLockSeconds = redisClient.getExpire(timesKey);
-            throw new BaseException("用户已锁定！请在" + new BigDecimal(restLockSeconds).divide(new BigDecimal(60), 0, RoundingMode.HALF_UP) + "分钟后重试！");
+            throw new BusinessException("用户已锁定！请在" + new BigDecimal(restLockSeconds).divide(new BigDecimal(60), 0, RoundingMode.HALF_UP) + "分钟后重试！");
         }
     }
 }

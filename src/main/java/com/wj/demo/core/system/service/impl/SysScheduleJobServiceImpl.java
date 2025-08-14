@@ -9,7 +9,7 @@ import com.wj.demo.core.system.service.ISysScheduleJobService;
 import com.wj.demo.framework.common.utils.SpringContextUtils;
 import com.wj.demo.framework.common.utils.StringUtils;
 import com.wj.demo.framework.common.utils.ThreadUtils;
-import com.wj.demo.framework.exception.exception.BaseException;
+import com.wj.demo.framework.exception.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -89,7 +89,7 @@ public class SysScheduleJobServiceImpl extends ServiceImpl<SysScheduleJobMapper,
             //找到执行方法 todo 方法重载
             Class<?> clazz = Class.forName(jobClass);
             Method[] methods = clazz.getDeclaredMethods();
-            Method method = Arrays.stream(methods).filter(x -> x.getName().equals(sysScheduleJob.getMethod())).findFirst().orElseThrow(() -> new BaseException("方法" + sysScheduleJob.getName() + "不存在"));
+            Method method = Arrays.stream(methods).filter(x -> x.getName().equals(sysScheduleJob.getMethod())).findFirst().orElseThrow(() -> new BusinessException("方法" + sysScheduleJob.getName() + "不存在"));
 
             //解析参数
             Class<?>[] parameterTypes = method.getParameterTypes();

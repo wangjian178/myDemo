@@ -7,7 +7,7 @@ import lombok.Setter;
 /**
  * @author wj
  * @version 1.0
- * @Desc
+ * @Desc 基础异常 预期外的异常用这个捕获
  * @date 2024/4/18 10:56
  */
 @Setter
@@ -23,11 +23,6 @@ public class BaseException extends RuntimeException {
 
     public BaseException(String message) {
         super(message);
-    }
-
-    public BaseException(ResultCodeEnum resultCodeEnum) {
-        super(resultCodeEnum.getMsg());
-        this.code = resultCodeEnum.getCode();
     }
 
 }

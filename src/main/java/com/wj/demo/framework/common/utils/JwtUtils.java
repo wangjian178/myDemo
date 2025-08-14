@@ -1,7 +1,7 @@
 package com.wj.demo.framework.common.utils;
 
 
-import com.wj.demo.framework.exception.exception.BaseException;
+import com.wj.demo.framework.exception.exception.BusinessException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -80,7 +80,7 @@ public class JwtUtils {
             return parseJwt(token, secretKey).getPayload();
         } catch (Exception e) {
             log.error("token解析失败", e);
-            throw new BaseException("token解析失败");
+            throw new BusinessException("token解析失败");
         }
     }
 }

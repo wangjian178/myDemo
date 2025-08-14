@@ -1,6 +1,7 @@
 package com.wj.demo.framework.exception.advice;
 
 import com.wj.demo.framework.exception.exception.BaseException;
+import com.wj.demo.framework.exception.exception.BusinessException;
 import com.wj.demo.framework.exception.model.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BaseException.class)
     public Result<String> handleBaseException(BaseException e) {
         log.error("BaseException ", e);
+        return Result.ofFail(e.getMessage());
+    }
+
+    /**
+     * 业务异常
+     * <p>业务异常用来捕获预期的异常，不需要打印错误信息</p>
+     */
+    @ExceptionHandler(BusinessException.class)
+    public Result<String> handleBusinessException(BusinessException e) {
+        log.error("BusinessException {}", e.getMessage());
         return Result.ofFail(e.getMessage());
     }
 
