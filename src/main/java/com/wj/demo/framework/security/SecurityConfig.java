@@ -159,7 +159,7 @@ public class SecurityConfig {
 
                         // 4. 动态排除的URL
                         .requestMatchers(
-                                systemProperties.getSecurity().getAuth().getExclude().toArray(String[]::new)
+                                systemProperties.getSecurity().getIgnoreUrls().toArray(String[]::new)
                         ).permitAll()
                         // 5. 匿名访问
                         .requestMatchers(

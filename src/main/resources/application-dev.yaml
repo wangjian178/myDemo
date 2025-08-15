@@ -69,7 +69,7 @@ springdoc:
     # 访问路径
     path: /swagger-ui.html
     # 显示标签排序
-    tags-sorter:  alpha
+    tags-sorter: alpha
     # 禁用示例接口
     disable-swagger-default-url: true
   api-docs:
@@ -136,10 +136,14 @@ system:
     expireTime: 86400
     #最少32位的密钥
     secretKey: 123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
-    #接口权限忽略接口
-    auth:
-      exclude:
-        - /actuator/health
+    #白名单
+    ignoreUrls:
+      - /actuator/health
+      - /v3/api-docs/**
+      - /swagger-ui/**
+      - /swagger-ui.html
+      - /swagger-resources/**
+      - /webjars/**
   request:
     allowed-referer:
       referer:

@@ -1,16 +1,23 @@
 package com.wj.demo.framework.exception.advice;
 
-import com.alibaba.fastjson.JSON;
+import com.wj.demo.framework.common.property.SystemProperties;
+import com.wj.demo.framework.common.utils.ServletUtils;
 import com.wj.demo.framework.exception.annotation.IgnoreAutoResponse;
 import com.wj.demo.framework.exception.model.Result;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.PathMatcher;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+
+import java.util.List;
 
 /**
  * @author wj
@@ -22,20 +29,33 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 @RestControllerAdvice
 public class ResponseBodyHandler implements ResponseBodyAdvice<Object> {
 
+    private static final PathMatcher PATH_MATCHER = new AntPathMatcher();
+
+    @Resource
+    private SystemProperties systemProperties;
+
     /**
      * 判断是否支持处理
+     *
      * @param returnType    返回类型
      * @param converterType 类型转换
      * @return 是否支持处理
      */
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
+
+        //封装白名单
+        List<String> ignoreUrls = systemProperties.getSecurity().getIgnoreUrls();
+        HttpServletRequest request = ServletUtils.getRequest();
+        String relativePath = request.getRequestURI().substring(request.getContextPath().length());
+
         //带有注解IgnoreAutoResponse不做封装
-        return !returnType.hasMethodAnnotation(IgnoreAutoResponse.class);
+        return ignoreUrls.stream().noneMatch(pattern -> PATH_MATCHER.match(pattern, relativePath)) && !returnType.hasMethodAnnotation(IgnoreAutoResponse.class);
     }
 
     /**
      * 处理返回值
+     *
      * @param body                  返回值
      * @param returnType            返回类型
      * @param selectedContentType   返回类型
@@ -49,8 +69,9 @@ public class ResponseBodyHandler implements ResponseBodyAdvice<Object> {
 
         return switch (body) {
             case null -> Result.ofSuccess();
-            case Result<?> result -> body;
-            case String s -> JSON.toJSONString(Result.ofSuccess(body.toString()));
+            case byte[] bytes -> bytes;
+            case Result<?> result -> result;
+            case String string -> Result.ofSuccess(body.toString());
             default -> Result.ofSuccess(body);
         };
 

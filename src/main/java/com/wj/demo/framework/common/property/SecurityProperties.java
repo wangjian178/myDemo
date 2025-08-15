@@ -3,6 +3,8 @@ package com.wj.demo.framework.common.property;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * @author wj
  * @version 1.0
@@ -58,7 +60,7 @@ public class SecurityProperties {
     private Long captchaExpireTime = 60L;
 
     /**
-     * 认证
+     * 封装结果白名单
      */
-    private AuthProperties auth;
+    private List<String> ignoreUrls;
 }
