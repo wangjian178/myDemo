@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.0</version>
+        <version>3.5.4</version>
         <relativePath/>
     </parent>
 
@@ -17,10 +17,12 @@
     <description>demo</description>
     <properties>
         <java.version>21</java.version>
-        <swagger.version>3.0.0</swagger.version>
+        <logback.version>1.5.18</logback.version>
+        <springDoc.version>2.8.9</springDoc.version>
+        <commons-lang3.version>3.18.0</commons-lang3.version>
         <druid.version>1.2.22</druid.version>
         <mybatis.version>3.0.4</mybatis.version>
-        <nybatis-flex.version>1.10.8</nybatis-flex.version>
+        <mybatis-flex.version>1.11.1</mybatis-flex.version>
         <mybatis-plus.version>3.5.6</mybatis-plus.version>
         <dynamic.version>4.3.0</dynamic.version>
         <fastjson.version>1.2.83</fastjson.version>
@@ -33,6 +35,18 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <!--注释tomcat容器-->
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                    <groupId>org.springframework.boot</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--undertow容器-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
         <!--aspect-->
         <dependency>
@@ -62,7 +76,7 @@
         <dependency>
             <groupId>com.mybatis-flex</groupId>
             <artifactId>mybatis-flex-spring-boot3-starter</artifactId>
-            <version>${nybatis-flex.version}</version>
+            <version>${mybatis-flex.version}</version>
         </dependency>
         <!--pageHelper-->
         <dependency>
@@ -120,15 +134,15 @@
         </dependency>
         <!-- Swagger3依赖 -->
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-boot-starter</artifactId>
-            <version>${swagger.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.swagger</groupId>
-                    <artifactId>swagger-models</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${springDoc.version}</version>
+        </dependency>
+        <!-- commons-lang3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
         </dependency>
         <!--单元测试-->
         <dependency>

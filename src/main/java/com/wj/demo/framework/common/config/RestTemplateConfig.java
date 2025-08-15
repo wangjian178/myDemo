@@ -5,8 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.Duration;
-
 /**
  * @author wj
  * @version 1.0
@@ -19,13 +17,12 @@ public class RestTemplateConfig {
     /**
      * rest api 请求模板
      * 通过注入restTemplate 实现请求发送
-     * @return  RestTemplate
+     *
+     * @return RestTemplate
      */
     @Bean(name = "restTemplate")
     public RestTemplate restTemplate() {
         return new RestTemplateBuilder()
-                .setConnectTimeout(Duration.ZERO)
-                .setReadTimeout(Duration.ZERO)
                 .build();
     }
 }

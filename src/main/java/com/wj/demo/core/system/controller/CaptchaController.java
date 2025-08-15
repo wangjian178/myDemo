@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
  * @CreateDate: 2025/7/18 10:13
  * @Version:
  */
-@RequestMapping("/captcha")
+@RequestMapping("/")
 @RestController
 public class CaptchaController {
 
     /**
      * 获取验证码
      */
-    @RequestMapping("/get")
-    public Result<CaptchaVO> get() {
+    @RequestMapping("/captchaImage")
+    public Result<CaptchaVO> captchaImage() {
         return Result.ofSuccess(CaptchaUtils.create());
     }
 }

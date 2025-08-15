@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.authorization.AuthenticatedAuthorizationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -25,10 +24,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.switchuser.SwitchUserFilter;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
-import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 /**
  * @ClassName SecurityConfig
@@ -46,6 +47,12 @@ public class SecurityConfig {
 
     @Resource
     private AnonymousAccessUrlProvider anonymousAccessUrlProvider;
+
+    /**
+     * jwt过滤器
+     */
+    @Resource
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Resource(name = "ILoginService" + BaseConstant.UNDERLINE + BaseConstant.DEFAULT)
     private UserDetailsService userDetailsService;
@@ -71,17 +78,6 @@ public class SecurityConfig {
     }
 
     /**
-     * 认证提供者
-     */
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(this.passwordEncoder());
-        return authProvider;
-    }
-
-    /**
      * 切换用户过滤器
      */
     @Bean
@@ -94,75 +90,110 @@ public class SecurityConfig {
         return switchUserFilter;
     }
 
-    /**
-     * jwt过滤器
-     */
+    // 新增 CORS 配置
     @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter();
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        // 生产环境应指定具体域名
+        config.setAllowedOrigins(List.of("*"));
+        config.setAllowedMethods(List.of(RequestMethod.GET.name(), RequestMethod.POST.name(), RequestMethod.PUT.name(), RequestMethod.DELETE.name(), RequestMethod.OPTIONS.name()));
+        config.setAllowedHeaders(List.of("*"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        //关闭CSRF（跨站请求伪造）是一种网络攻击，攻击者通过欺骗已登录用户，诱使他们在不知情的情况下向受信任的网站发送请求
-        httpSecurity
-                .csrf(AbstractHttpConfigurer::disable)
-                .exceptionHandling(e -> e.authenticationEntryPoint(new MyAuthEntryPoint()))
-                .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-        //开启授权保护，配置请求授权规则
-        MvcRequestMatcher.Builder mvcMatcherBuilder = new MvcRequestMatcher.Builder(new HandlerMappingIntrospector());
-        httpSecurity.authorizeHttpRequests(authorize ->
-                authorize
+        httpSecurity
+                // CORS
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                // 关闭CSRF
+                .csrf(AbstractHttpConfigurer::disable)
+                // 异常处理
+                .exceptionHandling(e -> e.authenticationEntryPoint(new MyAuthEntryPoint()))
+                // 无状态会话
+                .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                // 授权配置 - 使用现代API
+                .authorizeHttpRequests(authorize -> authorize
+                        // 1. 静态资源和API端点
                         .requestMatchers(
-                                new RequestMatcher[]{
-                                        mvcMatcherBuilder.pattern("/login"),
-                                        mvcMatcherBuilder.pattern("/logout"),
-                                        mvcMatcherBuilder.pattern("/sso/**"),
-                                        mvcMatcherBuilder.pattern("/register"),
-                                        mvcMatcherBuilder.pattern("/wechat/**"),
-                                        mvcMatcherBuilder.pattern("/captchaImage"),
-                                        mvcMatcherBuilder.pattern("/websocket/**"),
-                                        mvcMatcherBuilder.pattern("/xxlJobAdmin/**"),
-                                        mvcMatcherBuilder.pattern("/actuator/**"),
-                                        mvcMatcherBuilder.pattern("/springBootAdmin/**"),
-                                        mvcMatcherBuilder.pattern("favicon.ico"),
-                                        mvcMatcherBuilder.pattern("/doc.html"),
-                                        mvcMatcherBuilder.pattern("/webjars/**"),
-                                        mvcMatcherBuilder.pattern("/swagger-resources/**"),
-                                        mvcMatcherBuilder.pattern("/swagger-ui/**"),
-                                        mvcMatcherBuilder.pattern("/v3/api-docs/**"),
-                                        AntPathRequestMatcher.antMatcher("/druid/*")
-                                }
+                                "/login",
+                                "/logout",
+                                "/register",
+                                "/captchaImage",
+                                "/favicon.ico"
                         ).permitAll()
-                        .requestMatchers(
-                                new RequestMatcher[]{
-                                        AntPathRequestMatcher.antMatcher(HttpMethod.OPTIONS),
-                                        AntPathRequestMatcher.antMatcher("/"),
-                                        AntPathRequestMatcher.antMatcher("/static/**"),
-                                        AntPathRequestMatcher.antMatcher("/*.html"),
-                                        AntPathRequestMatcher.antMatcher("/*.ico"),
-                                        AntPathRequestMatcher.antMatcher("/**/*.html"),
-                                        AntPathRequestMatcher.antMatcher("/**/*.css"),
-                                        AntPathRequestMatcher.antMatcher("/**/*.js"),
-                                        AntPathRequestMatcher.antMatcher("/profile/**"),
-                                        AntPathRequestMatcher.antMatcher("/**/*.otf"),
-                                        AntPathRequestMatcher.antMatcher("/**/*.eot"),
-                                        AntPathRequestMatcher.antMatcher("/**/*.svg"),
-                                        AntPathRequestMatcher.antMatcher("/**/*.ttf"),
-                                        AntPathRequestMatcher.antMatcher("/**/*.woff"),
-                                        AntPathRequestMatcher.antMatcher("/**/*.woff2")
-                                }
-                        ).permitAll()
+
+                        // 2. 使用路径模式匹配
+                        .requestMatchers("/sso/**").permitAll()
+                        .requestMatchers("/wechat/**").permitAll()
+                        .requestMatchers("/websocket/**").permitAll()
+                        .requestMatchers("/xxlJobAdmin/**").permitAll()
+                        .requestMatchers("/actuator/**").permitAll()
+                        .requestMatchers("/springBootAdmin/**").permitAll()
+                        .requestMatchers("/doc.html").permitAll()
+                        .requestMatchers("/webjars/**").permitAll()
+                        .requestMatchers("/swagger-resources/**").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**").permitAll()
+                        .requestMatchers("/druid/**").permitAll()
+
+                        // 3. 静态资源匹配
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/static/**").permitAll()
+                        .requestMatchers("/profile/**").permitAll()
+                        .requestMatchers("/*.html").permitAll()
+                        .requestMatchers("/*.css").permitAll()
+                        .requestMatchers("/*.js").permitAll()
+                        .requestMatchers("/*.ico").permitAll()
+                        .requestMatchers("/*.otf").permitAll()
+                        .requestMatchers("/*.eot").permitAll()
+                        .requestMatchers("/*.svg").permitAll()
+                        .requestMatchers("/*.ttf").permitAll()
+                        .requestMatchers("/*.woff").permitAll()
+                        .requestMatchers("/*.woff2").permitAll()
+
+                        // 4. 动态排除的URL
                         .requestMatchers(
                                 systemProperties.getSecurity().getAuth().getExclude().toArray(String[]::new)
                         ).permitAll()
+                        // 5. 匿名访问
                         .requestMatchers(
                                 anonymousAccessUrlProvider.getIgnoreUrls().toArray(String[]::new)
                         ).permitAll()
-                        .anyRequest()
-                        .access(new AuthenticatedAuthorizationManager<>())
-        ).headers(h -> h.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
+                        // 6. 所有其他请求需要认证
+                        .anyRequest().authenticated()
+                )
+                // 禁用X-Frame-Options（允许iframe嵌入）
+                .headers(h -> h.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+
+                // 注销配置
+                .logout(l -> l
+                        .logoutUrl(systemProperties.getSecurity().getLogoutUrl())
+                        .logoutSuccessUrl(systemProperties.getSecurity().getLoginPage())
+                        .addLogoutHandler(new MyLogoutHandler())
+                        .logoutSuccessHandler(new MyLogoutSuccessHandler())
+                )
+
+                // 会话管理
+                .sessionManagement(session -> session
+                        // 防止会话固定攻击
+                        .sessionFixation(SessionManagementConfigurer.SessionFixationConfigurer::changeSessionId)
+                        // 限制每个用户只能有一个活跃会话
+                        .maximumSessions(1)
+                        // 如果为 true，禁止新登录；为 false，允许新登录并终止旧会话
+                        .maxSessionsPreventsLogin(Boolean.FALSE)
+                        // 当会话过期时跳转到的页面
+                        .expiredUrl("/login?session=expired")
+                );
+
+        // 添加JWT过滤器
+        httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilter(this.switchUserFilter());
 
         //配置表单登陆
 /*        httpSecurity.formLogin(f -> f
@@ -172,31 +203,6 @@ public class SecurityConfig {
                 .failureHandler(new MyAuthFailureHandler())
         );*/
 
-        // 配置注销功能
-        httpSecurity.logout(
-                l -> l
-                        .logoutUrl(systemProperties.getSecurity().getLogoutUrl())
-                        .logoutSuccessUrl(systemProperties.getSecurity().getLoginPage())
-                        .addLogoutHandler(new MyLogoutHandler())
-                        .logoutSuccessHandler(new MyLogoutSuccessHandler())
-        );
-
-        // 配置会话管理器
-        httpSecurity.sessionManagement(session -> session
-                // 防止会话固定攻击
-                .sessionFixation(SessionManagementConfigurer.SessionFixationConfigurer::changeSessionId)
-                // 限制每个用户只能有一个活跃会话
-                .maximumSessions(1)
-                // 如果为 true，禁止新登录；为 false，允许新登录并终止旧会话
-                .maxSessionsPreventsLogin(Boolean.FALSE)
-                // 当会话过期时跳转到的页面
-                .expiredUrl("/login?session=expired")
-        );
-
-        // 添加JWT过滤器
-        httpSecurity.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-
-        httpSecurity.addFilter(this.switchUserFilter());
         return httpSecurity.build();
     }
 

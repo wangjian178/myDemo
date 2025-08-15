@@ -1,5 +1,10 @@
 server:
   port: 8080
+  servlet:
+    context-path: /
+  undertow:
+    #  POST请求内容的最大大小。当值为-1时，默认值为大小是无限的
+    max-http-post-size: -1B
 
 spring:
   web:
@@ -56,6 +61,24 @@ thread:
   keepAliveSeconds: 60
   queueCapacity: 500
   threadNamePrefix: Executor-
+
+springdoc:
+  swagger-ui:
+    # 是否开启swagger
+    enabled: true
+    # 访问路径
+    path: /swagger-ui.html
+    # 显示标签排序
+    tags-sorter:  alpha
+    # 禁用示例接口
+    disable-swagger-default-url: true
+  api-docs:
+    # 开启 OpenAPI 展示
+    enabled: true
+    # UI访问路径
+    path: /v3/api-docs
+  # 文档包含的路径
+#  packages-to-scan:
 
 #spring boot actuator配置
 management:
