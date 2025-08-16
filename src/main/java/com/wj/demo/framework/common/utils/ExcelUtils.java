@@ -13,7 +13,6 @@ import cn.idev.excel.write.style.row.SimpleRowHeightStyleStrategy;
 import com.wj.demo.framework.excel.ExcelContext;
 import com.wj.demo.framework.excel.entity.Excel;
 import com.wj.demo.framework.excel.entity.Sheet;
-import com.wj.demo.framework.excel.entity.TableHeader;
 import com.wj.demo.framework.excel.entity.TableRow;
 import com.wj.demo.framework.excel.listener.FastExcelListener;
 import com.wj.demo.framework.exception.exception.BaseException;
@@ -34,7 +33,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * @ClassName ExcelUtils
