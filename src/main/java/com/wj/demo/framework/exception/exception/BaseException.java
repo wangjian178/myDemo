@@ -1,6 +1,5 @@
 package com.wj.demo.framework.exception.exception;
 
-import com.wj.demo.framework.exception.enums.ResultCodeEnum;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,6 +22,10 @@ public class BaseException extends RuntimeException {
 
     public BaseException(String message) {
         super(message);
+    }
+
+    public BaseException(Throwable cause) {
+        super(cause);
     }
 
 }

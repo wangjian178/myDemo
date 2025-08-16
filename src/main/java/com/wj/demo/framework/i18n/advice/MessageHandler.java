@@ -8,6 +8,7 @@ import jakarta.annotation.Resource;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -21,7 +22,7 @@ import java.util.Locale;
  * @Desc 国际化返回消息封装
  * @date 2024/4/29 16:48
  */
-@Order(value = 100)
+@Order(value = 1)
 @RestControllerAdvice
 public class MessageHandler implements ResponseBodyAdvice<Object> {
 
@@ -41,11 +42,10 @@ public class MessageHandler implements ResponseBodyAdvice<Object> {
     }
 
     @Override
-    public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
+    public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
         if (body == null) {
             return body;
-        }
-        if (body instanceof String) {
+        } else if (body instanceof String) {
             return commonMessageSource.transferMsg(body.toString(), BaseContextHolder.getBaseContext().getLocale());
         } else if (body instanceof Result) {
             Result result = (Result) body;
@@ -59,6 +59,4 @@ public class MessageHandler implements ResponseBodyAdvice<Object> {
         }
         return body;
     }
-
-
 }

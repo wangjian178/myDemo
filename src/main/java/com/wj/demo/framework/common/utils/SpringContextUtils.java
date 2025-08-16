@@ -73,7 +73,7 @@ public class SpringContextUtils implements ApplicationContextAware {
         try {
             bean = getApplicationContext().getBean(name, clazz);
         } catch (Exception e) {
-            log.error("根据名称类型获取bean失败，clazz：{} name：{}", clazz, name);
+            log.warn("根据名称类型获取bean失败，clazz：{} name：{}", clazz, name);
         }
         return bean;
     }

@@ -1,11 +1,14 @@
 package com.wj.demo.framework.exception.advice;
 
+import com.alibaba.fastjson.JSON;
 import com.wj.demo.framework.common.property.SystemProperties;
 import com.wj.demo.framework.common.utils.ServletUtils;
 import com.wj.demo.framework.exception.annotation.IgnoreAutoResponse;
+import com.wj.demo.framework.exception.exception.BaseException;
 import com.wj.demo.framework.exception.model.Result;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
@@ -25,7 +28,8 @@ import java.util.List;
  * @Desc Rest接口自动封装包装类 最后处理
  * @date 2024/4/29 16:32
  */
-@Order(value = 999)
+@Slf4j
+@Order(value = 3)
 @RestControllerAdvice
 public class ResponseBodyHandler implements ResponseBodyAdvice<Object> {
 
@@ -71,7 +75,13 @@ public class ResponseBodyHandler implements ResponseBodyAdvice<Object> {
             case null -> Result.ofSuccess();
             case byte[] bytes -> bytes;
             case Result<?> result -> result;
-            case String string -> Result.ofSuccess(body.toString());
+            case String string -> {
+                try {
+                    yield JSON.toJSONString(Result.ofSuccess(string));
+                } catch (Exception e) {
+                    throw new BaseException(e);
+                }
+            }
             default -> Result.ofSuccess(body);
         };
 

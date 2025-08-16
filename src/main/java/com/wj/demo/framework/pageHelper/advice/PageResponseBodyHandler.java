@@ -22,7 +22,7 @@ import java.util.List;
  * @CreateDate: 2025/4/7 17:25
  * @Version:
  */
-@Order(value = 998)
+@Order(value = 2)
 @RestControllerAdvice
 public class PageResponseBodyHandler implements ResponseBodyAdvice<Object> {
 
