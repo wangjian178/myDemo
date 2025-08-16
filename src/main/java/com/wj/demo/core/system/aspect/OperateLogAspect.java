@@ -1,10 +1,10 @@
 package com.wj.demo.core.system.aspect;
 
 import com.alibaba.fastjson.JSON;
+import com.wj.demo.core.system.annotation.OperateLog;
 import com.wj.demo.core.system.context.OperateLogContext;
 import com.wj.demo.core.system.entity.SysOperateLog;
 import com.wj.demo.core.system.service.ISysOperateLogService;
-import com.wj.demo.core.system.annotation.OperateLog;
 import com.wj.demo.framework.common.constant.NumberConstant;
 import com.wj.demo.framework.common.utils.ServletUtils;
 import com.wj.demo.framework.common.utils.SpringContextUtils;
@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 /**
  * @ClassName OperateLogAspect
@@ -44,7 +45,7 @@ public class OperateLogAspect {
     @AfterReturning(value = "@annotation(operateLog)", returning = "result", argNames = "joinPoint,operateLog,result")
     public void afterReturning(JoinPoint joinPoint, OperateLog operateLog, Object result) {
         SysOperateLog sysOperateLog = OperateLogContext.get();
-        sysOperateLog.setResult(StringUtils.substring(JSON.toJSONString(result), NumberConstant.ZERO, NumberConstant.FIVE_HUNDREDS));
+        sysOperateLog.setResult(StringUtils.substring(Optional.ofNullable(result).map(x -> JSON.toJSONStringWithDateFormat(x, JSON.DEFFAULT_DATE_FORMAT)).orElse(null), NumberConstant.ZERO, NumberConstant.FIVE_HUNDREDS));
         saveOperateLog(sysOperateLog);
     }
 
