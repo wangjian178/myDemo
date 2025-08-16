@@ -100,6 +100,6 @@ public class OperateLogAspect {
             SpringContextUtils.getBean(ISysOperateLogService.class).save(sysOperateLog);
         });
         // 清除线程变量
-        OperateLogContext.clear();
+        OperateLogContext.remove();
     }
 }

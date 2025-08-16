@@ -25,7 +25,7 @@ import java.util.List;
  * @CreateDate: 2025/7/27 17:24
  * @Version:
  */
-@RequestMapping("/system/file")
+@RequestMapping("/common/file")
 @RestController
 @Tag(name = "文件管理", description = "文件管理")
 public class CommonFileController {

@@ -39,7 +39,7 @@ public class PageResponseBodyHandler implements ResponseBodyAdvice<Object> {
         if(page == null){
             return body;
         }
-        PageContext.clear();
+        PageContext.remove();
         //处理返回结果
         if (body instanceof Result result && Result.isSuccess(result) && result.getData() instanceof List) {
             return Result.ofSuccess(page);

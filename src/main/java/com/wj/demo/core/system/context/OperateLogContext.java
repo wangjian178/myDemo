@@ -21,7 +21,7 @@ public class OperateLogContext {
         return LOG.get();
     }
 
-    public static void clear() {
+    public static void remove() {
         LOG.remove();
     }
 }

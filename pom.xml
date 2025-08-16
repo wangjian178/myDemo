@@ -29,6 +29,7 @@
         <jwt.version>0.12.6</jwt.version>
         <pagehelper.version>2.1.0</pagehelper.version>
         <kaptcha.version>0.0.9</kaptcha.version>
+        <fastExcel.version>1.2.0</fastExcel.version>
     </properties>
     <dependencies>
         <!--web-->
@@ -132,7 +133,7 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-        <!-- Swagger3依赖 -->
+        <!-- springdoc依赖 -->
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
@@ -216,6 +217,12 @@
             <groupId>com.github.axet</groupId>
             <artifactId>kaptcha</artifactId>
             <version>${kaptcha.version}</version>
+        </dependency>
+        <!--FastExcel-->
+        <dependency>
+            <groupId>cn.idev.excel</groupId>
+            <artifactId>fastexcel</artifactId>
+            <version>${fastExcel.version}</version>
         </dependency>
     </dependencies>
 

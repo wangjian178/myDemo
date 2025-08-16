@@ -20,7 +20,7 @@ public class PageContext {
         return PAGE_HOLDER.get();
     }
 
-    public static void clear() {
+    public static void remove() {
         PAGE_HOLDER.remove();
     }
 }

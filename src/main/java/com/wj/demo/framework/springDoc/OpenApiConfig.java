@@ -1,4 +1,4 @@
-package com.wj.demo.framework.springDoc.config;
+package com.wj.demo.framework.springDoc;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
