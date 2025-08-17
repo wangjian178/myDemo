@@ -1,36 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <configuration debug="false" scan="false">
+    <!--自定义属性-->
     <springProperty scop="context" name="spring.application.name" source="spring.application.name"
                     defaultValue="myApp"/>
     <springProperty scop="context" name="logging.file.path" source="logging.file.path" defaultValue="/root/logs"/>
-    <property name="log.path" value="${logging.file.path}/${spring.application.name}"/>
+    <property name="LOG_PATH" value="${logging.file.path}/${spring.application.name}"/>
+    <property name="FILE_ENCODING" value="UTF-8"/>
+
+    <!-- 彩色日志依赖的渲染类 -->
+    <conversionRule conversionWord="clr" class="org.springframework.boot.logging.logback.ColorConverter"/>
+    <conversionRule conversionWord="wex"
+                    class="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+    <conversionRule conversionWord="wEx"
+                    class="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
+
     <!-- 彩色日志格式 -->
     <property name="CONSOLE_LOG_PATTERN"
               value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
-    <!-- 彩色日志依赖的渲染类 -->
-    <conversionRule conversionWord="clr" class="org.springframework.boot.logging.logback.ColorConverter"/>
-    <conversionRule conversionWord="wex" class="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
-    <conversionRule conversionWord="wEx" class="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
+
+    <!-- 文件日志格式 -->
+    <property name="FILE_LOG_PATTERN"
+              value="%date [%thread] %-5level [%logger{50}] %file:%line - %msg%n"/>
+
 
     <!-- Console log output -->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
-            <charset>UTF-8</charset>
+            <charset>${FILE_ENCODING}</charset>
         </encoder>
     </appender>
 
     <!-- Log file error output -->
     <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}/error.log</file>
+        <file>${LOG_PATH}/error.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${log.path}/%d{yyyy-MM}/error.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <fileNamePattern>${LOG_PATH}/%d{yyyy-MM}/error.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
             <maxFileSize>50MB</maxFileSize>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>%date [%thread] %-5level [%logger{50}] %file:%line - %msg%n</pattern>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>${FILE_ENCODING}</charset>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <!-- 过滤的级别 -->
@@ -44,14 +56,15 @@
 
     <!-- Log file warn output -->
     <appender name="warn" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}/warn.log</file>
+        <file>${LOG_PATH}/warn.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${log.path}/%d{yyyy-MM, aux}/warn.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <fileNamePattern>${LOG_PATH}/%d{yyyy-MM, aux}/warn.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
             <maxFileSize>50MB</maxFileSize>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>%date [%thread] %-5level [%logger{50}] %file:%line - %msg%n</pattern>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>${FILE_ENCODING}</charset>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <!-- 过滤的级别 -->
@@ -65,14 +78,15 @@
 
     <!-- Log file info output -->
     <appender name="info" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}/info.log</file>
+        <file>${LOG_PATH}/info.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${log.path}/%d{yyyy-MM, aux}/info.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <fileNamePattern>${LOG_PATH}/%d{yyyy-MM, aux}/info.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
             <maxFileSize>50MB</maxFileSize>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>%date [%thread] %-5level [%logger{50}] %file:%line - %msg%n</pattern>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>${FILE_ENCODING}</charset>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <!-- 过滤的级别 -->
@@ -86,14 +100,15 @@
 
     <!-- Log file debug output -->
     <appender name="debug" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${log.path}/debug.log</file>
+        <file>${LOG_PATH}/debug.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${log.path}/%d{yyyy-MM, aux}/debug.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <fileNamePattern>${LOG_PATH}/%d{yyyy-MM, aux}/debug.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
             <maxFileSize>50MB</maxFileSize>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>%date [%thread] %-5level [%logger{50}] %file:%line - %msg%n</pattern>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>${FILE_ENCODING}</charset>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <!-- 过滤的级别 -->
