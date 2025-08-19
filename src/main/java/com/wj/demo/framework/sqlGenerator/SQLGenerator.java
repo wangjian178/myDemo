@@ -5,7 +5,7 @@ import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.Table;
 import com.wj.demo.framework.common.utils.FieldUtils;
-import com.wj.demo.framework.i18n.entity.SysLanguageEntity;
+import com.wj.demo.framework.i18n.entity.SysI18nEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.apache.ibatis.type.JdbcType;
 
@@ -51,7 +51,7 @@ public class SQLGenerator {
      */
     public static void createTable() {
         //1.扫描@TableName所有的类
-        List<Class<?>> classes = List.of(SysLanguageEntity.class);//findAllClasses();
+        List<Class<?>> classes = List.of(SysI18nEntity.class);//findAllClasses();
         //2.删除所有的表
         String dropSql = classes.stream().map(SQLGenerator::generateSqlForDrop).collect(Collectors.joining("\n\n"));
         //3.新增所有的表

@@ -1,7 +1,7 @@
 package com.wj.demo.framework.i18n.mapper;
 
 import com.mybatisflex.core.BaseMapper;
-import com.wj.demo.framework.i18n.entity.SysLanguageEntity;
+import com.wj.demo.framework.i18n.entity.SysI18nEntity;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -12,14 +12,14 @@ import java.util.List;
  * @createDate 2024-04-17 15:29:04
  * @Entity generator.entity.Language
  */
-public interface SysLanguageMapper extends BaseMapper<SysLanguageEntity> {
+public interface SysI18nMapper extends BaseMapper<SysI18nEntity> {
 
     /**
      * language和code查询
      * @param queryList
      * @return
      */
-    List<SysLanguageEntity> queryByLanguageAndCode(@Param("queryList") List<SysLanguageEntity> queryList);
+    List<SysI18nEntity> queryByLanguageAndCode(@Param("queryList") List<SysI18nEntity> queryList);
 }
 
 

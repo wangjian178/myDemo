@@ -2,7 +2,7 @@ package com.wj.demo.framework.i18n.aspact;
 
 import com.wj.demo.framework.exception.exception.BaseException;
 import com.wj.demo.framework.i18n.CommonMessageSource;
-import com.wj.demo.framework.i18n.entity.SysLanguageEntity;
+import com.wj.demo.framework.i18n.entity.SysI18nEntity;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -27,7 +27,7 @@ public class LocalCacheAspect {
     @Resource
     private CommonMessageSource commonMessageSource;
 
-    @Pointcut("execution(public int com.wj.demo.framework.i18n.service.SysLanguageService.saveOrUpdateBatch(java.util.List<com.wj.demo.framework.i18n.entity.SysLanguageEntity>))")
+    @Pointcut("execution(public int com.wj.demo.framework.i18n.service.SysI18nService.saveOrUpdateBatch(java.util.List<com.wj.demo.framework.i18n.entity.SysI18nEntity>))")
     public void updateLocalCachePointcut() {
 
     }
@@ -40,7 +40,7 @@ public class LocalCacheAspect {
     @Around("updateLocalCachePointcut()")
     public int updateLocalCache(ProceedingJoinPoint joinPoint) {
         Object[] params = joinPoint.getArgs();
-        List<SysLanguageEntity> param = (List<SysLanguageEntity>) params[0];
+        List<SysI18nEntity> param = (List<SysI18nEntity>) params[0];
         int result = 0;
         try {
             result = (int) joinPoint.proceed();

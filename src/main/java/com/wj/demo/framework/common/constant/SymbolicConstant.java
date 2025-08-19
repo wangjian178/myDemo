@@ -57,4 +57,8 @@ public class SymbolicConstant {
      * 下划线
      */
     public static final String UNDERLINE = "_";
+    /**
+     * *
+     */
+    public static final String ASTERISK = "*";
 }

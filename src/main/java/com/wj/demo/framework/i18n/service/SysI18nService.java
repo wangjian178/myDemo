@@ -2,7 +2,7 @@ package com.wj.demo.framework.i18n.service;
 
 
 import com.mybatisflex.core.service.IService;
-import com.wj.demo.framework.i18n.entity.SysLanguageEntity;
+import com.wj.demo.framework.i18n.entity.SysI18nEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -12,7 +12,7 @@ import java.util.Map;
  * @description 针对表【t_language】的数据库操作Service
  * @createDate 2024-04-17 15:29:04
  */
-public interface SysLanguageService extends IService<SysLanguageEntity> {
+public interface SysI18nService extends IService<SysI18nEntity> {
 
     /**
      * 单个查询
@@ -39,7 +39,7 @@ public interface SysLanguageService extends IService<SysLanguageEntity> {
      * @param condition
      * @return
      */
-    List<SysLanguageEntity> queryByCondition(SysLanguageEntity condition);
+    List<SysI18nEntity> queryByCondition(SysI18nEntity condition);
 
     /**
      * 通过language和code查询
@@ -48,33 +48,33 @@ public interface SysLanguageService extends IService<SysLanguageEntity> {
      * @param queryList
      * @return
      */
-    List<SysLanguageEntity> queryByLanguageAndCode(List<SysLanguageEntity> queryList);
+    List<SysI18nEntity> queryByLanguageAndCode(List<SysI18nEntity> queryList);
 
     /**
      * 批量新增或保存 覆盖
      * @param list
      * @return
      */
-    int saveOrUpdateBatch(List<SysLanguageEntity> list);
+    int saveOrUpdateBatch(List<SysI18nEntity> list);
 
     /**
      * 新增或保存
-     * @param sysLanguageEntity
+     * @param sysI18nEntity
      * @return
      */
-    int saveOrModify(SysLanguageEntity sysLanguageEntity);
+    int saveOrModify(SysI18nEntity sysI18nEntity);
 
     /**
      * 删除
      * @param id
      * @return
      */
-    int removeById(Long id);
+    boolean removeById(Long id);
 
     /**
      * 删除
      * @param ids
      * @return
      */
-    int removeByIds(List<Long> ids);
+    boolean removeByIds(List<Long> ids);
 }

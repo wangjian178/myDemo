@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wj.demo.framework.i18n.mapper.SysLanguageMapper">
+<mapper namespace="com.wj.demo.framework.i18n.mapper.SysI18nMapper">
 
-    <resultMap id="BaseResultMap" type="com.wj.demo.framework.i18n.entity.SysLanguageEntity">
+    <resultMap id="BaseResultMap" type="com.wj.demo.framework.i18n.entity.SysI18nEntity">
         <id property="id" column="ID" jdbcType="INTEGER"/>
         <result property="language" column="LANGUAGE" jdbcType="VARCHAR"/>
         <result property="code" column="CODE" jdbcType="VARCHAR"/>
@@ -44,7 +44,7 @@
         FROM SYS_LANGUAGE
     </sql>
 
-    <select id="queryByLanguageAndCode" resultType="com.wj.demo.framework.i18n.entity.SysLanguageEntity">
+    <select id="queryByLanguageAndCode" resultType="com.wj.demo.framework.i18n.entity.SysI18nEntity">
         <include refid="selectAll"></include>
         <where>
             <if test="queryList!=null and queryList.size>0">

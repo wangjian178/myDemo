@@ -2,8 +2,8 @@ package com.wj.demo.core.test.controller;
 
 import com.wj.demo.framework.baseContext.BaseContextHolder;
 import com.wj.demo.framework.i18n.CommonMessageSource;
-import com.wj.demo.framework.i18n.entity.SysLanguageEntity;
-import com.wj.demo.framework.i18n.service.SysLanguageService;
+import com.wj.demo.framework.i18n.entity.SysI18nEntity;
+import com.wj.demo.framework.i18n.service.SysI18nService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +23,7 @@ public class LanguageController {
     private CommonMessageSource commonMessageSource;
 
     @Resource
-    private SysLanguageService sysLanguageService;
+    private SysI18nService sysI18nService;
 
     @GetMapping("getMessage")
     public String getMessage(String code) {
@@ -31,7 +31,7 @@ public class LanguageController {
     }
 
     @PostMapping("saveBatch")
-    public int getMessage(@RequestBody List<SysLanguageEntity> sysLanguageEntityList) {
-        return sysLanguageService.saveOrUpdateBatch(sysLanguageEntityList);
+    public int getMessage(@RequestBody List<SysI18nEntity> sysI18nEntityList) {
+        return sysI18nService.saveOrUpdateBatch(sysI18nEntityList);
     }
 }

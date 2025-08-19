@@ -13,13 +13,13 @@ import java.io.Serializable;
 /**
  * 
  * @author wj
- * @TableName SYS_LANGUAGE
+ * @TableName SYS_I18N
  */
 @Data
 @Accessors(chain = true)
-@Table(value ="SYS_LANGUAGE")
-@Schema(title = "SysLanguageEntity", description = "多语言")
-public class SysLanguageEntity extends BaseEntity implements Serializable {
+@Table(value ="SYS_I18N")
+@Schema(title = "SysI18nEntity", description = "多语言")
+public class SysI18nEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
