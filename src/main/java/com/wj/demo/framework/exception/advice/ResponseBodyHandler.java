@@ -49,7 +49,7 @@ public class ResponseBodyHandler implements ResponseBodyAdvice<Object> {
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
 
         //封装白名单
-        List<String> ignoreUrls = systemProperties.getSecurity().getIgnoreUrls();
+        List<String> ignoreUrls = systemProperties.getSecurity().getIgnoreResponseUrls();
         HttpServletRequest request = ServletUtils.getRequest();
         String relativePath = request.getRequestURI().substring(request.getContextPath().length());
 

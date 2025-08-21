@@ -60,7 +60,12 @@ public class SecurityProperties {
     private Long captchaExpireTime = 60L;
 
     /**
-     * 封装结果白名单
+     * 鉴权白名单
      */
     private List<String> ignoreUrls;
+
+    /**
+     * 响应自动封装白名单
+     */
+    private List<String> ignoreResponseUrls;
 }

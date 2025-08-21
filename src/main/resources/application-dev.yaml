@@ -136,8 +136,17 @@ system:
     expireTime: 86400
     #最少32位的密钥
     secretKey: 123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
-    #白名单
+    #鉴权白名单
     ignoreUrls:
+      - /actuator/health
+      - /v3/api-docs/**
+      - /swagger-ui/**
+      - /swagger-ui.html
+      - /swagger-resources/**
+      - /webjars/**
+      - /**
+    #响应自动封装忽略接口
+    ignoreResponseUrls:
       - /actuator/health
       - /v3/api-docs/**
       - /swagger-ui/**
