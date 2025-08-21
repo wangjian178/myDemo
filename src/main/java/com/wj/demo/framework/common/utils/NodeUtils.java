@@ -114,6 +114,47 @@ public class NodeUtils {
     }
 
     /**
+     * 树形结构
+     *
+     * @param paramList      数据
+     * @param idGetter       Id
+     * @param parentIdGetter parentId
+     * @param childrenGetter children
+     * @param <T>            数据类型
+     */
+    public static <T, K> List<T> tree(List<T> paramList, Function<T, K> idGetter, Function<T, K> parentIdGetter, Function<T, K> childrenGetter) {
+        //最高级节点
+        List<T> result = new ArrayList<>();
+        if (CollectionUtils.isEmpty(paramList)) {
+            return result;
+        }
+
+        //id与节点的对应关系
+        Map<K, T> paramMap = paramList.stream().collect(Collectors.toMap(idGetter, Function.identity()));
+
+        for (T t : paramList) {
+
+            K parentId = parentIdGetter.apply(t);
+
+            //父级节点为null 则为顶级节点
+            if (parentId == null || !paramMap.containsKey(parentId)) {
+                result.add(t);
+                continue;
+            }
+
+            T parent = paramMap.get(parentId);
+
+            List<T> children = (List<T>) childrenGetter.apply(parent);
+            if (children == null) {
+                children = new ArrayList<T>();
+            }
+            children.add(t);
+        }
+
+        return result;
+    }
+
+    /**
      * 排序
      *
      * @param nodeList   树结构
