@@ -114,6 +114,11 @@ mybatis-flex:
         password: root
         druid:
           validation-query: SELECT 1 FROM DUAL
+# 分页插件
+pagehelper:
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
 
 #日志配置
 logging:

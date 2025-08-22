@@ -7,7 +7,6 @@ import com.wj.demo.framework.mybatisFlex.entity.BaseEntity;
 import com.wj.demo.framework.mybatisFlex.generator.IdGenerator;
 import com.wj.demo.framework.mybatisFlex.listener.MybatisInsertListener;
 import com.wj.demo.framework.mybatisFlex.listener.MybatisUpdateListener;
-import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;

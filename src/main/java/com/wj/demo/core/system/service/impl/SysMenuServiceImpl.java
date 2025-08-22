@@ -30,7 +30,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public List<SysMenu> list(SysMenu sysMenu) {
         return queryChain()
-                .eq(SysMenu::getDeleted, Boolean.FALSE)
                 .like(SysMenu::getTitle, sysMenu.getTitle(), StringUtils.isNotEmpty(sysMenu.getTitle()))
                 .eq(SysMenu::getHidden, sysMenu.getHidden(), sysMenu.getHidden() != null)
                 .eq(SysMenu::getParentId, sysMenu.getParentId(), sysMenu.getParentId() != null)

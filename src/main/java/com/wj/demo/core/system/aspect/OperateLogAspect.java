@@ -6,6 +6,8 @@ import com.wj.demo.core.system.context.OperateLogContext;
 import com.wj.demo.core.system.entity.SysOperateLog;
 import com.wj.demo.core.system.service.ISysOperateLogService;
 import com.wj.demo.framework.common.constant.NumberConstant;
+import com.wj.demo.framework.common.model.LoginUser;
+import com.wj.demo.framework.common.utils.SecurityUtils;
 import com.wj.demo.framework.common.utils.ServletUtils;
 import com.wj.demo.framework.common.utils.SpringContextUtils;
 import com.wj.demo.framework.common.utils.StringUtils;
@@ -78,6 +80,11 @@ public class OperateLogAspect {
         log.setIp(ip);
         log.setUrl(url);
         log.setOperateTime(LocalDateTime.now());
+        LoginUser user = SecurityUtils.getUser();
+        if (user != null) {
+            log.setCreateBy(user.getUsername());
+            log.setUpdateBy(user.getUsername());
+        }
 
         if (operateLog.saveParams()) {
             if (RequestMethod.GET.name().equals(requestMethod)) {
