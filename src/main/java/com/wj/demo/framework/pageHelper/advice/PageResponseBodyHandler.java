@@ -50,7 +50,7 @@ public class PageResponseBodyHandler implements ResponseBodyAdvice<Object> {
                             .setPageSize(page.getPageSize())
                             .setTotal(page.getTotal())
                             .setPages(page.getPages())
-                            .setRecords(data)
+                            .setRows(data)
             );
         }
 

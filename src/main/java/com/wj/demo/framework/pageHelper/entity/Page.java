@@ -38,5 +38,5 @@ public class Page<T>{
     /**
      * 结果集
      */
-    private List<T> records;
+    private List<T> rows;
 }

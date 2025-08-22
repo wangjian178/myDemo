@@ -5,7 +5,6 @@ import com.wj.demo.core.system.entity.SysMenu;
 import com.wj.demo.core.system.model.vo.SysMenuVO;
 import com.wj.demo.core.system.service.ISysMenuService;
 import com.wj.demo.framework.common.enums.OperateTypeEnum;
-import com.wj.demo.framework.common.utils.SecurityUtils;
 import com.wj.demo.framework.pageHelper.annotation.Pagination;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -77,8 +76,8 @@ public class SysMenuController {
     @Pagination
     @GetMapping("/list")
     @Operation(summary = "查询所有菜单")
-    public List<SysMenu> list(SysMenu sysMenu) {
-        return sysMenuService.list(sysMenu);
+    public List<SysMenu> selectList(SysMenu sysMenu) {
+        return sysMenuService.selectList(sysMenu);
     }
 
     /**
@@ -88,8 +87,8 @@ public class SysMenuController {
      */
     @GetMapping("/listAll")
     @Operation(summary = "查询所有有权限的菜单")
-    public List<SysMenuVO> listAll(@RequestParam(required = false, value = "subSysId") String subSysId) {
-        Long userId = SecurityUtils.getUser().getId();
+    public List<SysMenuVO> listAll(@RequestParam(required = false, value = "subSysId") Long subSysId) {
+        Long userId = null;//SecurityUtils.getUser().getId();
         return sysMenuService.listAll(subSysId, userId);
     }
 

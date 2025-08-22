@@ -56,7 +56,7 @@ public class PageAspect {
             page.setPageSize(pageResult.getPageSize());
             page.setTotal(pageResult.getTotal());
             page.setPages(pageResult.getPages());
-            page.setRecords((List) pageResult.getResult());
+            page.setRows((List) pageResult.getResult());
             PageContext.setPage(page);
         } finally {
             PageHelper.clearPage();

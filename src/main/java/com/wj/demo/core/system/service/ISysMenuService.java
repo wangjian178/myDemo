@@ -21,7 +21,7 @@ public interface ISysMenuService extends IService<SysMenu> {
      * @param sysMenu 条件
      * @return 菜单列表
      */
-    List<SysMenu> list(SysMenu sysMenu);
+    List<SysMenu> selectList(SysMenu sysMenu);
 
     /**
      * 查询所有有权限的菜单
@@ -30,5 +30,5 @@ public interface ISysMenuService extends IService<SysMenu> {
      * @param userId   用户ID
      * @return 菜单列表
      */
-    List<SysMenuVO> listAll(String subSysId, Long userId);
+    List<SysMenuVO> listAll(Long subSysId, Long userId);
 }

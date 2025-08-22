@@ -25,6 +25,33 @@
         ID, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME, REMARK, DELETED, TITLE, ICON, PATH, COMPONENT, HIDDEN, SORT_NO, PARENT_ID, SUB_SYS_ID
     </sql>
 
+    <select id="selectList" resultType="com.wj.demo.core.system.entity.SysMenu">
+        SELECT
+        <include refid="BaseColumns"/>
+        FROM SYS_MENU
+        <where>
+            DELETED = 0
+            <if test="subSysId != null">
+                AND SUB_SYS_ID = #{subSysId}
+            </if>
+            <if test="title != null and title !=''">
+                AND TITLE LIKE CONCAT('%',CONCAT(#{title},'%'))
+            </if>
+            <if test="component != null and component !=''">
+                AND COMPONENT LIKE CONCAT('%',CONCAT(#{component},'%'))
+            </if>
+            <if test="path != null and path !=''">
+                AND PATH LIKE CONCAT('%',CONCAT(#{path},'%'))
+            </if>
+            <if test="hidden != null and hidden">
+                AND HIDDEN = #{hidden}
+            </if>
+            <if test="parentId != null">
+                AND PARENT_ID = #{parentId}
+            </if>
+        </where>
+    </select>
+
     <select id="listAll" resultType="com.wj.demo.core.system.model.vo.SysMenuVO">
         SELECT
         ID, TITLE, ICON, PATH, COMPONENT, HIDDEN, SORT_NO, PARENT_ID, SUB_SYS_ID

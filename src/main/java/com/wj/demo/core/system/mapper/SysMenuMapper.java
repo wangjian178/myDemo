@@ -17,6 +17,13 @@ import java.util.List;
 @Mapper
 public interface SysMenuMapper extends BaseMapper<SysMenu> {
 
+    /**
+     * 查询所有
+     *
+     * @param sysMenu 查询参数
+     * @return 菜单列表
+     */
+    List<SysMenu> selectList(SysMenu sysMenu);
 
     /**
      * 查询所有有权限的菜单
@@ -25,5 +32,5 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
      * @param userId   用户ID
      * @return 菜单列表
      */
-    List<SysMenuVO> listAll(@Param("subSysId") String subSysId, @Param("userId") Long userId);
+    List<SysMenuVO> listAll(@Param("subSysId") Long subSysId, @Param("userId") Long userId);
 }

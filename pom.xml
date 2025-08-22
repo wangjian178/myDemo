@@ -27,7 +27,7 @@
         <dynamic.version>4.3.0</dynamic.version>
         <fastjson.version>1.2.83</fastjson.version>
         <jwt.version>0.12.6</jwt.version>
-        <pagehelper.version>2.1.0</pagehelper.version>
+        <pagehelper.version>2.1.1</pagehelper.version>
         <kaptcha.version>0.0.9</kaptcha.version>
         <fastExcel.version>1.2.0</fastExcel.version>
     </properties>

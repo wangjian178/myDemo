@@ -28,13 +28,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * @return 菜单列表
      */
     @Override
-    public List<SysMenu> list(SysMenu sysMenu) {
-        return queryChain()
-                .like(SysMenu::getTitle, sysMenu.getTitle(), StringUtils.isNotEmpty(sysMenu.getTitle()))
-                .eq(SysMenu::getHidden, sysMenu.getHidden(), sysMenu.getHidden() != null)
-                .eq(SysMenu::getParentId, sysMenu.getParentId(), sysMenu.getParentId() != null)
-                .orderBy(SysMenu::getSortNo).asc().orderBy(SysMenu::getCreateTime).asc()
-                .list();
+    public List<SysMenu> selectList(SysMenu sysMenu) {
+        return getMapper().selectList(sysMenu);
     }
 
     /**
@@ -45,7 +40,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * @return 菜单列表
      */
     @Override
-    public List<SysMenuVO> listAll(String subSysId, Long userId) {
+    public List<SysMenuVO> listAll(Long subSysId, Long userId) {
         List<SysMenuVO> sysMenuVOList = getMapper().listAll(subSysId, userId);
         return NodeUtils.tree(sysMenuVOList, SysMenuVO::getId, SysMenuVO::getParentId, SysMenuVO::getChildren);
     }
