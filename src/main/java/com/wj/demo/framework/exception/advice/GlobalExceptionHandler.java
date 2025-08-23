@@ -55,4 +55,13 @@ public class GlobalExceptionHandler {
         log.error("Exception ", e);
         return Result.ofFail(e.getMessage());
     }
+
+    /**
+     * 参数异常 等同业务异常
+     */
+    @ExceptionHandler(IllegalArgumentException.class)
+    public Result<String> handleIllegalArgumentException(IllegalArgumentException e) {
+        log.error("IllegalArgumentException {}", e.getMessage());
+        return Result.ofFail(e.getMessage());
+    }
 }
