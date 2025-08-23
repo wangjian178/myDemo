@@ -1,13 +1,16 @@
 package com.wj.demo.core.system.controller;
 
+import com.wj.demo.core.system.annotation.OperateLog;
 import com.wj.demo.core.system.manager.LoginManager;
 import com.wj.demo.core.system.model.vo.LoginParamVO;
-import com.wj.demo.core.system.annotation.OperateLog;
+import com.wj.demo.core.system.model.vo.UserInfoVO;
+import com.wj.demo.core.system.service.ISysUserService;
 import com.wj.demo.framework.common.enums.OperateTypeEnum;
 import com.wj.demo.framework.exception.model.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,5 +34,12 @@ public class LoginController {
     @PostMapping("/login")
     public Result<?> login(@RequestBody LoginParamVO loginParamVO) {
         return Result.ofSuccess(loginManager.login(loginParamVO));
+    }
+
+    @OperateLog(module = "系统", function = "获取用户信息", operateType = OperateTypeEnum.QUERY)
+    @Operation(summary = "获取用户信息")
+    @GetMapping("/getUserInfo")
+    public Result<UserInfoVO> getUserInfo() {
+        return Result.ofSuccess(loginManager.getUserInfo());
     }
 }

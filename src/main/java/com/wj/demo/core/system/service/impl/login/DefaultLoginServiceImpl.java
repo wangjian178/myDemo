@@ -3,9 +3,9 @@ package com.wj.demo.core.system.service.impl.login;
 import com.wj.demo.core.system.entity.SysUser;
 import com.wj.demo.core.system.enums.UserOnLineStatusEnum;
 import com.wj.demo.core.system.enums.UserStatusEnum;
-import com.wj.demo.core.system.model.vo.LoginParamVO;
-import com.wj.demo.core.system.model.vo.LoginResultVO;
+import com.wj.demo.core.system.model.vo.*;
 import com.wj.demo.core.system.service.ILoginService;
+import com.wj.demo.core.system.service.ISysMenuService;
 import com.wj.demo.core.system.service.ISysUserService;
 import com.wj.demo.framework.common.constant.BaseConstant;
 import com.wj.demo.framework.common.constant.LoginConstant;
@@ -15,6 +15,7 @@ import com.wj.demo.framework.common.property.SystemProperties;
 import com.wj.demo.framework.common.utils.CaptchaUtils;
 import com.wj.demo.framework.common.utils.JwtUtils;
 import com.wj.demo.framework.common.utils.PasswordUtils;
+import com.wj.demo.framework.common.utils.SecurityUtils;
 import com.wj.demo.framework.exception.exception.BusinessException;
 import com.wj.demo.framework.redis.service.RedisClient;
 import jakarta.annotation.Resource;
@@ -34,6 +35,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -59,6 +61,9 @@ public class DefaultLoginServiceImpl implements ILoginService {
 
     @Resource
     private ISysUserService sysUserService;
+
+    @Resource
+    private ISysMenuService sysMenuService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -179,8 +184,9 @@ public class DefaultLoginServiceImpl implements ILoginService {
 
     /**
      * 校验验证码
-     * @param captchaId     验证码ID
-     * @param captchaCode   验证码
+     *
+     * @param captchaId   验证码ID
+     * @param captchaCode 验证码
      */
     public void checkCaptcha(String captchaId, String captchaCode) {
         if (systemProperties.getSecurity().getCaptcha() == null || !systemProperties.getSecurity().getCaptcha()) {
@@ -220,5 +226,25 @@ public class DefaultLoginServiceImpl implements ILoginService {
             long restLockSeconds = redisClient.getExpire(timesKey);
             throw new BusinessException("用户已锁定！请在" + new BigDecimal(restLockSeconds).divide(new BigDecimal(60), 0, RoundingMode.HALF_UP) + "分钟后重试！");
         }
+    }
+
+    /**
+     * 获取用户信息
+     *
+     * @return 用户信息
+     */
+    @Override
+    public UserInfoVO getUserInfo() {
+        LoginUser user = SecurityUtils.getUser();
+        Assert.notNull(user, "用户未登录！");
+        // 用户信息
+        SysUserVO sysUserVO = new SysUserVO()
+                .setUsername(user.getUsername())
+                .setNickname(user.getUsername());
+        // 菜单信息
+        List<SysMenuVO> menuList = sysMenuService.listAll(null, user.getId());
+        return new UserInfoVO()
+                .setUser(sysUserVO)
+                .setMenuList(menuList);
     }
 }

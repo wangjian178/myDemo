@@ -2,6 +2,7 @@ package com.wj.demo.core.system.manager;
 
 import com.wj.demo.core.system.model.vo.LoginParamVO;
 import com.wj.demo.core.system.model.vo.LoginResultVO;
+import com.wj.demo.core.system.model.vo.UserInfoVO;
 import com.wj.demo.core.system.service.ILoginService;
 import com.wj.demo.framework.baseContext.HandlerAdapter;
 import com.wj.demo.framework.common.property.SystemProperties;
@@ -21,7 +22,22 @@ public class LoginManager {
     @Resource
     private SystemProperties systemProperties;
 
+    /**
+     * 登录
+     *
+     * @param loginParamVO 登录参数
+     * @return 登录结果
+     */
     public LoginResultVO login(LoginParamVO loginParamVO) {
         return HandlerAdapter.finderHandler(ILoginService.class, systemProperties.getSecurity().getLoginHandler()).login(loginParamVO);
+    }
+
+    /**
+     * 获取用户信息
+     *
+     * @return 用户信息
+     */
+    public UserInfoVO getUserInfo() {
+        return HandlerAdapter.finderHandler(ILoginService.class, systemProperties.getSecurity().getLoginHandler()).getUserInfo();
     }
 }

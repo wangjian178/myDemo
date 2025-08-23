@@ -2,6 +2,7 @@ package com.wj.demo.core.system.service;
 
 import com.wj.demo.core.system.model.vo.LoginParamVO;
 import com.wj.demo.core.system.model.vo.LoginResultVO;
+import com.wj.demo.core.system.model.vo.UserInfoVO;
 import com.wj.demo.framework.common.model.LoginUser;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -29,4 +30,10 @@ public interface ILoginService extends UserDetailsService {
      * @return token
      */
     LoginResultVO createToken(LoginUser loginUser);
+
+    /**
+     * 获取用户信息
+     * @return 用户信息
+     */
+    UserInfoVO getUserInfo();
 }

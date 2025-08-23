@@ -149,7 +149,6 @@ system:
       - /swagger-ui.html
       - /swagger-resources/**
       - /webjars/**
-      - /**
     #响应自动封装忽略接口
     ignoreResponseUrls:
       - /actuator/health

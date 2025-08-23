@@ -42,20 +42,6 @@ public class SysMenuController {
     }
 
     /**
-     * 根据主键删除
-     *
-     * @param id 主键
-     * @return {@code true} 删除成功，{@code false} 删除失败
-     */
-    @DeleteMapping("/remove/{id}")
-    @Operation(summary = "根据主键删除")
-    @OperateLog(module = "系统-菜单管理", function = "删除", operateType = OperateTypeEnum.DELETE)
-    public boolean remove(@PathVariable Serializable id) {
-        return sysMenuService.removeById(id);
-    }
-
-
-    /**
      * 根据主键更新
      *
      * @param sysMenu 菜单数据
@@ -65,7 +51,20 @@ public class SysMenuController {
     @Operation(summary = "根据主键更新")
     @OperateLog(module = "系统-菜单管理", function = "更新", operateType = OperateTypeEnum.UPDATE)
     public boolean update(@RequestBody SysMenu sysMenu) {
-        return sysMenuService.updateById(sysMenu);
+        return sysMenuService.update(sysMenu);
+    }
+
+    /**
+     * 根据主键删除
+     *
+     * @param idList 主键
+     * @return {@code true} 删除成功，{@code false} 删除失败
+     */
+    @DeleteMapping("/remove")
+    @Operation(summary = "根据主键删除")
+    @OperateLog(module = "系统-菜单管理", function = "删除", operateType = OperateTypeEnum.DELETE)
+    public boolean remove(@RequestBody List<Long> idList) {
+        return sysMenuService.removeByIds(idList);
     }
 
     /**

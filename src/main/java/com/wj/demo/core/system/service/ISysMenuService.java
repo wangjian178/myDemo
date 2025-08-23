@@ -16,6 +16,30 @@ import java.util.List;
 public interface ISysMenuService extends IService<SysMenu> {
 
     /**
+     * 保存
+     *
+     * @param sysMenu 菜单
+     * @return 是否成功
+     */
+    boolean save(SysMenu sysMenu);
+
+    /**
+     * 修改
+     *
+     * @param sysMenu 菜单
+     * @return 是否成功
+     */
+    boolean update(SysMenu sysMenu);
+
+    /**
+     * 删除
+     *
+     * @param idList id列表
+     * @return 是否成功
+     */
+    boolean removeByIds(List<Long> idList);
+
+    /**
      * 查询菜单
      *
      * @param sysMenu 条件

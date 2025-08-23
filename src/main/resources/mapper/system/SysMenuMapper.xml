@@ -50,6 +50,7 @@
                 AND PARENT_ID = #{parentId}
             </if>
         </where>
+        ORDER BY SORT_NO
     </select>
 
     <select id="listAll" resultType="com.wj.demo.core.system.model.vo.SysMenuVO">

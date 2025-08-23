@@ -7,7 +7,6 @@ import com.wj.demo.core.system.mapper.SysMenuMapper;
 import com.wj.demo.core.system.model.vo.SysMenuVO;
 import com.wj.demo.core.system.service.ISysMenuService;
 import com.wj.demo.framework.common.utils.NodeUtils;
-import com.wj.demo.framework.common.utils.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +19,39 @@ import java.util.List;
  */
 @Service
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements ISysMenuService {
+
+    /**
+     * 保存
+     *
+     * @param sysMenu 菜单
+     * @return 是否成功
+     */
+    @Override
+    public boolean save(SysMenu sysMenu) {
+        return super.save(sysMenu);
+    }
+
+    /**
+     * 修改
+     *
+     * @param sysMenu 菜单
+     * @return 是否成功
+     */
+    @Override
+    public boolean update(SysMenu sysMenu) {
+        return super.updateById(sysMenu);
+    }
+
+    /**
+     * 删除
+     *
+     * @param idList id列表
+     * @return 是否成功
+     */
+    @Override
+    public boolean removeByIds(List<Long> idList) {
+        return super.removeByIds(idList);
+    }
 
     /**
      * 查询所有有权限的菜单
