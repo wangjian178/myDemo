@@ -33,6 +33,7 @@ import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -241,10 +242,14 @@ public class DefaultLoginServiceImpl implements ILoginService {
         SysUserVO sysUserVO = new SysUserVO()
                 .setUsername(user.getUsername())
                 .setNickname(user.getUsername());
+        // 角色信息
+        List<SysRoleVO> roleList = new ArrayList<>();
         // 菜单信息
         List<SysMenuVO> menuList = sysMenuService.listAll(null, user.getId());
+
         return new UserInfoVO()
                 .setUser(sysUserVO)
-                .setMenuList(menuList);
+                .setMenuList(menuList)
+                .setRoleList(roleList);
     }
 }

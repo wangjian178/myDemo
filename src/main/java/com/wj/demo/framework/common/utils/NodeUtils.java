@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -122,7 +123,11 @@ public class NodeUtils {
      * @param childrenGetter children
      * @param <T>            数据类型
      */
-    public static <T, K> List<T> tree(List<T> paramList, Function<T, K> idGetter, Function<T, K> parentIdGetter, Function<T, K> childrenGetter) {
+    public static <T, K> List<T> tree(List<T> paramList,
+                                      Function<T, K> idGetter,
+                                      Function<T, K> parentIdGetter,
+                                      Function<T, K> childrenGetter,
+                                      BiConsumer<T, List<T>> childrenSetter) {
         //最高级节点
         List<T> result = new ArrayList<>();
         if (CollectionUtils.isEmpty(paramList)) {
@@ -131,6 +136,8 @@ public class NodeUtils {
 
         //id与节点的对应关系
         Map<K, T> paramMap = paramList.stream().collect(Collectors.toMap(idGetter, Function.identity()));
+        // 设置空的 children
+        paramList.forEach(t -> childrenSetter.accept(t, new ArrayList<>()));
 
         for (T t : paramList) {
 

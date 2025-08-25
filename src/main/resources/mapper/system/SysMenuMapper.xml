@@ -20,6 +20,16 @@
         <result column="PARENT_ID" jdbcType="INTEGER" property="parentId"/>
         <result column="SUB_SYS_ID" jdbcType="INTEGER" property="subSysId"/>
     </resultMap>
+    <resultMap id="SysMenuVOMap" type="com.wj.demo.core.system.model.vo.SysMenuVO">
+        <id column="ID" jdbcType="INTEGER" property="id"/>
+        <result column="TITLE" jdbcType="VARCHAR" property="title"/>
+        <result column="ICON" jdbcType="VARCHAR" property="icon"/>
+        <result column="PATH" jdbcType="VARCHAR" property="path"/>
+        <result column="COMPONENT" jdbcType="VARCHAR" property="component"/>
+        <result column="HIDDEN" jdbcType="BIT" property="hidden"/>
+        <result column="SORT_NO" jdbcType="INTEGER" property="sortNo"/>
+        <result column="PARENT_ID" jdbcType="INTEGER" property="parentId"/>
+    </resultMap>
 
     <sql id="BaseColumns">
         ID, CREATE_BY, CREATE_TIME, UPDATE_BY, UPDATE_TIME, REMARK, DELETED, TITLE, ICON, PATH, COMPONENT, HIDDEN, SORT_NO, PARENT_ID, SUB_SYS_ID
@@ -53,7 +63,7 @@
         ORDER BY SORT_NO
     </select>
 
-    <select id="listAll" resultType="com.wj.demo.core.system.model.vo.SysMenuVO">
+    <select id="listAll" resultMap="SysMenuVOMap">
         SELECT
         ID, TITLE, ICON, PATH, COMPONENT, HIDDEN, SORT_NO, PARENT_ID, SUB_SYS_ID
         FROM SYS_MENU
@@ -66,6 +76,7 @@
 
             </if>
         </where>
+        ORDER BY PARENT_ID,SORT_NO
     </select>
 
 </mapper>

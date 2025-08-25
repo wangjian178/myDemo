@@ -23,4 +23,7 @@ public class UserInfoVO {
 
     @Schema(description = "菜单列表")
     private List<SysMenuVO> menuList;
+
+    @Schema(description = "角色列表")
+    private List<SysRoleVO> roleList;
 }

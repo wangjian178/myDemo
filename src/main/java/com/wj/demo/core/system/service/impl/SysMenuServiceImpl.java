@@ -74,6 +74,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public List<SysMenuVO> listAll(Long subSysId, Long userId) {
         List<SysMenuVO> sysMenuVOList = getMapper().listAll(subSysId, userId);
-        return NodeUtils.tree(sysMenuVOList, SysMenuVO::getId, SysMenuVO::getParentId, SysMenuVO::getChildren);
+        return NodeUtils.tree(sysMenuVOList, SysMenuVO::getId, SysMenuVO::getParentId, SysMenuVO::getChildren,SysMenuVO::setChildren);
     }
 }

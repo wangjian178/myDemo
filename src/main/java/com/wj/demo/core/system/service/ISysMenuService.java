@@ -21,6 +21,7 @@ public interface ISysMenuService extends IService<SysMenu> {
      * @param sysMenu 菜单
      * @return 是否成功
      */
+    @Override
     boolean save(SysMenu sysMenu);
 
     /**
